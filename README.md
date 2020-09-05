@@ -1,2 +1,2 @@
-# adv-bike-android
+# Sample sign in app for android
 
