@@ -1,0 +1,15 @@
+<resources>
+
+    <!-- Common strings -->
+    <string name="stub" translatable="false">TODO</string>
+    <string name="unknownErrorNotification">Unknown error happened</string>
+    <string name="tokenError">Authorization failed</string>
+    <string name="error">Error</string>
+
+    <!-- Auth Screen -->
+    <string name="invalidEmail">Email is invalid</string>
+    <string name="enterEmail">Email address</string>
+    <string name="password">Password</string>
+    <string name="logIn">Log in</string>
+
+</resources>

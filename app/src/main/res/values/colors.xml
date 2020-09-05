@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#09af00</color>
+    <color name="colorPrimaryDark">#f47100</color>
+    <color name="colorAccent">#3722f6</color>
+
+    <color name="white">#FFF</color>
+
+    <color name="inputLayoutBorderColor">@color/grey</color>
+
+    <color name="absoluteTransparent">#00000000</color>
+
+    <color name="hintTextColor">#444</color>
+    <color name="errorColor">#F00</color>
+    <color name="textColor">#000</color>
+
+    <color name="darkGrey">#88000000</color>
+    <color name="grey">#55000000</color>
+    <color name="lightGrey">#44000000</color>
+    <color name="veryLightGrey">#33000000</color>
+
+</resources>

@@ -1,0 +1,99 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
+
+    defaultConfig {
+        applicationId "com.alexskvor.appblank"
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField "String", "SERVER_URL", "\"http://dev.voodoo.pub/adv-bike-backend/manager/\""
+            buildConfigField "boolean", "APP_CENTER_ENABLED", "false"
+            debuggable true
+            applicationIdSuffix ".debug"
+        }
+        release {
+            buildConfigField "String", "SERVER_URL", "\"http://dev.voodoo.pub/adv-bike-backend/manager/\""
+            buildConfigField "boolean", "APP_CENTER_ENABLED", "true"
+            debuggable false
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation project(':mvi')
+    implementation project(':utils')
+
+    //Basic dependencies
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "androidx.core:core-ktx:$androidxCoreVersion"
+    implementation "androidx.appcompat:appcompat:$androidxAppcompatVersion"
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+
+    implementation "com.google.android.material:material:$materialVersion"
+
+    //Timber
+    implementation "com.jakewharton.timber:timber:$timberVersion"
+
+    //Cicerone
+    implementation 'ru.terrakok.cicerone:cicerone:5.1.0'
+
+    //Moshi
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofitMoshiVersion"
+    implementation "com.squareup.moshi:moshi:$moshiVersion"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
+
+    // Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
+
+    //DI
+    implementation 'com.google.dagger:dagger:2.28.3'
+    kapt 'com.google.dagger:dagger-compiler:2.28.3'
+
+    //Time and etc from Java 8
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$coreLibraryDesugaringVersion"
+
+    //Process safe shared prefs
+    implementation "com.github.yandextaxitech:binaryprefs:1.0.1"
+
+    //Networking
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+
+    //Http interceptor for testers
+    debugImplementation "com.github.chuckerteam.chucker:library:$chuckVersion"
+    releaseImplementation "com.github.chuckerteam.chucker:library-no-op:$chuckVersion"
+
+    testImplementation "junit:junit:$junitVersion"
+    androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+
+}

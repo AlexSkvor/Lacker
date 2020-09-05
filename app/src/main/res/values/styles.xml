@@ -1,0 +1,117 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
+
+    <style name="App.Button" parent="@style/Widget.MaterialComponents.Button">
+        <item name="cornerRadius">4dp</item>
+        <item name="android:minHeight">64dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/font_medium</item>
+    </style>
+
+    <style name="InputStyle" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="hintTextColor">@color/hintTextColor</item>
+        <item name="android:textColorHint">@color/hintTextColor</item>
+        <item name="boxStrokeColor">@color/transparent_border_input_layout_selector</item>
+        <item name="boxStrokeErrorColor">@color/errorColor</item>
+        <item name="errorIconTint">@color/errorColor</item>
+        <item name="errorTextColor">@color/errorColor</item>
+    </style>
+
+    <style name="InputStyle.Filled" parent="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
+
+    </style>
+
+    <style name="EditTextStyle.Filled" parent="@style/Widget.MaterialComponents.TextInputEditText.FilledBox">
+        <item name="android:textSize">@dimen/font_medium</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/textColor</item>
+    </style>
+
+    <style name="EditTextStyle.Filled.SingleLine" parent="EditTextStyle.Filled">
+        <item name="android:lines">1</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+
+    <style name="InputStyle.NoTopHint" parent="InputStyle">
+        <item name="hintEnabled">false</item>
+    </style>
+
+    <style name="InputStyle.NoTopHint.PasswordToggle" parent="InputStyle.NoTopHint">
+        <item name="passwordToggleEnabled">true</item>
+    </style>
+
+
+    <style name="EditTextStyle" parent="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox">
+        <item name="android:textSize">@dimen/font_medium</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/textColor</item>
+    </style>
+
+    <style name="EditTextStyle.SingleLine" parent="EditTextStyle">
+        <item name="android:lines">1</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="EditTextStyle.SingleLine.Email" parent="EditTextStyle.SingleLine">
+        <item name="android:inputType">textEmailAddress</item>
+    </style>
+
+    <style name="EditTextStyle.SingleLine.Password" parent="EditTextStyle.SingleLine">
+        <item name="android:inputType">textPassword</item>
+    </style>
+
+    <style name="AppTextView">
+        <item name="android:textColor">@color/textColor</item>
+    </style>
+
+    <style name="AppTextView.AutoSizeText" parent="AppTextView">
+        <item name="autoSizeTextType">uniform</item>
+        <item name="android:gravity">center</item>
+        <item name="android:lines">1</item>
+    </style>
+
+    <style name="AppTextView.AutoSizeText.MaxMedium" parent="AppTextView.AutoSizeText">
+        <item name="autoSizeMaxTextSize">@dimen/font_medium</item>
+    </style>
+
+    <style name="AppTextView.NormalTextSize" parent="AppTextView">
+        <item name="android:textSize">@dimen/font_normal</item>
+    </style>
+
+    <style name="AppTextView.MediumTextSize" parent="AppTextView">
+        <item name="android:textSize">@dimen/font_medium</item>
+    </style>
+
+    <style name="AppTextView.LargeTextSize" parent="AppTextView">
+        <item name="android:textSize">@dimen/font_large</item>
+    </style>
+
+    <style name="AppTextView.GiantSize" parent="AppTextView">
+        <item name="android:textSize">@dimen/font_giant</item>
+    </style>
+
+    <style name="AppTextView.Bold" parent="AppTextView">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="AppTextView.Bold.MediumTextSize" parent="AppTextView.Bold">
+        <item name="android:textSize">@dimen/font_medium</item>
+    </style>
+
+</resources>
