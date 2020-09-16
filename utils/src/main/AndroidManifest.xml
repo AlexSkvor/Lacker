@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.alexskvor.utils">
+    package="com.lacker.utils">
 
     <uses-permission android:name="android.permission.VIBRATE" />
 </manifest>

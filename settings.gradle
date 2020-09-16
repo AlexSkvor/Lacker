@@ -1,4 +1,4 @@
 include ':mvi'
 include ':utils'
 include ':app'
-rootProject.name = "App Blank"
+rootProject.name = "Lacker Visitors"

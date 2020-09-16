@@ -8,7 +8,7 @@ android {
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        applicationId "com.alexskvor.appblank"
+        applicationId "com.lacker.visitors"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
@@ -19,13 +19,13 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField "String", "SERVER_URL", "\"http://dev.voodoo.pub/adv-bike-backend/manager/\""
+            buildConfigField "String", "SERVER_URL", "\"http://lacker.backend.debug/fulladdress/\""
             buildConfigField "boolean", "APP_CENTER_ENABLED", "false"
             debuggable true
             applicationIdSuffix ".debug"
         }
         release {
-            buildConfigField "String", "SERVER_URL", "\"http://dev.voodoo.pub/adv-bike-backend/manager/\""
+            buildConfigField "String", "SERVER_URL", "\"http://lacker.backend.prod/fulladdress/\""
             buildConfigField "boolean", "APP_CENTER_ENABLED", "true"
             debuggable false
             minifyEnabled false
