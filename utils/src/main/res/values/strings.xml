@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Permission dialogs -->
+    <string name="permissionRequired">Permission required</string>
+    <string name="whyNeedPermission">Action you asked requires a special permission.\nOn previous permission ask you pressed forever deny.\nPlease navigate to app settings and grant us permission.</string>
+    <string name="cancelCaps" tools:ignore="ButtonCase">CANCEL</string>
+    <string name="settings">SETTINGS</string>
+</resources>

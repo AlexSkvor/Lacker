@@ -10,9 +10,10 @@ object ActivityLifecycleLogger : Application.ActivityLifecycleCallbacks {
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
         (activity as? FragmentActivity)
-            ?.supportFragmentManager
-            ?.registerFragmentLifecycleCallbacks(FragmentLifecycleLogger, true)
-
+            ?.supportFragmentManager?.apply {
+                registerFragmentLifecycleCallbacks(FragmentLifecycleLogger, true)
+                registerFragmentLifecycleCallbacks(FragmentLifecycleBlockingProgress, true)
+            }
         activity.logLifecycle("onCreate")
     }
 
