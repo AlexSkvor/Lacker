@@ -56,8 +56,12 @@ fun ImageView.loadDrawable(drawable: Drawable) {
     load(drawable)
 }
 
-fun ImageView.loadDrawableRes(@DrawableRes id: Int) {
-    load(id)
+fun ImageView.loadDrawableRes(@DrawableRes id: Int, cornersRoundPx: Int = -1) {
+    load(id) {
+        crossfade(true)
+        if (cornersRoundPx > 0)
+            transformations(RoundedCornersTransformation(cornersRoundPx.toFloat()))
+    }
 }
 
 fun ImageView.loadFromNet(url: HttpUrl) {

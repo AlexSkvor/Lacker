@@ -11,3 +11,5 @@ inline fun <reified T> T?.isNotNull(): Boolean = !isNull()
 inline fun <reified T> T?.onNull(default: T): T = this ?: default
 
 fun isMainThread() = Thread.currentThread().name == "main"
+
+fun doNothing() = Unit
