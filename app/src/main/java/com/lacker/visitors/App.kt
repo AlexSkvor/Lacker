@@ -18,14 +18,10 @@ class App : Application() {
     }
 
     private fun initLogging() {
-        if (!BuildConfig.APP_CENTER_ENABLED) {
-            Timber.plant(Timber.DebugTree())
-        } else {
-            TODO("AppCenter specific logging")
-        }
+        Timber.plant(Timber.DebugTree()) // TODO condition for only debug mode
     }
 
-    private fun initDi(){
+    private fun initDi() {
         DependencyProvider.get().component = DaggerAppComponent.builder()
             .appModule(AppModule(this))
             .build()

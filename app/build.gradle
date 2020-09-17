@@ -3,9 +3,22 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
+def keystorePropertiesFile = rootProject.file("keystores.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
+
+    signingConfigs {
+        signing {
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+        }
+    }
 
     defaultConfig {
         applicationId "com.lacker.visitors"
@@ -20,15 +33,14 @@ android {
     buildTypes {
         debug {
             buildConfigField "String", "SERVER_URL", "\"http://lacker.backend.debug/fulladdress/\""
-            buildConfigField "boolean", "APP_CENTER_ENABLED", "false"
             debuggable true
             applicationIdSuffix ".debug"
         }
         release {
             buildConfigField "String", "SERVER_URL", "\"http://lacker.backend.prod/fulladdress/\""
-            buildConfigField "boolean", "APP_CENTER_ENABLED", "true"
             debuggable false
             minifyEnabled false
+            signingConfig signingConfigs.signing
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -91,6 +103,8 @@ dependencies {
     //Http interceptor for testers
     debugImplementation "com.github.chuckerteam.chucker:library:$chuckVersion"
     releaseImplementation "com.github.chuckerteam.chucker:library-no-op:$chuckVersion"
+
+    implementation 'com.google.android.gms:play-services-auth:18.1.0'
 
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
