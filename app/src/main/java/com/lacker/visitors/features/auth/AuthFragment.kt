@@ -1,21 +1,30 @@
 package com.lacker.visitors.features.auth
 
+import android.content.Intent
 import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
-import kotlinx.android.synthetic.main.fragment_auth.*
-import com.lacker.visitors.R
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
+import com.lacker.mvi.listeners.ToolbarFragmentSettings
 import com.lacker.mvi.mvi.MviFragment
+import com.lacker.utils.extensions.*
+import com.lacker.visitors.R
 import com.lacker.visitors.features.auth.AuthMachine.State
 import com.lacker.visitors.features.auth.AuthMachine.Wish
-import com.lacker.mvi.listeners.ToolbarFragmentSettings
-import com.lacker.utils.extensions.setTextIfNotEquals
-import com.lacker.utils.extensions.showKeyboard
-import com.lacker.utils.extensions.visible
+import kotlinx.android.synthetic.main.fragment_auth.*
+import timber.log.Timber
+
 
 class AuthFragment : MviFragment<Wish, State>() {
 
     companion object {
         fun newInstance() = AuthFragment()
+
+        private const val REQUEST_CODE_SIGN_IN_GOOGLE = 50
     }
 
     override val machine by lazy { getMachineFromFactory(AuthMachine::class.java) }
@@ -24,7 +33,29 @@ class AuthFragment : MviFragment<Wish, State>() {
 
     override val toolbarSettings: ToolbarFragmentSettings? = null
 
+    private val googleApiClient by lazy {
+        GoogleSignIn.getClient(
+            requireContext(),
+            googleSignInOptions
+        )
+    }
+
+    private val googleSignInOptions by lazy {
+        GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .build()
+    }
+
     override fun onScreenInit() {
+
+        logoImageAuth.setOnClickListener {
+            emailFieldLayout.isEnabled = !emailFieldLayout.isEnabled
+            passwordFieldLayout.isEnabled = !passwordFieldLayout.isEnabled
+            loginButton.isEnabled = !loginButton.isEnabled
+            if (loginButton.isEnabled) requestKeyboard(true)
+            else hideKeyboard()
+            signIn()
+        }
 
         requestKeyboard()
 
@@ -36,7 +67,7 @@ class AuthFragment : MviFragment<Wish, State>() {
             performWish(Wish.Password(it?.toString().orEmpty()))
         }
 
-        loginButton.setOnClickListener { performWish(Wish.SignIn) }
+        loginButton.setOnClickListener { /*performWish(Wish.SignIn)*/ }
 
         passwordField.setOnEditorActionListener { _, actionId, _ ->
             (actionId == EditorInfo.IME_ACTION_DONE).also {
@@ -60,10 +91,31 @@ class AuthFragment : MviFragment<Wish, State>() {
         requestKeyboard()
     }
 
-    private fun requestKeyboard() {
-        if (emailField.text.isNullOrBlank()) {
+    private fun requestKeyboard(debug: Boolean = false) { //TODO remove debug later
+        if (emailField.text.isNullOrBlank() && debug) {
             emailField.requestFocus()
             showKeyboard()
+        }
+    }
+
+    private fun signIn() { // TODO call by google button
+        val signInIntent: Intent = googleApiClient.signInIntent
+        startActivityForResult(signInIntent, REQUEST_CODE_SIGN_IN_GOOGLE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_SIGN_IN_GOOGLE) {
+            handleGoogleSignInResult(GoogleSignIn.getSignedInAccountFromIntent(data))
+        }
+    }
+
+    private fun handleGoogleSignInResult(completedTask: Task<GoogleSignInAccount>) {
+        try {
+            val account = completedTask.getResult(ApiException::class.java)
+        } catch (e: ApiException) {
+            Timber.e(e) // TODO delete this!
+            //TODO some unknown exception happened workaround later
         }
     }
 
