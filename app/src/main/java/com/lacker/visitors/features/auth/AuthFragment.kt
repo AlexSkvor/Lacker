@@ -106,13 +106,19 @@ class AuthFragment : MviFragment<Wish, State>() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE_SIGN_IN_GOOGLE) {
-            handleGoogleSignInResult(GoogleSignIn.getSignedInAccountFromIntent(data))
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            handleGoogleSignInResult(task)
         }
     }
 
     private fun handleGoogleSignInResult(completedTask: Task<GoogleSignInAccount>) {
         try {
             val account = completedTask.getResult(ApiException::class.java)
+            account?.displayName.alsoPrintDebug("displayName")
+            account?.email.alsoPrintDebug("email")
+            account?.photoUrl.alsoPrintDebug("photoUrl")
+            account?.familyName.alsoPrintDebug("familyName")
+            account?.givenName.alsoPrintDebug("givenName")
         } catch (e: ApiException) {
             Timber.e(e) // TODO delete this!
             //TODO some unknown exception happened workaround later

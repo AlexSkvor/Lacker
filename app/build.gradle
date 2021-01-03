@@ -36,6 +36,8 @@ android {
             debuggable true
             applicationIdSuffix ".debug"
         }
+
+        //only release version allows google sign in
         release {
             buildConfigField "String", "SERVER_URL", "\"http://lacker.backend.prod/fulladdress/\""
             debuggable false

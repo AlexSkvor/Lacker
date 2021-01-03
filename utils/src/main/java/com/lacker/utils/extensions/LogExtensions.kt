@@ -4,12 +4,9 @@ import com.squareup.moshi.JsonReader
 import com.squareup.moshi.Moshi
 import okio.Buffer
 import timber.log.Timber
-import com.lacker.utils.lifecycle.LoggingController
 
 @Deprecated(message = "Only debug mode. Delete before commit", level = DeprecationLevel.WARNING)
-inline fun <reified T> T.alsoPrintDebug(msg: String) =
-    if (!LoggingController.alsoPrintDebugLoggingEnabled) this
-    else also { Timber.e("$msg... $it") }
+inline fun <reified T> T.alsoPrintDebug(msg: String) = also { Timber.e("$msg... $it") }
 
 private val json = Moshi.Builder().build()
 private const val INDENT = "  "
