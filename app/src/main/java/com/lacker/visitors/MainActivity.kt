@@ -1,7 +1,9 @@
 package com.lacker.visitors
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
@@ -14,17 +16,17 @@ import ru.terrakok.cicerone.android.support.SupportAppNavigator
 import ru.terrakok.cicerone.commands.Command
 import com.lacker.visitors.data.storage.UserStorage
 import com.lacker.visitors.di.DependencyProvider
+import com.lacker.visitors.features.base.ToolbarFluxFragment
+import com.lacker.visitors.features.base.ToolbarOwner
 import com.lacker.visitors.navigation.Screens
-import com.lacker.mvi.base.BaseActivity
-import com.lacker.mvi.base.BaseFragment
-import com.lacker.mvi.mvi.UserNotifier
-import com.lacker.mvi.mvi.ViewModelFactoryProvider
+import voodoo.rocks.flux.interfaces.UserNotifier
+import voodoo.rocks.flux.interfaces.ViewModelFactoryProvider
 import javax.inject.Inject
 
-class MainActivity : BaseActivity(), ViewModelFactoryProvider, UserNotifier {
+class MainActivity : AppCompatActivity(), ViewModelFactoryProvider, UserNotifier, ToolbarOwner {
 
-    override val currentFragment: BaseFragment?
-        get() = supportFragmentManager.findFragmentById(R.id.fragmentContainer) as? BaseFragment
+    private val currentFragment: ToolbarFluxFragment<*, *>?
+        get() = supportFragmentManager.findFragmentById(R.id.fragmentContainer) as? ToolbarFluxFragment<*, *>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         DependencyProvider.get().component.inject(this)
@@ -33,7 +35,7 @@ class MainActivity : BaseActivity(), ViewModelFactoryProvider, UserNotifier {
         setSupportActionBar(findViewById(R.id.toolbar))
 
         if (savedInstanceState == null)
-            router.replaceScreen(defaultScreen)
+            router.replaceScreen(defaultScreen) // TODO replace with backTo
     }
 
     @Inject
@@ -80,5 +82,23 @@ class MainActivity : BaseActivity(), ViewModelFactoryProvider, UserNotifier {
     override fun notify(text: String, toast: Boolean) {
         if (toast) Toast.makeText(this, text, Toast.LENGTH_LONG).show()
         else Snackbar.make(mainActivityContainer, text, Snackbar.LENGTH_LONG).show()
+    }
+
+    override fun onBackPressed() {
+        currentFragment?.onBackPressed() ?: super.onBackPressed()
+    }
+
+    override fun refreshToolbar() {
+        currentFragment?.toolbarSettings?.let {
+            supportActionBar?.show()
+            supportActionBar?.title = it.title
+            supportActionBar?.subtitle = it.subtitle
+            supportActionBar?.setDisplayHomeAsUpEnabled(it.showBackIcon)
+        } ?: supportActionBar?.hide()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        android.R.id.home -> false.also { onBackPressed() }
+        else -> super.onOptionsItemSelected(item)
     }
 }

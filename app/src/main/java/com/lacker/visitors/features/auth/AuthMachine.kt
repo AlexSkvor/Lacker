@@ -7,13 +7,13 @@ import com.lacker.visitors.data.api.NetworkManager
 import com.lacker.visitors.data.dto.auth.UserLoginRequest
 import com.lacker.visitors.data.dto.auth.toDomainUser
 import com.lacker.visitors.data.storage.UserStorage
-import com.lacker.mvi.mvi.Machine
 import com.lacker.visitors.features.auth.AuthMachine.State
 import com.lacker.visitors.features.auth.AuthMachine.Wish
 import com.lacker.visitors.features.auth.AuthMachine.Result
 import com.lacker.visitors.navigation.Screens
 import com.lacker.utils.extensions.isValidEmail
 import com.lacker.utils.resources.ResourceProvider
+import voodoo.rocks.flux.Machine
 import javax.inject.Inject
 
 class AuthMachine @Inject constructor(
@@ -39,23 +39,19 @@ class AuthMachine @Inject constructor(
     )
 
     sealed class Result {
-        data class NewPassword(val newPassword: String) : Result()
-        data class NewEmail(val newEmail: String) : Result()
         data class EmailError(val errorText: String) : Result()
         data class OtherError(val errorText: String) : Result()
 
-        object WaitingStarted : Result()
         object Success : Result()
     }
 
     override val initialState: State = State()
 
-    override fun onWish(wish: Wish, oldState: State) = when (wish) {
-        is Wish.Password -> pushResult(Result.NewPassword(wish.text))
-        is Wish.Email -> pushResult(Result.NewEmail(wish.text))
-        Wish.SignIn -> {
-            pushResult(Result.WaitingStarted)
-            pushResult { tryLogin(oldState.email.trim(), oldState.password) }
+    override fun onWish(wish: Wish, oldState: State): State = when (wish) {
+        is Wish.Password -> oldState.copy(password = wish.text)
+        is Wish.Email -> oldState.copy(email = wish.text)
+        Wish.SignIn -> oldState.copy(loading = true).also {
+            pushResult { tryLogin(oldState.email, oldState.password) }
         }
     }
 
@@ -74,13 +70,11 @@ class AuthMachine @Inject constructor(
     }
 
     override fun onResult(res: Result, oldState: State): State = when (res) {
-        is Result.NewPassword -> oldState.copy(password = res.newPassword, passwordErrorText = null)
-        is Result.NewEmail -> oldState.copy(email = res.newEmail, emailErrorText = null)
         is Result.EmailError -> oldState.copy(loading = false).copy(emailErrorText = res.errorText)
         is Result.OtherError -> oldState.copy(loading = false).also { sendMessage(res.errorText) }
-        Result.Success -> oldState.copy(loading = false)
-            .also { router.replaceScreen(Screens.HomeScreen) }
-        Result.WaitingStarted -> oldState.copy(loading = true)
+        Result.Success -> oldState.copy(loading = false).also {
+            router.replaceScreen(Screens.HomeScreen)
+        }
     }
 
     override fun onBackPressed() = router.finishChain()

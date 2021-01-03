@@ -2,24 +2,23 @@ package com.lacker.visitors.features.auth
 
 import android.content.Intent
 import android.view.inputmethod.EditorInfo
-import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
-import com.lacker.mvi.listeners.ToolbarFragmentSettings
-import com.lacker.mvi.mvi.MviFragment
 import com.lacker.utils.extensions.*
 import com.lacker.visitors.R
 import com.lacker.visitors.features.auth.AuthMachine.State
 import com.lacker.visitors.features.auth.AuthMachine.Wish
+import com.lacker.visitors.features.base.ToolbarFluxFragment
+import com.lacker.visitors.features.base.ToolbarFragmentSettings
 import kotlinx.android.synthetic.main.fragment_auth.*
 import timber.log.Timber
 
 
-class AuthFragment : MviFragment<Wish, State>() {
+class AuthFragment : ToolbarFluxFragment<Wish, State>() {
 
     companion object {
         fun newInstance() = AuthFragment()
