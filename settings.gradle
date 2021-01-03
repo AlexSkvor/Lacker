@@ -1,4 +1,3 @@
-include ':mvi'
 include ':utils'
 include ':app'
 rootProject.name = "Lacker Visitors"
