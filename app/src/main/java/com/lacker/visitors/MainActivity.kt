@@ -12,12 +12,12 @@ import kotlinx.android.synthetic.main.activity_main.*
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
-import ru.terrakok.cicerone.android.support.SupportAppNavigator
 import ru.terrakok.cicerone.commands.Command
 import com.lacker.visitors.data.storage.UserStorage
 import com.lacker.visitors.di.DependencyProvider
 import com.lacker.visitors.features.base.ToolbarFluxFragment
 import com.lacker.visitors.features.base.ToolbarOwner
+import com.lacker.visitors.navigation.BackToImplementedNavigator
 import com.lacker.visitors.navigation.Screens
 import voodoo.rocks.flux.interfaces.UserNotifier
 import voodoo.rocks.flux.interfaces.ViewModelFactoryProvider
@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity(), ViewModelFactoryProvider, UserNotifier
         setSupportActionBar(findViewById(R.id.toolbar))
 
         if (savedInstanceState == null)
-            router.replaceScreen(defaultScreen) // TODO replace with backTo
+            router.backTo(defaultScreen)
     }
 
     @Inject
@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity(), ViewModelFactoryProvider, UserNotifier
         else Screens.HomeScreen
 
     private val navigator: Navigator =
-        object : SupportAppNavigator(this, supportFragmentManager, R.id.fragmentContainer) {
+        object : BackToImplementedNavigator(this, supportFragmentManager, R.id.fragmentContainer) {
             override fun setupFragmentTransaction(
                 command: Command,
                 currentFragment: Fragment?,
