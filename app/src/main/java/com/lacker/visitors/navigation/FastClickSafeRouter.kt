@@ -39,6 +39,13 @@ class FastClickSafeRouter : Router() {
         withDelayCheck { super.exit() }
     }
 
+    fun exitTwoTimes() {
+        withDelayCheck {
+            super.exit()
+            super.exit()
+        }
+    }
+
     private var lastNavigateTo = 0L
     private fun withDelayCheck(action: () -> Unit) {
         if (System.currentTimeMillis() - lastNavigateTo > MINIMAL_DELAY) {

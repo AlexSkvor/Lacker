@@ -13,14 +13,14 @@ class NavigationModule {
 
     @Singleton
     @Provides
-    fun provideCicerone(): Cicerone<Router> {
-        return Cicerone.create(FastClickSafeRouter())
+    fun provideCicerone(router: FastClickSafeRouter): Cicerone<Router> {
+        return Cicerone.create(router)
     }
 
     @Singleton
     @Provides
-    fun provideRouter(cicerone: Cicerone<Router>): Router {
-        return cicerone.router
+    fun provideRouter(): FastClickSafeRouter {
+        return FastClickSafeRouter()
     }
 
     @Singleton
