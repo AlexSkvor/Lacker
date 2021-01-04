@@ -7,9 +7,14 @@ import dagger.MapKey
 import dagger.Module
 import dagger.multibindings.IntoMap
 import com.lacker.visitors.features.auth.AuthMachine
+import com.lacker.visitors.features.auth.main.MainAuthMachine
 import kotlin.reflect.KClass
 
-@Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER)
+@Target(
+    AnnotationTarget.FUNCTION,
+    AnnotationTarget.PROPERTY_GETTER,
+    AnnotationTarget.PROPERTY_SETTER
+)
 @kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
 @MapKey
 internal annotation class ViewModelKey(val value: KClass<out ViewModel>)
@@ -24,4 +29,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(AuthMachine::class)
     internal abstract fun bindAuthMachine(viewModel: AuthMachine): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MainAuthMachine::class)
+    internal abstract fun bindMainAuthMachine(viewModel: MainAuthMachine): ViewModel
 }
