@@ -7,8 +7,8 @@ import com.lacker.visitors.data.dto.auth.UserLoginRequest
 
 interface Api {
 
-    @POST("account/sign-in")
-    suspend fun login(
+    @POST("account/sign-in/lacker")
+    suspend fun signInWithLackerAccount(
         @Body request: UserLoginRequest
     ): LoginResponse
 

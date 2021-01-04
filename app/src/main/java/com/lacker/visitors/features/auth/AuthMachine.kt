@@ -1,6 +1,5 @@
 package com.lacker.visitors.features.auth
 
-import ru.terrakok.cicerone.Router
 import com.lacker.visitors.R
 import com.lacker.visitors.data.api.ApiCallResult
 import com.lacker.visitors.data.api.NetworkManager
@@ -13,12 +12,13 @@ import com.lacker.visitors.features.auth.AuthMachine.Result
 import com.lacker.visitors.navigation.Screens
 import com.lacker.utils.extensions.isValidEmail
 import com.lacker.utils.resources.ResourceProvider
+import com.lacker.visitors.navigation.FastClickSafeRouter
 import voodoo.rocks.flux.Machine
 import javax.inject.Inject
 
 class AuthMachine @Inject constructor(
     private val resourceProvider: ResourceProvider,
-    private val router: Router,
+    private val router: FastClickSafeRouter,
     private val net: NetworkManager,
     private val userStorage: UserStorage
 ) : Machine<Wish, Result, State>() {
@@ -60,7 +60,7 @@ class AuthMachine @Inject constructor(
 
         val request = UserLoginRequest(email = email, password = password)
 
-        return when (val res = net.callResult { login(request) }) {
+        return when (val res = net.callResult { signInWithLackerAccount(request) }) {
             is ApiCallResult.Result -> {
                 userStorage.user = res.value.user.toDomainUser()
                 Result.Success

@@ -6,20 +6,19 @@ import com.lacker.visitors.data.storage.User
 
 @JsonClass(generateAdapter = true)
 data class UserFromServer(
-    @Json(name = "id") val id: Long,
+    @Json(name = "id") val id: String,
     @Json(name = "email") val email: String,
-    @Json(name = "fullName") val fullName: String,
-    @Json(name = "role") val role: User.Role,
-    @Json(name = "isActive") val active: Boolean,
+    @Json(name = "name") val name: String,
+    @Json(name = "surname") val surname: String,
     @Json(name = "accessToken") val token: String,
-    @Json(name = "city") val city: String
+    @Json(name = "photoId") val photoId: String
 )
 
 fun UserFromServer.toDomainUser(): User = User(
     id = id,
-    token = token,
-    role = role,
+    name = name,
+    surname = surname,
     email = email,
-    fullName = fullName,
-    city = city
+    token = token,
+    photoId = photoId
 )

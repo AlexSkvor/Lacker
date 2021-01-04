@@ -1,20 +1,16 @@
 package com.lacker.visitors.data.storage
 
 data class User(
-    val id: Long,
-    val fullName: String,
+    val id: String,
+    val name: String,
+    val surname: String,
     val email: String,
-    val city: String,
-    val role: Role,
-    val token: String
+    val token: String,
+    val photoId: String
 ) {
 
-    enum class Role {
-        ManagerUser, Admin
-    }
-
     companion object {
-        private val EMPTY_INSTANCE = User(-1, "", "", "", Role.ManagerUser, "")
+        private val EMPTY_INSTANCE = User("", "", "", "", "", "")
         fun empty() = EMPTY_INSTANCE
     }
 
