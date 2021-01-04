@@ -32,21 +32,6 @@
         <item name="errorTextColor">@color/errorColor</item>
     </style>
 
-    <style name="InputStyle.Filled" parent="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
-
-    </style>
-
-    <style name="EditTextStyle.Filled" parent="@style/Widget.MaterialComponents.TextInputEditText.FilledBox">
-        <item name="android:textSize">@dimen/_11ssp</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:textColor">@color/textColor</item>
-    </style>
-
-    <style name="EditTextStyle.Filled.SingleLine" parent="EditTextStyle.Filled">
-        <item name="android:lines">1</item>
-        <item name="android:singleLine">true</item>
-    </style>
-
 
     <style name="InputStyle.NoTopHint" parent="InputStyle">
         <item name="hintEnabled">false</item>
@@ -76,14 +61,14 @@
         <item name="android:inputType">textPassword</item>
     </style>
 
-    <style name="AppTextView">
-        <item name="android:textColor">@color/textColor</item>
+    <style name="Text" />
+
+    <style name="Text.Regular" parent="Text">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
     </style>
 
-    <style name="AppTextView.AutoSizeText" parent="AppTextView">
-        <item name="autoSizeTextType">uniform</item>
-        <item name="android:gravity">center</item>
-        <item name="android:lines">1</item>
+    <style name="Text.Regular.Italic" parent="Text">
+        <item name="android:fontFamily">@font/montserrat_regular_italic</item>
     </style>
 
 
