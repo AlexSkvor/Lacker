@@ -3,7 +3,6 @@ package com.lacker.utils.extensions
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import java.io.Serializable
-import kotlin.reflect.full.isSubclassOf
 
 inline fun <reified T : Any> Bundle.withArgument(key: String, value: T?): Bundle {
     return if (value == null) this
@@ -24,8 +23,12 @@ inline fun <reified T : Any> Bundle.getArgumentOrNull(key: String): T? {
         Long::class -> this.getLong(key) as? T
         Boolean::class -> this.getBoolean(key) as? T
         else -> {
-            if (T::class.isSubclassOf(Serializable::class)) getSerializable(key) as? T
-            else throw IllegalArgumentException("Wrong value typeChosen! ${T::class}")
+            try {
+                getSerializable(key) as? T
+            } catch (t: Throwable) {
+                t.printStackTrace()
+                throw IllegalArgumentException("Argument is not base class or Serializable! ${T::class}")
+            }
         }
     }
 }
