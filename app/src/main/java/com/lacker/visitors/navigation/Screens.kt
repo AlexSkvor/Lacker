@@ -18,7 +18,7 @@ object Screens {
         override fun getFragment(): Fragment = TODO()
     }
 
-    object StuffSignIn : SupportAppScreen() {
+    object StaffSignIn : SupportAppScreen() {
         override fun getFragment(): Fragment = TODO()
     }
 

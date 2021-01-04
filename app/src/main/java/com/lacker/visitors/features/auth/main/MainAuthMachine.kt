@@ -25,7 +25,7 @@ class MainAuthMachine @Inject constructor(
 
         object OpenLackerSignInScreen : Wish()
         object OpenLackerSignUpScreen : Wish()
-        object OpenStuffSignInScreen : Wish()
+        object OpenStaffSignInScreen : Wish()
     }
 
     sealed class Result {
@@ -49,7 +49,7 @@ class MainAuthMachine @Inject constructor(
         }
         Wish.OpenLackerSignInScreen -> oldState.also { router.navigateTo(Screens.LackerSignIn(it.hasScreenBefore)) }
         Wish.OpenLackerSignUpScreen -> oldState.also { router.navigateTo(Screens.LackerSignUp(it.hasScreenBefore)) }
-        Wish.OpenStuffSignInScreen -> oldState.also { router.navigateTo(Screens.StuffSignIn) }
+        Wish.OpenStaffSignInScreen -> oldState.also { router.navigateTo(Screens.StaffSignIn) }
     }
 
     private suspend fun trySignInGoogle(data: GoogleAuthData): Result {
