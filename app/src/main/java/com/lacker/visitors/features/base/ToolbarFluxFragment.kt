@@ -1,5 +1,6 @@
 package com.lacker.visitors.features.base
 
+import android.view.View
 import com.lacker.utils.extensions.getImplementation
 import voodoo.rocks.flux.FluxFragment
 
@@ -19,4 +20,7 @@ abstract class ToolbarFluxFragment<W : Any, S : Any> : FluxFragment<W, S>() {
     open fun onMenuItemChosen(itemId: Int): Boolean = false
 
     open fun onHelp() {}
+
+    protected fun View.wishOnClick(wish: W) = setOnClickListener { performWish(wish) }
+    protected fun View.wishOnClick(wish: () -> W) = wishOnClick(wish())
 }

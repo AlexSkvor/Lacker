@@ -12,4 +12,12 @@
     <string name="password">Password</string>
     <string name="logIn">Log in</string>
 
+    <!-- Main Auth Screen -->
+    <string name="signInUsingServicesHint">Sign in with</string>
+    <string name="signInUsingLackerAccountHint">or use</string>
+    <string name="signInLackerAccount">Läcker account</string>
+    <string name="createLackerAccount">Create Läcker account</string>
+    <string name="staffSignIn"><u>Staff sign in</u></string>
+    <string name="createLackerAccountHint">Don\'t have one?</string>
+
 </resources>

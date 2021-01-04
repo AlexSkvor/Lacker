@@ -112,12 +112,12 @@ class AuthFragment : ToolbarFluxFragment<Wish, State>() {
 
     private fun handleGoogleSignInResult(completedTask: Task<GoogleSignInAccount>) {
         try {
-            val account = completedTask.getResult(ApiException::class.java)
-            account?.displayName.alsoPrintDebug("displayName")
-            account?.email.alsoPrintDebug("email")
-            account?.photoUrl.alsoPrintDebug("photoUrl")
-            account?.familyName.alsoPrintDebug("familyName")
-            account?.givenName.alsoPrintDebug("givenName")
+            val account = completedTask.getResult(ApiException::class.java) ?: return
+            account.id.alsoPrintDebug("id")
+            account.displayName.alsoPrintDebug("displayName")
+            account.email.alsoPrintDebug("email")
+            account.familyName.alsoPrintDebug("familyName")
+            account.givenName.alsoPrintDebug("givenName")
         } catch (e: ApiException) {
             Timber.e(e) // TODO delete this!
             //TODO some unknown exception happened workaround later

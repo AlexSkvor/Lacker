@@ -17,7 +17,8 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
 
     <style name="App.Button" parent="@style/Widget.MaterialComponents.Button">
-        <item name="cornerRadius">4dp</item>
+        <item name="android:fontFamily">@font/montserrat_bold</item>
+        <item name="cornerRadius">4000dp</item>
         <item name="android:minHeight">64dp</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/_11ssp</item>
@@ -61,7 +62,11 @@
         <item name="android:inputType">textPassword</item>
     </style>
 
-    <style name="Text" />
+    <style name="Text">
+        <item name="android:textColor">@color/text_color_brown_with_press_reaction</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/_11ssp</item>
+    </style>
 
     <style name="Text.Regular" parent="Text">
         <item name="android:fontFamily">@font/montserrat_regular</item>
@@ -69,6 +74,14 @@
 
     <style name="Text.Regular.Italic" parent="Text">
         <item name="android:fontFamily">@font/montserrat_regular_italic</item>
+    </style>
+
+    <style name="Text.Medium" parent="Text">
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+    </style>
+
+    <style name="Text.Medium.Italic" parent="Text">
+        <item name="android:fontFamily">@font/montserrat_medium_italic</item>
     </style>
 
 

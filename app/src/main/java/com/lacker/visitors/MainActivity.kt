@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity(), ViewModelFactoryProvider, UserNotifier
     lateinit var userStorage: UserStorage
 
     private val defaultScreen
-        get() = if (userStorage.user.isEmpty()) Screens.AuthScreen
+        get() = if (userStorage.user.isEmpty()) Screens.AuthFlow(false)
         else Screens.HomeScreen
 
     private val navigator: Navigator =

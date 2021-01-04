@@ -4,7 +4,6 @@ import dagger.Module
 import dagger.Provides
 import ru.terrakok.cicerone.Cicerone
 import ru.terrakok.cicerone.NavigatorHolder
-import ru.terrakok.cicerone.Router
 import com.lacker.visitors.navigation.FastClickSafeRouter
 import javax.inject.Singleton
 
@@ -13,7 +12,7 @@ class NavigationModule {
 
     @Singleton
     @Provides
-    fun provideCicerone(router: FastClickSafeRouter): Cicerone<Router> {
+    fun provideCicerone(router: FastClickSafeRouter): Cicerone<FastClickSafeRouter> {
         return Cicerone.create(router)
     }
 
@@ -25,7 +24,7 @@ class NavigationModule {
 
     @Singleton
     @Provides
-    fun provideNavigatorHolder(cicerone: Cicerone<Router>): NavigatorHolder {
+    fun provideNavigatorHolder(cicerone: Cicerone<FastClickSafeRouter>): NavigatorHolder {
         return cicerone.navigatorHolder
     }
 

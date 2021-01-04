@@ -5,13 +5,13 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.terrakok.cicerone.Router
 import com.lacker.visitors.R
 import com.lacker.visitors.data.storage.User
 import com.lacker.visitors.data.storage.UserStorage
 import com.lacker.visitors.navigation.Screens
 import com.lacker.utils.extensions.onNull
 import com.lacker.utils.resources.ResourceProvider
+import com.lacker.visitors.navigation.FastClickSafeRouter
 import java.lang.Exception
 import javax.inject.Inject
 
@@ -19,7 +19,7 @@ class NetworkManager @Inject constructor(
     private val json: Moshi,
     private val api: Api,
     private val resourceProvider: ResourceProvider,
-    private val router: Router,
+    private val router: FastClickSafeRouter,
     private val userStorage: UserStorage
 ) {
 
@@ -40,11 +40,11 @@ class NetworkManager @Inject constructor(
     private suspend fun onTokenExpired() {
         userStorage.user = User.empty()
         withContext(Dispatchers.Main) {
-            launch { router.newRootScreen(Screens.AuthScreen) }
+            launch { router.newRootScreen(Screens.AuthFlow(false)) }
         }
     }
 
-    private fun loginCall(): Boolean = userStorage.user.isEmpty()
+    private fun loginCall(): Boolean = userStorage.user.isEmpty() // TODO rework this logic maximum priority!
 }
 
 sealed class ApiCallResult<T> {
