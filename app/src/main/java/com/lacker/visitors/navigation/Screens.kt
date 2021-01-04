@@ -7,11 +7,11 @@ import com.lacker.visitors.features.auth.AuthFragment
 object Screens {
 
     object AuthScreen : SupportAppScreen() {
-        override fun getFragment(): Fragment? = AuthFragment.newInstance()
+        override fun getFragment(): Fragment = AuthFragment.newInstance()
     }
 
     object HomeScreen : SupportAppScreen() {
-        override fun getFragment(): Fragment? = TODO()
+        override fun getFragment(): Fragment = TODO()
     }
 
 }

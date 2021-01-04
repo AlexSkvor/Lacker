@@ -17,7 +17,7 @@ import com.lacker.visitors.features.base.ToolbarFragmentSettings
 import kotlinx.android.synthetic.main.fragment_auth.*
 import timber.log.Timber
 
-
+//TODO авторизация через сервисы / войти по мылу / войти как сотрудник / создать пользователя
 class AuthFragment : ToolbarFluxFragment<Wish, State>() {
 
     companion object {

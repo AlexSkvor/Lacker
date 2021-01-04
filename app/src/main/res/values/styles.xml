@@ -20,7 +20,7 @@
         <item name="cornerRadius">4dp</item>
         <item name="android:minHeight">64dp</item>
         <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">@dimen/font_medium</item>
+        <item name="android:textSize">@dimen/_11ssp</item>
     </style>
 
     <style name="InputStyle" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -37,7 +37,7 @@
     </style>
 
     <style name="EditTextStyle.Filled" parent="@style/Widget.MaterialComponents.TextInputEditText.FilledBox">
-        <item name="android:textSize">@dimen/font_medium</item>
+        <item name="android:textSize">@dimen/_11ssp</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">@color/textColor</item>
     </style>
@@ -58,7 +58,7 @@
 
 
     <style name="EditTextStyle" parent="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox">
-        <item name="android:textSize">@dimen/font_medium</item>
+        <item name="android:textSize">@dimen/_11ssp</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">@color/textColor</item>
     </style>
@@ -86,32 +86,5 @@
         <item name="android:lines">1</item>
     </style>
 
-    <style name="AppTextView.AutoSizeText.MaxMedium" parent="AppTextView.AutoSizeText">
-        <item name="autoSizeMaxTextSize">@dimen/font_medium</item>
-    </style>
-
-    <style name="AppTextView.NormalTextSize" parent="AppTextView">
-        <item name="android:textSize">@dimen/font_normal</item>
-    </style>
-
-    <style name="AppTextView.MediumTextSize" parent="AppTextView">
-        <item name="android:textSize">@dimen/font_medium</item>
-    </style>
-
-    <style name="AppTextView.LargeTextSize" parent="AppTextView">
-        <item name="android:textSize">@dimen/font_large</item>
-    </style>
-
-    <style name="AppTextView.GiantSize" parent="AppTextView">
-        <item name="android:textSize">@dimen/font_giant</item>
-    </style>
-
-    <style name="AppTextView.Bold" parent="AppTextView">
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="AppTextView.Bold.MediumTextSize" parent="AppTextView.Bold">
-        <item name="android:textSize">@dimen/font_medium</item>
-    </style>
 
 </resources>
