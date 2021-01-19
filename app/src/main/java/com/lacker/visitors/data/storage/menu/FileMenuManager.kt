@@ -7,8 +7,9 @@ import com.lacker.visitors.data.dto.menu.MenuItem
 import com.lacker.visitors.data.storage.files.FilesManager
 import com.squareup.moshi.Moshi
 import java.time.LocalDateTime
+import javax.inject.Inject
 
-class FileMenuManager(
+class FileMenuManager @Inject constructor(
     private val net: NetworkManager,
     private val filesManager: FilesManager,
     private val json: Moshi

@@ -2,9 +2,10 @@ package com.lacker.visitors.data.storage.files
 
 import android.content.Context
 import java.io.File
+import javax.inject.Inject
 
-class FilesManager(
-    val context: Context
+class FilesManager @Inject constructor(
+    private val context: Context
 ) {
 
     sealed class FileType(open val ext: String, open val folderName: String) {
