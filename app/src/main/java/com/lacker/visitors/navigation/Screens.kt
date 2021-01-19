@@ -23,11 +23,11 @@ object Screens {
         override fun getFragment(): Fragment = TODO()
     }
 
-    object AuthScreen : SupportAppScreen() {
-        override fun getFragment(): Fragment = AuthFragment.newInstance()
+    object HomeScreen : SupportAppScreen() {
+        override fun getFragment(): Fragment = TODO()
     }
 
-    object HomeScreen : SupportAppScreen() {
+    object ScanScreen : SupportAppScreen() {
         override fun getFragment(): Fragment = TODO()
     }
 
