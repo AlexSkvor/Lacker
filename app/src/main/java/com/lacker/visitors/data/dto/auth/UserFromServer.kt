@@ -2,7 +2,7 @@ package com.lacker.visitors.data.dto.auth
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import com.lacker.visitors.data.storage.User
+import com.lacker.visitors.data.storage.user.User
 
 @JsonClass(generateAdapter = true)
 data class UserFromServer(

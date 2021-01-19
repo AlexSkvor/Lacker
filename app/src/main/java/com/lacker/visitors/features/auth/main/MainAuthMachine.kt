@@ -3,7 +3,7 @@ package com.lacker.visitors.features.auth.main
 import com.lacker.visitors.data.api.ApiCallResult
 import com.lacker.visitors.data.api.NetworkManager
 import com.lacker.visitors.data.dto.auth.toDomainUser
-import com.lacker.visitors.data.storage.UserStorage
+import com.lacker.visitors.data.storage.user.UserStorage
 import javax.inject.Inject
 import com.lacker.visitors.features.auth.main.MainAuthMachine.Wish
 import com.lacker.visitors.features.auth.main.MainAuthMachine.State

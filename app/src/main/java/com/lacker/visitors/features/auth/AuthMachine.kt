@@ -5,7 +5,7 @@ import com.lacker.visitors.data.api.ApiCallResult
 import com.lacker.visitors.data.api.NetworkManager
 import com.lacker.visitors.data.dto.auth.UserLoginRequest
 import com.lacker.visitors.data.dto.auth.toDomainUser
-import com.lacker.visitors.data.storage.UserStorage
+import com.lacker.visitors.data.storage.user.UserStorage
 import com.lacker.visitors.features.auth.AuthMachine.State
 import com.lacker.visitors.features.auth.AuthMachine.Wish
 import com.lacker.visitors.features.auth.AuthMachine.Result

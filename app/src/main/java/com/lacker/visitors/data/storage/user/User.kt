@@ -1,4 +1,4 @@
-package com.lacker.visitors.data.storage
+package com.lacker.visitors.data.storage.user
 
 data class User(
     val id: String,

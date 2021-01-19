@@ -1,4 +1,4 @@
-package com.lacker.visitors.data.storage
+package com.lacker.visitors.data.storage.user
 
 import android.content.Context
 import androidx.core.content.edit

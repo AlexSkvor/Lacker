@@ -6,8 +6,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import com.lacker.visitors.R
-import com.lacker.visitors.data.storage.User
-import com.lacker.visitors.data.storage.UserStorage
+import com.lacker.visitors.data.storage.user.User
+import com.lacker.visitors.data.storage.user.UserStorage
 import com.lacker.visitors.navigation.Screens
 import com.lacker.utils.extensions.onNull
 import com.lacker.utils.resources.ResourceProvider

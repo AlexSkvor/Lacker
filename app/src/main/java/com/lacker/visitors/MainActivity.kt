@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.commands.Command
-import com.lacker.visitors.data.storage.UserStorage
+import com.lacker.visitors.data.storage.user.UserStorage
 import com.lacker.visitors.di.DependencyProvider
 import com.lacker.visitors.features.base.ToolbarFluxFragment
 import com.lacker.visitors.features.base.ToolbarOwner
