@@ -47,9 +47,9 @@ class MainAuthMachine @Inject constructor(
         is Wish.SignInGoogle -> oldState.copy(loading = true).also {
             pushResult { trySignInGoogle(wish.data) }
         }
-        Wish.OpenLackerSignInScreen -> oldState.also { router.navigateTo(Screens.LackerSignIn(it.hasScreenBefore)) }
-        Wish.OpenLackerSignUpScreen -> oldState.also { router.navigateTo(Screens.LackerSignUp(it.hasScreenBefore)) }
-        Wish.OpenStaffSignInScreen -> oldState.also { router.navigateTo(Screens.StaffSignIn) }
+        Wish.OpenLackerSignInScreen -> throw Exception("This is obsolete, preparing to fully deleting!")
+        Wish.OpenLackerSignUpScreen -> throw Exception("This is obsolete, preparing to fully deleting!")
+        Wish.OpenStaffSignInScreen -> throw Exception("This is obsolete, preparing to fully deleting!")
     }
 
     private suspend fun trySignInGoogle(data: GoogleAuthData): Result {

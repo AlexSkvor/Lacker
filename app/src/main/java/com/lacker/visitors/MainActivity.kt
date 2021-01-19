@@ -8,11 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
+import com.lacker.visitors.data.storage.session.SessionStorage
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.commands.Command
-import com.lacker.visitors.data.storage.user.UserStorage
 import com.lacker.visitors.di.DependencyProvider
 import com.lacker.visitors.features.base.ToolbarFluxFragment
 import com.lacker.visitors.features.base.ToolbarOwner
@@ -45,11 +45,11 @@ class MainActivity : AppCompatActivity(), ViewModelFactoryProvider, UserNotifier
     lateinit var router: FastClickSafeRouter
 
     @Inject
-    lateinit var userStorage: UserStorage
+    lateinit var sessionStorage: SessionStorage
 
     private val defaultScreen
-        get() = if (userStorage.user.isEmpty()) Screens.AuthFlow(false)
-        else Screens.HomeScreen
+        get() = if (sessionStorage.hasSession()) Screens.MenuScreen
+        else Screens.ScanScreen
 
     private val navigator: Navigator =
         object : BackToImplementedNavigator(this, supportFragmentManager, R.id.fragmentContainer) {
