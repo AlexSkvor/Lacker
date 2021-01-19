@@ -12,13 +12,13 @@ import com.lacker.visitors.features.auth.AuthMachine.Result
 import com.lacker.visitors.navigation.Screens
 import com.lacker.utils.extensions.isValidEmail
 import com.lacker.utils.resources.ResourceProvider
-import com.lacker.visitors.navigation.FastClickSafeRouter
+import ru.terrakok.cicerone.Router
 import voodoo.rocks.flux.Machine
 import javax.inject.Inject
 
 class AuthMachine @Inject constructor(
     private val resourceProvider: ResourceProvider,
-    private val router: FastClickSafeRouter,
+    private val router: Router,
     private val net: NetworkManager,
     private val userStorage: UserStorage
 ) : Machine<Wish, Result, State>() {

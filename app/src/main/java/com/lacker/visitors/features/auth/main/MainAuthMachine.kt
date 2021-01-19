@@ -8,12 +8,12 @@ import javax.inject.Inject
 import com.lacker.visitors.features.auth.main.MainAuthMachine.Wish
 import com.lacker.visitors.features.auth.main.MainAuthMachine.State
 import com.lacker.visitors.features.auth.main.MainAuthMachine.Result
-import com.lacker.visitors.navigation.FastClickSafeRouter
 import com.lacker.visitors.navigation.Screens
+import ru.terrakok.cicerone.Router
 import voodoo.rocks.flux.Machine
 
 class MainAuthMachine @Inject constructor(
-    private val router: FastClickSafeRouter,
+    private val router: Router,
     private val net: NetworkManager,
     private val userStorage: UserStorage
 ) : Machine<Wish, Result, State>() {

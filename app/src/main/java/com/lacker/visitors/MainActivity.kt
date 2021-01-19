@@ -17,8 +17,8 @@ import com.lacker.visitors.di.DependencyProvider
 import com.lacker.visitors.features.base.ToolbarFluxFragment
 import com.lacker.visitors.features.base.ToolbarOwner
 import com.lacker.visitors.navigation.BackToImplementedNavigator
-import com.lacker.visitors.navigation.FastClickSafeRouter
 import com.lacker.visitors.navigation.Screens
+import ru.terrakok.cicerone.Router
 import voodoo.rocks.flux.interfaces.UserNotifier
 import voodoo.rocks.flux.interfaces.ViewModelFactoryProvider
 import javax.inject.Inject
@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity(), ViewModelFactoryProvider, UserNotifier
     lateinit var navigatorHolder: NavigatorHolder
 
     @Inject
-    lateinit var router: FastClickSafeRouter
+    lateinit var router: Router
 
     @Inject
     lateinit var sessionStorage: SessionStorage
