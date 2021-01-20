@@ -14,12 +14,12 @@ fun Fragment.hasPermission(permission: String): Boolean = ContextCompat.checkSel
     permission
 ) == PackageManager.PERMISSION_GRANTED
 
-fun Fragment.onUserForeverDeniedPermission() {
+fun Fragment.onUserForeverDeniedPermission(onDeny: () -> Unit) {
     AlertDialog.Builder(requireContext())
         .setTitle(R.string.permissionRequired)
         .setMessage(R.string.whyNeedPermission)
         .setCancelable(false)
-        .setNegativeButton(R.string.cancelCaps) { _, _ -> }
+        .setNegativeButton(R.string.cancelCaps) { _, _ -> onDeny() }
         .setPositiveButton(R.string.settings) { _, _ -> openAppSettings() }
         .create()
         .show()

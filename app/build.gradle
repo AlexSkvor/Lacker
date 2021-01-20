@@ -75,6 +75,9 @@ dependencies {
     implementation("com.gitlab.voodoo-rocks:QRCodeReaderView:2.0.8")
     implementation("com.google.zxing:core:3.3.3") // do not update, later version causes errors
 
+    // Permissions
+    implementation("com.github.florent37:runtime-permission-kotlin:1.1.1")
+
     //Dimens
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
     implementation 'com.intuit.ssp:ssp-android:1.0.6'
