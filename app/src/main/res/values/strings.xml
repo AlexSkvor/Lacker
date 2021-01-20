@@ -20,4 +20,6 @@
     <string name="staffSignIn"><u>Staff sign in</u></string>
     <string name="createLackerAccountHint">Don\'t have one?</string>
 
+    <!-- Scan Screen -->
+    <string name="qrCodeInvalidFormat">This QR is invalid.\nCheck if you are using the latest Läcker version</string>
 </resources>

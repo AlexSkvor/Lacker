@@ -32,4 +32,10 @@ interface Api {
     suspend fun getRestaurantMenuTimestamp(
         @Path("restaurantId") restaurantId: String
     ): DateTimeResponse
+
+    @GET("restaurants/{restaurantId}/hasTable/{tableId}")
+    suspend fun checkRestaurantExistsAndHasTable(
+        @Path("restaurantId") restaurantId: String,
+        @Path("tableId") tableId: String
+    )
 }

@@ -1,5 +1,10 @@
 package com.lacker.visitors.features.scan
 
+import com.lacker.utils.resources.ResourceProvider
+import com.lacker.visitors.R
+import com.lacker.visitors.data.api.ApiCallResult
+import com.lacker.visitors.data.api.NetworkManager
+import com.lacker.visitors.data.storage.session.Session
 import com.lacker.visitors.data.storage.session.SessionStorage
 import javax.inject.Inject
 import com.lacker.visitors.features.scan.ScanMachine.State
@@ -11,7 +16,9 @@ import voodoo.rocks.flux.Machine
 
 class ScanMachine @Inject constructor(
     private val router: Router,
-    private val sessionStorage: SessionStorage
+    private val sessionStorage: SessionStorage,
+    private val resourceProvider: ResourceProvider,
+    private val net: NetworkManager
 ) : Machine<Wish, Result, State>() {
 
     sealed class Wish {
@@ -58,7 +65,21 @@ class ScanMachine @Inject constructor(
     }
 
     private suspend fun checkCode(code: String): Result {
-        TODO("Parse code, check ids are correct using Api!")
+
+        val restaurantId = code.substringBefore('|')
+        val tableId = code.substringAfter('|')
+
+        if (restaurantId.length != 32 || tableId.length != 32)
+            return Result.Error(resourceProvider.getString(R.string.qrCodeInvalidFormat))
+
+        return when (
+            val res = net.callResult { checkRestaurantExistsAndHasTable(restaurantId, tableId) }
+        ) {
+            is ApiCallResult.Result -> Result.CorrectRestaurantCode.also {
+                sessionStorage.session = Session(restaurantId, tableId)
+            }
+            is ApiCallResult.ErrorOccurred -> Result.Error(res.text)
+        }
     }
 
     override fun onBackPressed() {

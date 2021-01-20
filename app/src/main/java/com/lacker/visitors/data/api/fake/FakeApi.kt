@@ -53,6 +53,14 @@ class FakeApi(
         return DateTimeResponse(getMenu(restaurantId).timeStamp)
     }
 
+    override suspend fun checkRestaurantExistsAndHasTable(
+        restaurantId: String,
+        tableId: String
+    ) {
+        if (restaurantId !in restaurantIds) throw Exception()
+        if (tableId.length != 32) throw Exception()
+    }
+
     private fun possiblyThrow() {
         if (Random.nextInt(0, 100) > 90) throw Exception()
     }
