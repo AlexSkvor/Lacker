@@ -18,6 +18,7 @@
     <color name="errorColor">#F00</color>
     <color name="textColor">#000</color>
 
+    <color name="veryDarkGrey">#CC000000</color>
     <color name="darkGrey">#88000000</color>
     <color name="grey">#55000000</color>
     <color name="lightGrey">#44000000</color>

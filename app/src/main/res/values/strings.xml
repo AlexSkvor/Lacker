@@ -22,4 +22,6 @@
 
     <!-- Scan Screen -->
     <string name="qrCodeInvalidFormat">This QR is invalid.\nCheck if you are using the latest Läcker version</string>
+    <string name="screenTitleScan">Scan QR</string>
+    <string name="scanHelpHint">You can toggle flash\non (volume UP)\nand\noff (volume DOWN)</string>
 </resources>
