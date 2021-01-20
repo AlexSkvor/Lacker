@@ -24,7 +24,7 @@ class ScanMachine @Inject constructor(
     sealed class Wish {
         data class Code(val code: String) : Wish()
 
-        data class ToggleHelp(val show: Boolean) : Wish()
+        data class ToggleHelp(val show: Boolean? = null) : Wish()
 
         object EnableLightning : Wish()
         object DisableLightning : Wish()
@@ -50,21 +50,23 @@ class ScanMachine @Inject constructor(
         is Wish.Code -> oldState.copy(
             showHelp = false,
             loadingInProcess = true,
-            cameraEnabled = false,
-            lightningEnabled = false
+            cameraEnabled = false
         ).also { pushResult { checkCode(wish.code) } }
         Wish.EnableLightning -> oldState.copy(lightningEnabled = true)
         Wish.DisableLightning -> oldState.copy(lightningEnabled = false)
         Wish.EnableCamera -> oldState.copy(cameraEnabled = !oldState.loadingInProcess)
         Wish.DisableCamera -> oldState.copy(cameraEnabled = false)
-        is Wish.ToggleHelp -> oldState.copy(showHelp = wish.show && !oldState.loadingInProcess)
+        is Wish.ToggleHelp -> oldState.copy(
+            showHelp = (wish.show ?: !oldState.showHelp) && !oldState.loadingInProcess
+        )
     }
 
     override fun onResult(res: Result, oldState: State): State = when (res) {
-        Result.CorrectRestaurantCode -> oldState.also {
+        Result.CorrectRestaurantCode -> oldState.copy(loadingInProcess = false).also {
             router.navigateTo(Screens.MenuScreen)
         }
-        is Result.Error -> oldState.also { sendMessage(res.text) }
+        is Result.Error -> oldState.copy(loadingInProcess = false, cameraEnabled = true)
+            .also { sendMessage(res.text) }
     }
 
     private suspend fun checkCode(code: String): Result {
