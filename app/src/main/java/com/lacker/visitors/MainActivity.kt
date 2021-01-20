@@ -2,6 +2,7 @@ package com.lacker.visitors
 
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -96,12 +97,24 @@ class MainActivity : AppCompatActivity(), ViewModelFactoryProvider, UserNotifier
             supportActionBar?.title = it.title
             supportActionBar?.subtitle = it.subtitle
             supportActionBar?.setDisplayHomeAsUpEnabled(it.showBackIcon)
+            toolbar?.menu?.clear()
+            invalidateOptionsMenu()
         } ?: supportActionBar?.hide()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        currentFragment?.toolbarSettings?.menuResId?.let {
+            menuInflater.inflate(it, menu)
+        } ?: run { toolbar?.menu?.clear() }
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         android.R.id.home -> false.also { onBackPressed() }
-        else -> super.onOptionsItemSelected(item)
+        else -> {
+            val consumedByFragment = currentFragment?.onMenuItemChosen(item.itemId) ?: false
+            if (!consumedByFragment) super.onOptionsItemSelected(item) else false
+        }
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
