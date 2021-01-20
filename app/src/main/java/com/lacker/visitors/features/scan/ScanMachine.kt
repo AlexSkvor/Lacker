@@ -53,12 +53,12 @@ class ScanMachine @Inject constructor(
             cameraEnabled = false,
             lightningEnabled = false
         ).also { pushResult { checkCode(wish.code) } }
-        Wish.EnableLightning -> if (oldState.loadingInProcess) oldState
-        else oldState.copy(lightningEnabled = true)
+        Wish.EnableLightning -> oldState.copy(
+            lightningEnabled = !oldState.loadingInProcess && oldState.cameraEnabled
+        )
         Wish.DisableLightning -> oldState.copy(lightningEnabled = false)
-        Wish.EnableCamera -> if (oldState.loadingInProcess) oldState
-        else oldState.copy(cameraEnabled = true)
-        Wish.DisableCamera -> oldState.copy(cameraEnabled = false)
+        Wish.EnableCamera -> oldState.copy(cameraEnabled = !oldState.loadingInProcess)
+        Wish.DisableCamera -> oldState.copy(cameraEnabled = false, lightningEnabled = false)
         is Wish.ToggleHelp -> oldState.copy(showHelp = wish.show && !oldState.loadingInProcess)
     }
 
