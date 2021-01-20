@@ -24,6 +24,8 @@ class ScanMachine @Inject constructor(
     sealed class Wish {
         data class Code(val code: String) : Wish()
 
+        data class ToggleHelp(val show: Boolean) : Wish()
+
         object EnableLightning : Wish()
         object DisableLightning : Wish()
         object EnableCamera : Wish()
@@ -33,7 +35,8 @@ class ScanMachine @Inject constructor(
     data class State(
         val loadingInProcess: Boolean = false,
         val cameraEnabled: Boolean = false,
-        val lightningEnabled: Boolean = false
+        val lightningEnabled: Boolean = false,
+        val showHelp: Boolean = false
     )
 
     sealed class Result {
@@ -45,6 +48,7 @@ class ScanMachine @Inject constructor(
 
     override fun onWish(wish: Wish, oldState: State): State = when (wish) {
         is Wish.Code -> oldState.copy(
+            showHelp = false,
             loadingInProcess = true,
             cameraEnabled = false,
             lightningEnabled = false
@@ -55,6 +59,7 @@ class ScanMachine @Inject constructor(
         Wish.EnableCamera -> if (oldState.loadingInProcess) oldState
         else oldState.copy(cameraEnabled = true)
         Wish.DisableCamera -> oldState.copy(cameraEnabled = false)
+        is Wish.ToggleHelp -> oldState.copy(showHelp = wish.show && !oldState.loadingInProcess)
     }
 
     override fun onResult(res: Result, oldState: State): State = when (res) {
