@@ -1,6 +1,7 @@
 package com.lacker.visitors
 
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +17,7 @@ import ru.terrakok.cicerone.commands.Command
 import com.lacker.visitors.di.DependencyProvider
 import com.lacker.visitors.features.base.ToolbarFluxFragment
 import com.lacker.visitors.features.base.ToolbarOwner
+import com.lacker.visitors.features.base.VolumeKeysPressListener
 import com.lacker.visitors.navigation.BackToImplementedNavigator
 import com.lacker.visitors.navigation.Screens
 import ru.terrakok.cicerone.Router
@@ -100,5 +102,24 @@ class MainActivity : AppCompatActivity(), ViewModelFactoryProvider, UserNotifier
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         android.R.id.home -> false.also { onBackPressed() }
         else -> super.onOptionsItemSelected(item)
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+
+        val volumeListener = currentFragment as? VolumeKeysPressListener
+
+        return volumeListener?.let {
+            when (keyCode) {
+                KeyEvent.KEYCODE_VOLUME_DOWN -> {
+                    it.onVolumeDown()
+                    true
+                }
+                KeyEvent.KEYCODE_VOLUME_UP -> {
+                    it.onVolumeUp()
+                    true
+                }
+                else -> super.onKeyDown(keyCode, event)
+            }
+        } ?: super.onKeyDown(keyCode, event)
     }
 }
