@@ -8,6 +8,7 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 import com.lacker.visitors.features.auth.AuthMachine
 import com.lacker.visitors.features.auth.main.MainAuthMachine
+import com.lacker.visitors.features.scan.ScanMachine
 import kotlin.reflect.KClass
 
 @Target(
@@ -34,4 +35,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(MainAuthMachine::class)
     internal abstract fun bindMainAuthMachine(viewModel: MainAuthMachine): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ScanMachine::class)
+    internal abstract fun bindScanMachine(viewModel: ScanMachine): ViewModel
 }
