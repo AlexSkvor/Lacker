@@ -110,6 +110,9 @@ dependencies {
     //Process safe shared prefs
     implementation "com.github.yandextaxitech:binaryprefs:1.0.1"
 
+    // Recycler
+    implementation "com.hannesdorfmann:adapterdelegates4-kotlin-dsl-layoutcontainer:4.3.0"
+
     //Networking
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
