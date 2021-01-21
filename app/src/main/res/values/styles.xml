@@ -84,5 +84,9 @@
         <item name="android:fontFamily">@font/montserrat_medium_italic</item>
     </style>
 
+    <style name="Text.Bold" parent="Text">
+        <item name="android:fontFamily">@font/montserrat_bold</item>
+    </style>
+
 
 </resources>
