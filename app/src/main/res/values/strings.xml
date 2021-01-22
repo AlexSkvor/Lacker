@@ -24,4 +24,11 @@
     <string name="qrCodeInvalidFormat">This QR is invalid.\nCheck if you are using the latest Läcker version</string>
     <string name="screenTitleScan">Scan QR</string>
     <string name="scanHelpHint">You can toggle flash\non (volume UP)\nand\noff (volume DOWN)</string>
+
+    <!-- Menu Screen -->
+    <string name="menuScreenTitle">Menu</string>
+
+    <!-- Error Placeholder View -->
+    <string name="defaultButtonRetry">Try again</string>
+    <string name="defaultErrorStarter">Error happened</string>
 </resources>

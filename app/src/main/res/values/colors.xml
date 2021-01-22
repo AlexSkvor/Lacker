@@ -17,6 +17,7 @@
     <color name="hintTextColor">#444</color>
     <color name="errorColor">#F00</color>
     <color name="textColor">#000</color>
+    <color name="textColorError">#555555</color>
 
     <color name="veryDarkGrey">#CC000000</color>
     <color name="darkGrey">#88000000</color>
