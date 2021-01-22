@@ -10,7 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
-import coil.api.load
+import coil.load
 import coil.transform.RoundedCornersTransformation
 import okhttp3.HttpUrl
 import java.io.File
@@ -64,8 +64,22 @@ fun ImageView.loadDrawableRes(@DrawableRes id: Int, cornersRoundPx: Int = -1) {
     }
 }
 
-fun ImageView.loadFromNet(url: HttpUrl) {
-    load(url)
+fun ImageView.loadFromNet(
+    url: String,
+    @DrawableRes placeHolder: Int? = null,
+    @DrawableRes errorHolder: Int? = null,
+    crossFade: Boolean = false,
+    cornersRoundPx: Int = -1
+) {
+    load(url) {
+        crossfade(crossFade)
+
+        placeHolder?.let { placeholder(it) }
+        errorHolder?.let { error(it) }
+
+        if (cornersRoundPx > 0)
+            transformations(RoundedCornersTransformation(cornersRoundPx.toFloat()))
+    }
 }
 
 fun ImageView.loadFromNetFitSize(url: HttpUrl) {
