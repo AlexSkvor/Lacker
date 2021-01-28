@@ -6,6 +6,7 @@ import com.lacker.visitors.data.dto.menu.Menu
 import com.lacker.visitors.data.dto.menu.MenuItem
 import com.lacker.visitors.data.storage.files.FilesManager
 import com.squareup.moshi.Moshi
+import timber.log.Timber
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -17,19 +18,24 @@ class FileMenuManager @Inject constructor(
 
     override suspend fun getMenu(restaurantId: String): ApiCallResult<List<MenuItem>> {
 
-        val savedMenu = getStoredMenu(restaurantId)
-            ?: return getMenuFromServerWithCashing(restaurantId)
+        try {
+            val savedMenu = getStoredMenu(restaurantId)
+                ?: return getMenuFromServerWithCashing(restaurantId)
 
-        val savedMenuTimestamp = savedMenu.timeStamp
-        val serverMenuTimestamp = when (val res = getServerMenuTimestamp(restaurantId)) {
-            is ApiCallResult.Result -> res.value
-            is ApiCallResult.ErrorOccurred -> return ApiCallResult.ErrorOccurred(res.text)
+            val savedMenuTimestamp = savedMenu.timeStamp
+            val serverMenuTimestamp = when (val res = getServerMenuTimestamp(restaurantId)) {
+                is ApiCallResult.Result -> res.value
+                is ApiCallResult.ErrorOccurred -> return ApiCallResult.ErrorOccurred(res.text)
+            }
+
+            if (savedMenuTimestamp != serverMenuTimestamp)
+                return getMenuFromServerWithCashing(restaurantId)
+
+            return ApiCallResult.Result(savedMenu.items)
+        } catch (t: Throwable) {
+            Timber.e(t)
+            return ApiCallResult.ErrorOccurred("Unknown error: ${t.message}")
         }
-
-        if (savedMenuTimestamp != serverMenuTimestamp)
-            return getMenuFromServerWithCashing(restaurantId)
-
-        return ApiCallResult.Result(savedMenu.items)
     }
 
     private val storedMenus: MutableMap<String, Menu> = mutableMapOf()
