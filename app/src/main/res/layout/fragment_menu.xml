@@ -18,6 +18,13 @@
     <com.lacker.visitors.views.ProgressPlaceholderView
         android:id="@+id/menuProgressPlaceholder"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        app:cookingThing="@string/menuWord" />
+
+    <ProgressBar
+        android:id="@+id/menuProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
 
 </FrameLayout>

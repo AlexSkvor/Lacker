@@ -27,6 +27,7 @@
 
     <!-- Menu Screen -->
     <string name="menuScreenTitle">Menu</string>
+    <string name="menuWord">menu</string>
 
     <!-- Error Placeholder View -->
     <string name="defaultButtonRetry">Try again</string>
