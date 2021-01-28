@@ -41,6 +41,12 @@ class ErrorPlaceholderView @JvmOverloads constructor(
             retryOnErrorButton.text = value
         }
 
+    var allowRetry: Boolean
+        get() = retryOnErrorButton.visible
+        set(value) {
+            retryOnErrorButton.visible = value
+        }
+
     init {
         inflate(context, R.layout.view_placeholder_error, this)
             .apply { retryOnErrorButton.setOnClickListener { retryListener?.invoke() } }
@@ -52,6 +58,7 @@ class ErrorPlaceholderView @JvmOverloads constructor(
         retryButtonText = a.getString(R.styleable.ErrorPlaceholderView_retryButtonText)
             ?: context.getString(R.string.defaultButtonRetry)
         showError = a.getBoolean(R.styleable.ErrorPlaceholderView_showErrorFromStart, false)
+        allowRetry = a.getBoolean(R.styleable.ErrorPlaceholderView_allowRetry, true)
 
         a.recycle()
     }

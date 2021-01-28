@@ -5,6 +5,7 @@
         <attr name="errorStarterText" format="reference" localization="suggested" />
         <attr name="retryButtonText" format="reference" localization="suggested" />
         <attr name="showErrorFromStart" format="boolean" />
+        <attr name="allowRetry" format="boolean" />
     </declare-styleable>
 
 </resources>
