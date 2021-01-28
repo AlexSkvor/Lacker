@@ -58,7 +58,7 @@ class FakeApi(
         tableId: String
     ) {
         if (restaurantId !in restaurantIds) throw Exception()
-        if (tableId.length != 32) throw Exception()
+        if (tableId.length != 36) throw Exception()
     }
 
     private fun possiblyThrow() {
