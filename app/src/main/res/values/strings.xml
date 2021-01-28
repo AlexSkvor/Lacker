@@ -31,4 +31,9 @@
     <!-- Error Placeholder View -->
     <string name="defaultButtonRetry">Try again</string>
     <string name="defaultErrorStarter">Error happened</string>
+
+    <!-- Progress Placeholder View -->
+    <string name="cookingThingForYou">We are cooking %s for you</string>
+    <string name="defaultProgressThing">this</string>
+
 </resources>
