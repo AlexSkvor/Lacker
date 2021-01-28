@@ -14,12 +14,6 @@ class ErrorPlaceholderView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
-    var showError: Boolean
-        get() = visible
-        set(value) {
-            visible = value
-        }
-
     var errorText: String? = null
         @SuppressLint("SetTextI18n")
         set(value) {
@@ -49,7 +43,8 @@ class ErrorPlaceholderView @JvmOverloads constructor(
 
     init {
         inflate(context, R.layout.view_placeholder_error, this)
-            .apply { retryOnErrorButton.setOnClickListener { retryListener?.invoke() } }
+
+        retryOnErrorButton.setOnClickListener { retryListener?.invoke() }
 
         val a = context.obtainStyledAttributes(attrs, R.styleable.ErrorPlaceholderView, 0, 0)
 
@@ -57,7 +52,6 @@ class ErrorPlaceholderView @JvmOverloads constructor(
             ?: context.getString(R.string.defaultErrorStarter)
         retryButtonText = a.getString(R.styleable.ErrorPlaceholderView_retryButtonText)
             ?: context.getString(R.string.defaultButtonRetry)
-        showError = a.getBoolean(R.styleable.ErrorPlaceholderView_showErrorFromStart, false)
         allowRetry = a.getBoolean(R.styleable.ErrorPlaceholderView_allowRetry, true)
 
         a.recycle()

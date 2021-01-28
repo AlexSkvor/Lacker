@@ -13,7 +13,11 @@
     <com.lacker.visitors.views.ErrorPlaceholderView
         android:id="@+id/menuErrorPlaceholder"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:showErrorFromStart="true" />
+        android:layout_height="match_parent" />
+
+    <com.lacker.visitors.views.ProgressPlaceholderView
+        android:id="@+id/menuProgressPlaceholder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </FrameLayout>
