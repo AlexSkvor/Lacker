@@ -9,7 +9,6 @@ import com.lacker.visitors.data.dto.menu.Menu
 import com.lacker.visitors.features.auth.main.GoogleAuthData
 import retrofit2.http.GET
 import retrofit2.http.Path
-import java.time.LocalDateTime
 
 interface Api {
 

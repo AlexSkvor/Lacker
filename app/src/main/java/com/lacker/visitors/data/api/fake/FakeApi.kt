@@ -11,7 +11,7 @@ import com.lacker.visitors.data.storage.files.FilesManager
 import com.lacker.visitors.features.auth.main.GoogleAuthData
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.delay
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 import java.util.*
 import kotlin.random.Random
 
@@ -103,7 +103,7 @@ class FakeApi(
     }
 
     private fun generateMenu(): Menu {
-        val timeStamp = LocalDateTime.now()
+        val timeStamp = OffsetDateTime.now()
         val itemsSize = Random.nextInt(5, 100)
 
         val items = List(itemsSize) {
@@ -130,7 +130,7 @@ class FakeApi(
         val updatedItem = menu.items.random().let { it.copy(name = "Updated! ${it.name}") }
 
         return menu.copy(
-            timeStamp = LocalDateTime.now(),
+            timeStamp = OffsetDateTime.now(),
             items = menu.items.map { if (it.id == updatedItem.id) updatedItem else it }
         )
     }

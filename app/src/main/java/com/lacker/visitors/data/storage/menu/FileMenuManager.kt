@@ -7,7 +7,7 @@ import com.lacker.visitors.data.dto.menu.MenuItem
 import com.lacker.visitors.data.storage.files.FilesManager
 import com.squareup.moshi.Moshi
 import timber.log.Timber
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 import javax.inject.Inject
 
 class FileMenuManager @Inject constructor(
@@ -71,7 +71,7 @@ class FileMenuManager @Inject constructor(
         return ApiCallResult.Result(menu.items)
     }
 
-    private suspend fun getServerMenuTimestamp(restaurantId: String): ApiCallResult<LocalDateTime> {
+    private suspend fun getServerMenuTimestamp(restaurantId: String): ApiCallResult<OffsetDateTime> {
         return when (val res = net.callResult { getRestaurantMenuTimestamp(restaurantId) }) {
             is ApiCallResult.Result -> ApiCallResult.Result(res.value.dateTime)
             is ApiCallResult.ErrorOccurred -> ApiCallResult.ErrorOccurred(res.text)
