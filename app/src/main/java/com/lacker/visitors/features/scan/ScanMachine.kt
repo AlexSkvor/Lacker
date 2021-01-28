@@ -74,7 +74,7 @@ class ScanMachine @Inject constructor(
         val restaurantId = code.substringBefore('|')
         val tableId = code.substringAfter('|')
 
-        if (restaurantId.length != 32 || tableId.length != 32)
+        if (restaurantId.length != 36 || tableId.length != 36)
             return Result.Error(resourceProvider.getString(R.string.qrCodeInvalidFormat))
 
         return when (
