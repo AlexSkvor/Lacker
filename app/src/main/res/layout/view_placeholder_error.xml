@@ -22,11 +22,14 @@
         android:id="@+id/errorMessageText"
         style="@style/Text.Regular"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginHorizontal="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_48sdp"
+        android:layout_marginBottom="@dimen/_8sdp"
+        android:ellipsize="end"
+        android:maxLines="6"
         android:textColor="@color/textColorError"
         android:textSize="@dimen/_16ssp"
+        app:layout_constraintBottom_toTopOf="@id/retryOnErrorButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/logoImageError"
@@ -37,11 +40,11 @@
         style="@style/App.Button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_48sdp"
+        android:layout_marginBottom="@dimen/_48sdp"
         android:text="@string/defaultButtonRetry"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/errorMessageText"
-        app:layout_constraintStart_toStartOf="@id/errorMessageText"
-        app:layout_constraintTop_toBottomOf="@id/errorMessageText" />
+        app:layout_constraintStart_toStartOf="@id/errorMessageText" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
