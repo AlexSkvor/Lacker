@@ -60,7 +60,7 @@ class ErrorPlaceholderView @JvmOverloads constructor(
     private var retryListener: (() -> Unit)? = null
 
     fun onRetry(listener: () -> Unit) {
-        retryListener = null
+        retryListener = listener
     }
 
 }
