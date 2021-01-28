@@ -28,6 +28,8 @@ fun getDomainMenuItemAdapter(
     onItemClick: (DomainMenuItem) -> Unit
 ) = adapterDelegateLayoutContainer<DomainMenuItem, DomainMenuItem>(R.layout.item_menu_item) {
 
+    menuItemContainer.setOnClickListener { onItemClick(item) }
+
     bind {
         menuItemName.text = item.name
         menuItemDescription.text = item.shortDescription
