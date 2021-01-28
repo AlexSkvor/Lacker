@@ -5,6 +5,10 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="colorControlHighlight">@color/rippleColor</item>
+        <item name="android:outlineAmbientShadowColor">@color/brown</item>
+        <item name="android:outlineSpotShadowColor">@color/brown</item>
     </style>
 
     <style name="AppTheme.NoActionBar" parent="AppTheme">

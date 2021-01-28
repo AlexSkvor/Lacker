@@ -13,6 +13,7 @@
     <color name="brown">#5C2715</color>
     <color name="brownLight">#964B00</color>
     <color name="brownExtraLight">#CD7F32</color>
+    <color name="rippleColor">#405C2715</color>
 
     <color name="hintTextColor">#444</color>
     <color name="errorColor">#F00</color>
