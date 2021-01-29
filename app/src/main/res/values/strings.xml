@@ -46,4 +46,10 @@
     <string name="cookingThingForYou">We are cooking %s for you</string>
     <string name="defaultProgressThing">this</string>
 
+    <!-- Session Navigation View -->
+    <string name="menu">Menu</string>
+    <string name="favourite">Favourite</string>
+    <string name="basket">Basket</string>
+    <string name="order">Order</string>
+
 </resources>
