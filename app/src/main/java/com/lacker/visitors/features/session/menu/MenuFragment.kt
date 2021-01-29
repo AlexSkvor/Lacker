@@ -1,12 +1,12 @@
-package com.lacker.visitors.features.menu
+package com.lacker.visitors.features.session.menu
 
 import com.lacker.utils.extensions.alsoPrintDebug
 import com.lacker.utils.extensions.visible
 import com.lacker.visitors.R
 import com.lacker.visitors.features.base.ToolbarFluxFragment
 import com.lacker.visitors.features.base.ToolbarFragmentSettings
-import com.lacker.visitors.features.menu.MenuMachine.Wish
-import com.lacker.visitors.features.menu.MenuMachine.State
+import com.lacker.visitors.features.session.menu.MenuMachine.Wish
+import com.lacker.visitors.features.session.menu.MenuMachine.State
 import kotlinx.android.synthetic.main.fragment_menu.*
 
 class MenuFragment : ToolbarFluxFragment<Wish, State>() {

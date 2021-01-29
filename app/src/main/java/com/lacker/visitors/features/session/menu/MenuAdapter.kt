@@ -1,4 +1,4 @@
-package com.lacker.visitors.features.menu
+package com.lacker.visitors.features.session.menu
 
 import androidx.recyclerview.widget.DiffUtil
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter

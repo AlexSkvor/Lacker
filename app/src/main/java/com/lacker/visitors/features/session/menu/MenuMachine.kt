@@ -1,4 +1,4 @@
-package com.lacker.visitors.features.menu
+package com.lacker.visitors.features.session.menu
 
 import com.lacker.visitors.data.api.ApiCallResult
 import com.lacker.visitors.data.api.NetworkManager
@@ -9,9 +9,9 @@ import com.lacker.visitors.data.storage.menu.MenuManager
 import com.lacker.visitors.data.storage.session.SessionStorage
 import voodoo.rocks.flux.Machine
 import javax.inject.Inject
-import com.lacker.visitors.features.menu.MenuMachine.Wish
-import com.lacker.visitors.features.menu.MenuMachine.State
-import com.lacker.visitors.features.menu.MenuMachine.Result
+import com.lacker.visitors.features.session.menu.MenuMachine.Wish
+import com.lacker.visitors.features.session.menu.MenuMachine.State
+import com.lacker.visitors.features.session.menu.MenuMachine.Result
 import com.lacker.visitors.utils.ImpossibleSituationException
 import kotlinx.coroutines.delay
 import kotlin.random.Random

@@ -1,4 +1,4 @@
-package com.lacker.visitors.features.menu
+package com.lacker.visitors.features.session.menu
 
 data class DomainMenuItem(
     val id: String,

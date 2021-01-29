@@ -1,6 +1,6 @@
 package com.lacker.visitors.data.dto.menu
 
-import com.lacker.visitors.features.menu.DomainPortion
+import com.lacker.visitors.features.session.menu.DomainPortion
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 

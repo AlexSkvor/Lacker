@@ -1,7 +1,7 @@
 package com.lacker.visitors.navigation
 
 import androidx.fragment.app.Fragment
-import com.lacker.visitors.features.menu.MenuFragment
+import com.lacker.visitors.features.session.menu.MenuFragment
 import com.lacker.visitors.features.scan.ScanFragment
 import ru.terrakok.cicerone.android.support.SupportAppScreen
 
