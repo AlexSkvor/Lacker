@@ -1,10 +1,12 @@
 package com.lacker.visitors.features.session.menu
 
 import com.lacker.utils.extensions.alsoPrintDebug
+import com.lacker.utils.extensions.getImplementation
 import com.lacker.utils.extensions.visible
 import com.lacker.visitors.R
 import com.lacker.visitors.features.base.ToolbarFluxFragment
 import com.lacker.visitors.features.base.ToolbarFragmentSettings
+import com.lacker.visitors.features.session.SessionHolder
 import com.lacker.visitors.features.session.SessionScreen
 import com.lacker.visitors.features.session.menu.MenuMachine.Wish
 import com.lacker.visitors.features.session.menu.MenuMachine.State
@@ -32,6 +34,8 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>(), SessionScreen {
 
     private val adapter by lazy { getMenuAdapter(::onAddPortionToOrderClick, ::onMenuItemClick) }
 
+    private val sessionHolder by lazy { getImplementation(SessionHolder::class.java) }
+
     private fun onMenuItemClick(item: DomainMenuItem) {
         item.alsoPrintDebug("onMenuItemClick")
     }
@@ -40,9 +44,17 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>(), SessionScreen {
         portion.alsoPrintDebug("onAddPortionToOrderClick")
     }
 
+    override fun onResume() {
+        super.onResume()
+        sessionHolder?.onSessionScreenStart(this)
+    }
+
     override fun onScreenInit() {
         menuRecycler.adapter = adapter
-        menuRecycler.onScroll { navigationViewVisibilityChangesListener?.invoke(it) }
+        menuRecycler.onScroll {
+            if (it) sessionHolder?.showNavigationAnimated()
+            else sessionHolder?.closeNavigationAnimated()
+        }
         menuErrorPlaceholder.onRetry { performWish(Wish.Refresh) }
         menuSwipeRefresh.setOnRefreshListener { performWish(Wish.Refresh) }
         performWish(Wish.Refresh)
@@ -59,10 +71,5 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>(), SessionScreen {
     override fun onDestroyView() {
         menuRecycler.clearOnScrollListeners()
         super.onDestroyView()
-    }
-
-    private var navigationViewVisibilityChangesListener: ((Boolean) -> Unit)? = null
-    override fun onNavigationViewVisibilityChange(listener: (Boolean) -> Unit) {
-        navigationViewVisibilityChangesListener = listener
     }
 }

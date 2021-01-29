@@ -29,7 +29,12 @@ class SessionNavigationView @JvmOverloads constructor(
         inflate(context, R.layout.view_session_navigation, this)
 
         views.forEach { pair ->
-            pair.first.setOnClickListener { state = pair.second }
+            pair.first.setOnClickListener {
+                if (state != pair.second) {
+                    state = pair.second
+                    stateListener?.invoke(pair.second)
+                }
+            }
         }
     }
 
@@ -39,12 +44,11 @@ class SessionNavigationView @JvmOverloads constructor(
         stateListener = listener
     }
 
-    private var state: State? = null
+    var state: State? = null
         set(value) {
             field = value
             value?.let {
                 setupButtonsForState(value)
-                stateListener?.invoke(value)
             }
         }
 

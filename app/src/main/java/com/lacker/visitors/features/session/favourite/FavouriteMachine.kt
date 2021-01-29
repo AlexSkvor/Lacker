@@ -4,6 +4,7 @@ import javax.inject.Inject
 import com.lacker.visitors.features.session.favourite.FavouriteMachine.Wish
 import com.lacker.visitors.features.session.favourite.FavouriteMachine.State
 import com.lacker.visitors.features.session.favourite.FavouriteMachine.Result
+import com.lacker.visitors.navigation.Screens
 import ru.terrakok.cicerone.Router
 import voodoo.rocks.flux.Machine
 
@@ -30,7 +31,7 @@ class FavouriteMachine @Inject constructor(
     override fun onWish(wish: Wish, oldState: State): State = oldState
 
     override fun onBackPressed() {
-        router.exit()
+        router.backTo(Screens.MenuScreen)
     }
 
 }

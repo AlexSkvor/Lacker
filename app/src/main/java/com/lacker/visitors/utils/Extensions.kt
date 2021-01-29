@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 fun RecyclerView.onScroll(listener: (Boolean) -> Unit) {
     addOnScrollListener(object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            if (dy > 100) listener(false)
-            if (dy < -100) listener(true)
+            if (dy > 10) listener(false) // TODO do it on scroll start
+            if (dy < -10) listener(true)
         }
     })
 }

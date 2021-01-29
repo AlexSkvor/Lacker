@@ -4,6 +4,7 @@ import javax.inject.Inject
 import com.lacker.visitors.features.session.order.OrderMachine.Wish
 import com.lacker.visitors.features.session.order.OrderMachine.State
 import com.lacker.visitors.features.session.order.OrderMachine.Result
+import com.lacker.visitors.navigation.Screens
 import ru.terrakok.cicerone.Router
 import voodoo.rocks.flux.Machine
 
@@ -30,6 +31,6 @@ class OrderMachine @Inject constructor(
     override fun onWish(wish: Wish, oldState: State): State = oldState
 
     override fun onBackPressed() {
-        router.exit()
+        router.backTo(Screens.MenuScreen)
     }
 }

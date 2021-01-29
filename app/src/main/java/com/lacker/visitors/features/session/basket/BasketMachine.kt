@@ -4,6 +4,7 @@ import javax.inject.Inject
 import com.lacker.visitors.features.session.basket.BasketMachine.Wish
 import com.lacker.visitors.features.session.basket.BasketMachine.State
 import com.lacker.visitors.features.session.basket.BasketMachine.Result
+import com.lacker.visitors.navigation.Screens
 import ru.terrakok.cicerone.Router
 import voodoo.rocks.flux.Machine
 
@@ -30,6 +31,6 @@ class BasketMachine @Inject constructor(
     override fun onWish(wish: Wish, oldState: State): State = oldState
 
     override fun onBackPressed() {
-        router.exit()
+        router.backTo(Screens.MenuScreen)
     }
 }

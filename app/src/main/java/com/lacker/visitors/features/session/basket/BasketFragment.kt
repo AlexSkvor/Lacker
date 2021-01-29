@@ -33,9 +33,4 @@ class BasketFragment : ToolbarFluxFragment<Wish, State>(), SessionScreen {
     override fun render(state: State) {
         //TODO("Not yet implemented")
     }
-
-    private var navigationViewVisibilityChangesListener: ((Boolean) -> Unit)? = null
-    override fun onNavigationViewVisibilityChange(listener: (Boolean) -> Unit) {
-        navigationViewVisibilityChangesListener = listener
-    }
 }

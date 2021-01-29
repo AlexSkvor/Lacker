@@ -40,3 +40,20 @@ fun View.animateScale(onAnimationMiddle: (() -> Unit)? = null) {
         }
     }
 }
+
+
+fun View.appearFromBottom(duration: Long = 500L) {
+    animate()
+        .setInterpolator(AccelerateInterpolator())
+        .withStartAction { visible() }
+        .translationY(0f)
+        .duration = duration
+}
+
+fun View.hideBelowBottom(duration: Long = 500L) {
+    animate()
+        .setInterpolator(AccelerateInterpolator())
+        .withEndAction { gone() }
+        .y(context.resources.displayMetrics.heightPixels.toFloat())
+        .duration = duration
+}
