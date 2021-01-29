@@ -35,6 +35,9 @@
     <!-- Favourite Screen -->
     <string name="favouriteScreenTitle">Favourite</string>
 
+    <!-- Order Screen -->
+    <string name="orderScreenTitle">Order</string>
+
     <!-- Error Placeholder View -->
     <string name="defaultButtonRetry">Try again</string>
     <string name="defaultErrorStarter">Error happened</string>

@@ -5,6 +5,7 @@ import com.lacker.visitors.features.session.menu.MenuFragment
 import com.lacker.visitors.features.scan.ScanFragment
 import com.lacker.visitors.features.session.basket.BasketFragment
 import com.lacker.visitors.features.session.favourite.FavouriteFragment
+import com.lacker.visitors.features.session.order.OrderFragment
 import ru.terrakok.cicerone.android.support.SupportAppScreen
 
 object Screens {
@@ -26,7 +27,7 @@ object Screens {
     }
 
     object OrderScreen : SupportAppScreen() {
-        override fun getFragment(): Fragment = TODO()
+        override fun getFragment(): Fragment = OrderFragment.newInstance()
     }
 
     object FavouriteScreen : SupportAppScreen() {

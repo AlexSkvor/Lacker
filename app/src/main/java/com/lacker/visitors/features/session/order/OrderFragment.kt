@@ -1,24 +1,24 @@
-package com.lacker.visitors.features.session.favourite
+package com.lacker.visitors.features.session.order
 
 import com.lacker.visitors.R
 import com.lacker.visitors.features.base.ToolbarFluxFragment
 import com.lacker.visitors.features.base.ToolbarFragmentSettings
-import com.lacker.visitors.features.session.favourite.FavouriteMachine.Wish
-import com.lacker.visitors.features.session.favourite.FavouriteMachine.State
+import com.lacker.visitors.features.session.order.OrderMachine.Wish
+import com.lacker.visitors.features.session.order.OrderMachine.State
 
-class FavouriteFragment : ToolbarFluxFragment<Wish, State>() {
+class OrderFragment : ToolbarFluxFragment<Wish, State>() {
 
     companion object {
-        fun newInstance() = FavouriteFragment()
+        fun newInstance() = OrderFragment()
     }
 
-    override fun layoutRes(): Int = R.layout.fragment_favourite
+    override fun layoutRes(): Int = R.layout.fragment_order
 
-    override val machine by lazy { getMachineFromFactory(FavouriteMachine::class.java) }
+    override val machine by lazy { getMachineFromFactory(OrderMachine::class.java) }
 
     override val toolbarSettings: ToolbarFragmentSettings by lazy {
         ToolbarFragmentSettings(
-            title = getString(R.string.favouriteScreenTitle),
+            title = getString(R.string.orderScreenTitle),
             subtitle = null,
             showBackIcon = false,
             menuResId = null
