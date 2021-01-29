@@ -40,7 +40,7 @@ class FakeApi(
         val menu = menus[restaurantId] ?: readOrGenerateMenu(restaurantId)
         val updated = possiblyUpdateMenu(menu)
 
-        if (menu.timeStamp != menus[restaurantId]?.timeStamp) {
+        if (updated.timeStamp != menus[restaurantId]?.timeStamp) {
             menus[restaurantId] = updated
         }
 
