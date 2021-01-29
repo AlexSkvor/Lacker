@@ -1,14 +1,19 @@
 package com.lacker.visitors.features.menu
 
 import com.lacker.utils.extensions.alsoPrintDebug
+import com.lacker.utils.extensions.visible
 import com.lacker.visitors.R
 import com.lacker.visitors.features.base.ToolbarFluxFragment
 import com.lacker.visitors.features.base.ToolbarFragmentSettings
 import com.lacker.visitors.features.menu.MenuMachine.Wish
 import com.lacker.visitors.features.menu.MenuMachine.State
-import voodoo.rocks.flux.Machine
+import kotlinx.android.synthetic.main.fragment_menu.*
 
 class MenuFragment : ToolbarFluxFragment<Wish, State>() {
+
+    companion object {
+        fun newInstance() = MenuFragment()
+    }
 
     override val toolbarSettings: ToolbarFragmentSettings by lazy {
         ToolbarFragmentSettings(
@@ -18,12 +23,10 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
             menuResId = null // TODO filters icon & filters as right-side NavigationDrawer
         )
     }
-    override val machine: Machine<Wish, *, State>
-        get() = TODO("Not yet implemented")
 
-    override fun layoutRes(): Int {
-        TODO("Not yet implemented")
-    }
+    override val machine by lazy { getMachineFromFactory(MenuMachine::class.java) }
+
+    override fun layoutRes(): Int = R.layout.fragment_menu
 
     private val adapter by lazy { getMenuAdapter(::onAddPortionToOrderClick, ::onMenuItemClick) }
 
@@ -36,10 +39,17 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
     }
 
     override fun onScreenInit() {
-        TODO("Not yet implemented")
+        menuRecycler.adapter = adapter
+        menuErrorPlaceholder.onRetry { performWish(Wish.Refresh) }
+        menuSwipeRefresh.setOnRefreshListener { performWish(Wish.Refresh) }
+        performWish(Wish.Refresh)
     }
 
     override fun render(state: State) {
-        TODO("Not yet implemented")
+        adapter.items = state.menuWithOrders ?: emptyList()
+        menuErrorPlaceholder.errorText = state.errorText
+        menuProgressPlaceholder.visible = (state.showLoading && state.empty)
+        menuSwipeRefresh.visible = !state.empty
+        menuSwipeRefresh.isRefreshing = state.showLoading
     }
 }

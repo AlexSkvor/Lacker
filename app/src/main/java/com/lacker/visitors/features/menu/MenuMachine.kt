@@ -47,7 +47,8 @@ class MenuMachine @Inject constructor(
         val menuLoading: Boolean = false,
         val order: List<OrderInfo>? = null,
         val menuItems: List<MenuItem>? = null,
-        val menuWithOrders: List<DomainMenuItem>? = null
+        val menuWithOrders: List<DomainMenuItem>? = null,
+        val errorText: String? = null
     ) {
         val empty = menuWithOrders == null
         val showLoading = (orderLoading || menuLoading)
@@ -66,12 +67,18 @@ class MenuMachine @Inject constructor(
     override fun onResult(res: Result, oldState: State): State = when (res) {
         is Result.OrderResult.Order -> oldState.copy(orderLoading = false, order = res.order)
             .recountMenuWithOrders()
-        is Result.OrderResult.Error -> oldState.copy(orderLoading = false).also {
+        is Result.OrderResult.Error -> oldState.copy(
+            orderLoading = false,
+            errorText = if (oldState.order == null) res.text else oldState.errorText
+        ).also {
             sendMessage(res.text)
         }
         is Result.MenuResult.Menu -> oldState.copy(menuLoading = false, menuItems = res.items)
             .recountMenuWithOrders()
-        is Result.MenuResult.Error -> oldState.copy(menuLoading = false).also {
+        is Result.MenuResult.Error -> oldState.copy(
+            menuLoading = false,
+            errorText = if (oldState.menuItems == null) res.text else oldState.errorText
+        ).also {
             sendMessage(res.text)
         }
     }
@@ -80,7 +87,7 @@ class MenuMachine @Inject constructor(
         if (orderLoading || menuLoading) return this
         if (order == null || menuItems == null) return copy(menuWithOrders = null)
 
-        return copy(menuWithOrders = menuItems.map { it.toDomain(order) })
+        return copy(errorText = null, menuWithOrders = menuItems.map { it.toDomain(order) })
     }
 
     private suspend fun loadMenu(): Result.MenuResult {

@@ -1,6 +1,7 @@
 package com.lacker.visitors.navigation
 
 import androidx.fragment.app.Fragment
+import com.lacker.visitors.features.menu.MenuFragment
 import com.lacker.visitors.features.scan.ScanFragment
 import ru.terrakok.cicerone.android.support.SupportAppScreen
 
@@ -15,7 +16,7 @@ object Screens {
     }
 
     object MenuScreen : SupportAppScreen() {
-        override fun getFragment(): Fragment = TODO()
+        override fun getFragment(): Fragment = MenuFragment.newInstance()
     }
 
 }

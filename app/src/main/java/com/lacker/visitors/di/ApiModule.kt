@@ -11,6 +11,8 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import com.lacker.visitors.BuildConfig
 import com.lacker.visitors.data.api.Api
 import com.lacker.visitors.data.api.ApiLogger
+import com.lacker.visitors.data.api.fake.FakeApi
+import com.lacker.visitors.data.storage.files.FilesManager
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -25,7 +27,9 @@ class ApiModule {
 
     @Provides
     @Singleton
-    fun provideApi(context: Context, json: Moshi): Api {
+    fun provideApi(context: Context, json: Moshi, filesManager: FilesManager): Api {
+        return FakeApi(filesManager, json)
+        //TODO return real api when it is ready
         return Retrofit.Builder()
             .baseUrl(BuildConfig.SERVER_URL)
             .addConverterFactory(MoshiConverterFactory.create(json))

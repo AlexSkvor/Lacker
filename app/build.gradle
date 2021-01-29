@@ -116,6 +116,8 @@ dependencies {
 
     // Recycler
     implementation "com.hannesdorfmann:adapterdelegates4-kotlin-dsl-layoutcontainer:4.3.0"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
 
     //Networking
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
