@@ -3,10 +3,11 @@ package com.lacker.visitors.features.session.basket
 import com.lacker.visitors.R
 import com.lacker.visitors.features.base.ToolbarFluxFragment
 import com.lacker.visitors.features.base.ToolbarFragmentSettings
+import com.lacker.visitors.features.session.SessionScreen
 import com.lacker.visitors.features.session.basket.BasketMachine.Wish
 import com.lacker.visitors.features.session.basket.BasketMachine.State
 
-class BasketFragment : ToolbarFluxFragment<Wish, State>() {
+class BasketFragment : ToolbarFluxFragment<Wish, State>(), SessionScreen {
 
     companion object {
         fun newInstance() = BasketFragment()
@@ -31,5 +32,10 @@ class BasketFragment : ToolbarFluxFragment<Wish, State>() {
 
     override fun render(state: State) {
         //TODO("Not yet implemented")
+    }
+
+    private var navigationViewVisibilityChangesListener: ((Boolean) -> Unit)? = null
+    override fun onNavigationViewVisibilityChange(listener: (Boolean) -> Unit) {
+        navigationViewVisibilityChangesListener = listener
     }
 }

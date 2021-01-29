@@ -5,11 +5,13 @@ import com.lacker.utils.extensions.visible
 import com.lacker.visitors.R
 import com.lacker.visitors.features.base.ToolbarFluxFragment
 import com.lacker.visitors.features.base.ToolbarFragmentSettings
+import com.lacker.visitors.features.session.SessionScreen
 import com.lacker.visitors.features.session.menu.MenuMachine.Wish
 import com.lacker.visitors.features.session.menu.MenuMachine.State
+import com.lacker.visitors.utils.onScroll
 import kotlinx.android.synthetic.main.fragment_menu.*
 
-class MenuFragment : ToolbarFluxFragment<Wish, State>() {
+class MenuFragment : ToolbarFluxFragment<Wish, State>(), SessionScreen {
 
     companion object {
         fun newInstance() = MenuFragment()
@@ -40,6 +42,7 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
 
     override fun onScreenInit() {
         menuRecycler.adapter = adapter
+        menuRecycler.onScroll { navigationViewVisibilityChangesListener?.invoke(it) }
         menuErrorPlaceholder.onRetry { performWish(Wish.Refresh) }
         menuSwipeRefresh.setOnRefreshListener { performWish(Wish.Refresh) }
         performWish(Wish.Refresh)
@@ -51,5 +54,15 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
         menuProgressPlaceholder.visible = (state.showLoading && state.empty)
         menuSwipeRefresh.visible = !state.empty
         menuSwipeRefresh.isRefreshing = state.showLoading
+    }
+
+    override fun onDestroyView() {
+        menuRecycler.clearOnScrollListeners()
+        super.onDestroyView()
+    }
+
+    private var navigationViewVisibilityChangesListener: ((Boolean) -> Unit)? = null
+    override fun onNavigationViewVisibilityChange(listener: (Boolean) -> Unit) {
+        navigationViewVisibilityChangesListener = listener
     }
 }
