@@ -19,4 +19,16 @@ object Screens {
         override fun getFragment(): Fragment = MenuFragment.newInstance()
     }
 
+    object BasketScreen : SupportAppScreen() {
+        override fun getFragment(): Fragment = TODO()
+    }
+
+    object OrderScreen : SupportAppScreen() {
+        override fun getFragment(): Fragment = TODO()
+    }
+
+    object FavouriteScreen : SupportAppScreen() {
+        override fun getFragment(): Fragment = TODO()
+    }
+
 }
