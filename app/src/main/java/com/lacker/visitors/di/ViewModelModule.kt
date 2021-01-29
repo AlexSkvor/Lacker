@@ -11,6 +11,7 @@ import com.lacker.visitors.features.auth.main.MainAuthMachine
 import com.lacker.visitors.features.session.menu.MenuMachine
 import com.lacker.visitors.features.scan.ScanMachine
 import com.lacker.visitors.features.session.basket.BasketMachine
+import com.lacker.visitors.features.session.favourite.FavouriteMachine
 import kotlin.reflect.KClass
 
 @Target(
@@ -52,4 +53,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(BasketMachine::class)
     internal abstract fun bindBasketMachine(viewModel: BasketMachine): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(FavouriteMachine::class)
+    internal abstract fun bindFavouriteMachine(viewModel: FavouriteMachine): ViewModel
 }
