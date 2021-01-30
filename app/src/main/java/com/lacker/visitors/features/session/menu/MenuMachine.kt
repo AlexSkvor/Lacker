@@ -1,10 +1,11 @@
 package com.lacker.visitors.features.session.menu
 
+import com.lacker.utils.extensions.toCountMap
 import com.lacker.visitors.data.api.ApiCallResult
-import com.lacker.visitors.data.api.NetworkManager
 import com.lacker.visitors.data.dto.menu.MenuItem
 import com.lacker.visitors.data.dto.menu.OrderInfo
 import com.lacker.visitors.data.dto.menu.toDomain
+import com.lacker.visitors.data.storage.basket.BasketManager
 import com.lacker.visitors.data.storage.menu.MenuManager
 import com.lacker.visitors.data.storage.session.SessionStorage
 import voodoo.rocks.flux.Machine
@@ -13,13 +14,11 @@ import com.lacker.visitors.features.session.menu.MenuMachine.Wish
 import com.lacker.visitors.features.session.menu.MenuMachine.State
 import com.lacker.visitors.features.session.menu.MenuMachine.Result
 import com.lacker.visitors.utils.ImpossibleSituationException
-import kotlinx.coroutines.delay
-import kotlin.random.Random
 
 class MenuMachine @Inject constructor(
     private val sessionStorage: SessionStorage,
     private val menuManager: MenuManager,
-    private val net: NetworkManager
+    private val basketManager: BasketManager
 ) : Machine<Wish, Result, State>() {
 
     sealed class Wish {
@@ -56,6 +55,11 @@ class MenuMachine @Inject constructor(
 
     override val initialState: State = State()
 
+    private val restaurantId by lazy {
+        sessionStorage.session?.restaurantId
+            ?: throw ImpossibleSituationException("User requested menu without restaurantId in SessionStorage")
+    }
+
     override fun onWish(wish: Wish, oldState: State): State = when (wish) {
         Wish.Refresh -> oldState.copy(orderLoading = true, menuLoading = true).also {
             pushResult { loadMenu() }
@@ -91,10 +95,6 @@ class MenuMachine @Inject constructor(
     }
 
     private suspend fun loadMenu(): Result.MenuResult {
-
-        val restaurantId = sessionStorage.session?.restaurantId
-            ?: throw ImpossibleSituationException("User requested menu without restaurantId in SessionStorage")
-
         return when (val res = menuManager.getMenu(restaurantId)) {
             is ApiCallResult.Result -> Result.MenuResult.Menu(res.value)
             is ApiCallResult.ErrorOccurred -> Result.MenuResult.Error(res.text)
@@ -102,8 +102,16 @@ class MenuMachine @Inject constructor(
     }
 
     private suspend fun loadOrder(): Result.OrderResult {
-        delay(Random.nextLong(100, 2000))
-        return Result.OrderResult.Order(emptyList())
+        val basket = basketManager.getBasket(restaurantId)
+            .map { it.portionId }
+            .toCountMap()
+            .toList()
+            .map { OrderInfo(portionId = it.first, ordered = it.second) }
+
+        return Result.OrderResult.Order(basket)
+
+        //delay(Random.nextLong(100, 2000))
+        //return Result.OrderResult.Order(emptyList())
         //TODO Just stub here, rework when OrderManager appear!
     }
 
