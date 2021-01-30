@@ -1,5 +1,7 @@
 package com.lacker.visitors.di
 
+import com.lacker.visitors.data.storage.basket.BasketManager
+import com.lacker.visitors.data.storage.basket.PrefsBasketManager
 import dagger.Binds
 import dagger.Module
 import com.lacker.visitors.data.storage.user.UserPrefs
@@ -24,4 +26,8 @@ interface DataModule {
     @Singleton
     @Binds
     fun bindMenuManager(manager: FileMenuManager): MenuManager
+
+    @Singleton
+    @Binds
+    fun bindBasketManager(manager: PrefsBasketManager): BasketManager
 }
