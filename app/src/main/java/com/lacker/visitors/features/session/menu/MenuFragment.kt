@@ -77,6 +77,11 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>(), SessionScreen {
         (menuRecycler.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
     }
 
+    override fun onDestroyView() {
+        menuRecycler.adapter = null
+        super.onDestroyView()
+    }
+
     override fun render(state: State) {
         adapter.items = state.menuWithOrders ?: emptyList()
         menuErrorPlaceholder.errorText = state.errorText
