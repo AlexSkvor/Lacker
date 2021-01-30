@@ -44,7 +44,7 @@ fun View.animateScale(onAnimationMiddle: (() -> Unit)? = null) {
 
 fun View.appearFromBottom(duration: Long = 500L) {
     animate()
-        .setInterpolator(AccelerateInterpolator())
+        .setInterpolator(DecelerateInterpolator())
         .withStartAction { visible() }
         .translationY(0f)
         .duration = duration

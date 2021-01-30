@@ -67,9 +67,4 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>(), SessionScreen {
         menuSwipeRefresh.visible = !state.empty
         menuSwipeRefresh.isRefreshing = state.showLoading
     }
-
-    override fun onDestroyView() {
-        menuRecycler.clearOnScrollListeners()
-        super.onDestroyView()
-    }
 }
