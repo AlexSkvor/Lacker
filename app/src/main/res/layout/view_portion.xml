@@ -20,8 +20,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginEnd="@dimen/_8sdp"
         android:clickable="false"
         android:maxLength="2"
+        android:minWidth="@dimen/_24sdp"
+        android:textColor="@color/brown"
         android:textSize="@dimen/_14ssp"
         tools:text="99" />
 
@@ -29,7 +32,6 @@
         android:id="@+id/plusPortionButton"
         android:layout_width="@dimen/_20sdp"
         android:layout_height="@dimen/_20sdp"
-        android:layout_marginStart="@dimen/_8sdp"
         android:background="@drawable/bg_button_plus" />
 
     <TextView
@@ -56,6 +58,7 @@
         android:ellipsize="end"
         android:lines="1"
         android:maxLines="1"
+        android:textColor="@color/brown"
         tools:text="Бокал 0.3л" />
 
 </LinearLayout>

@@ -5,16 +5,20 @@ import com.lacker.visitors.data.dto.menu.OrderInfo
 
 interface BasketManager {
 
+    companion object {
+        const val MAX_BASKET_SIZE_FOR_ONE_MENU_ITEM = 99
+    }
+
     suspend fun sendBasketToServer(): ApiCallResult<List<OrderInfo>>
 
     suspend fun addToBasket(
         restaurantId: String,
-        portion: OrderInfo
+        portionId: String
     ): ApiCallResult<List<OrderInfo>>
 
     suspend fun removeFromBasket(
         restaurantId: String,
-        portion: OrderInfo
+        portionId: String
     ): ApiCallResult<List<OrderInfo>>
 
     suspend fun getBasket(restaurantId: String): ApiCallResult<List<OrderInfo>>

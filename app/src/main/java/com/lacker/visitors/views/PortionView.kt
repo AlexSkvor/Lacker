@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.widget.FrameLayout
 import com.lacker.utils.extensions.visible
 import com.lacker.visitors.R
+import com.lacker.visitors.data.storage.basket.BasketManager.Companion.MAX_BASKET_SIZE_FOR_ONE_MENU_ITEM
 import com.lacker.visitors.features.session.menu.DomainPortion
 import kotlinx.android.synthetic.main.view_portion.view.*
 
@@ -32,7 +33,7 @@ class PortionView @JvmOverloads constructor(
         orderedPortionsNumber.visible = portion.basketNumber + portion.orderedNumber > 0
 
         minusPortionButton.isEnabled = portion.basketNumber > 0
-        plusPortionButton.isEnabled = portion.basketNumber + portion.orderedNumber < 99
+        plusPortionButton.isEnabled = portion.basketNumber + portion.orderedNumber < MAX_BASKET_SIZE_FOR_ONE_MENU_ITEM
 
         minusPortionButton.setOnClickListener { removeFromBasket(portion) }
         plusPortionButton.setOnClickListener { onAddToBasket(portion) }

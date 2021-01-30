@@ -5,9 +5,12 @@ import androidx.core.content.edit
 import com.ironz.binaryprefs.BinaryPreferencesBuilder
 import com.ironz.binaryprefs.Preferences
 import com.lacker.visitors.data.api.ApiCallResult
+import com.lacker.visitors.data.storage.basket.BasketManager.Companion.MAX_BASKET_SIZE_FOR_ONE_MENU_ITEM
 import com.lacker.visitors.data.dto.menu.OrderInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.lang.Math.min
+import java.lang.Math.max
 import javax.inject.Inject
 
 class PrefsBasketManager @Inject constructor(
@@ -33,26 +36,54 @@ class PrefsBasketManager @Inject constructor(
 
     override suspend fun addToBasket(
         restaurantId: String,
-        portion: OrderInfo
+        portionId: String
     ): ApiCallResult<List<OrderInfo>> {
-        basket = if (this.restaurantId != restaurantId) {
-            this.restaurantId = restaurantId
-            listOf(portion).also { notifyListeners(it) }
-        } else (basket + portion).also { notifyListeners(it) }
 
-        return ApiCallResult.Result(basket)
+        if (this.restaurantId != restaurantId) {
+            this.restaurantId = restaurantId
+            basket = emptyList()
+        }
+
+        val oldBasket = basket
+
+        val oldInfo = oldBasket.find { it.portionId == portionId }
+
+        basket = if (oldInfo == null) oldBasket + OrderInfo(portionId, 1)
+        else {
+            val newInfo = oldInfo.copy(
+                ordered = min(
+                    oldInfo.ordered + 1,
+                    MAX_BASKET_SIZE_FOR_ONE_MENU_ITEM
+                )
+            )
+            oldBasket.map { if (it.portionId == portionId) newInfo else it }
+        }
+
+        return ApiCallResult.Result(basket.also { notifyListeners(it) })
     }
 
     override suspend fun removeFromBasket(
         restaurantId: String,
-        portion: OrderInfo
+        portionId: String
     ): ApiCallResult<List<OrderInfo>> {
-        basket = if (this.restaurantId != restaurantId) {
-            this.restaurantId = restaurantId
-            emptyList()
-        } else (basket - portion).also { notifyListeners(it) }
 
-        return ApiCallResult.Result(basket)
+        if (this.restaurantId != restaurantId) {
+            this.restaurantId = restaurantId
+            basket = emptyList()
+        }
+
+
+        val oldBasket = basket
+
+        val oldInfo = oldBasket.find { it.portionId == portionId }
+
+        basket = if (oldInfo == null) oldBasket
+        else {
+            val newInfo = oldInfo.copy(ordered = max(oldInfo.ordered - 1, 0))
+            oldBasket.map { if (it.portionId == portionId) newInfo else it }
+        }
+
+        return ApiCallResult.Result(basket.also { notifyListeners(it) })
     }
 
     override suspend fun getBasket(restaurantId: String): ApiCallResult<List<OrderInfo>> =
@@ -60,7 +91,7 @@ class PrefsBasketManager @Inject constructor(
 
     private var restaurantId: String?
         get() = prefs.getString(RESTAURANT_ID_KEY, null)
-        set(value) = prefs.edit { putString(restaurantId, value) }
+        set(value) = prefs.edit { putString(RESTAURANT_ID_KEY, value) }
 
     private var basket: List<OrderInfo>
         get() = prefs.getString(BASKET_IDS_KEY, null)

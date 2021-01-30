@@ -1,5 +1,6 @@
 package com.lacker.visitors.features.session.menu
 
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.lacker.utils.extensions.alsoPrintDebug
 import com.lacker.utils.extensions.getImplementation
 import com.lacker.utils.extensions.visible
@@ -73,6 +74,7 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>(), SessionScreen {
         menuErrorPlaceholder.onRetry { performWish(Wish.Refresh) }
         menuSwipeRefresh.setOnRefreshListener { performWish(Wish.Refresh) }
         performWish(Wish.Refresh)
+        (menuRecycler.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
     }
 
     override fun render(state: State) {

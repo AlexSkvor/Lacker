@@ -77,8 +77,8 @@ class MenuMachine @Inject constructor(
             pushResult { loadBasket() }
         }
         is Wish.AddToOrder -> TODO("Create OrderManager and AuthChecker!")
-        is Wish.AddToBasket -> TODO()
-        is Wish.RemoveFromBasket -> TODO()
+        is Wish.AddToBasket -> oldState.also { pushResult { addToBasket(wish.portion) } }
+        is Wish.RemoveFromBasket -> oldState.also { pushResult { removeFromBasket(wish.portion) } }
     }
 
     override fun onResult(res: Result, oldState: State): State = when (res) {
@@ -125,7 +125,21 @@ class MenuMachine @Inject constructor(
     private suspend fun loadBasket(): Result.BasketResult {
         return when (val res = basketManager.getBasket(restaurantId)) {
             is ApiCallResult.Result -> Result.BasketResult.Basket(res.value)
-            is ApiCallResult.ErrorOccurred -> return Result.BasketResult.Error(res.text)
+            is ApiCallResult.ErrorOccurred -> Result.BasketResult.Error(res.text)
+        }
+    }
+
+    private suspend fun addToBasket(portion: DomainPortion): Result.BasketResult {
+        return when (val res = basketManager.addToBasket(restaurantId, portion.id)) {
+            is ApiCallResult.Result -> Result.BasketResult.Basket(res.value)
+            is ApiCallResult.ErrorOccurred -> Result.BasketResult.Error(res.text)
+        }
+    }
+
+    private suspend fun removeFromBasket(portion: DomainPortion): Result.BasketResult {
+        return when (val res = basketManager.removeFromBasket(restaurantId, portion.id)) {
+            is ApiCallResult.Result -> Result.BasketResult.Basket(res.value)
+            is ApiCallResult.ErrorOccurred -> Result.BasketResult.Error(res.text)
         }
     }
 
