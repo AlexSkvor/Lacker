@@ -2,7 +2,7 @@ package com.lacker.visitors.data.storage.basket
 
 import com.lacker.visitors.data.api.ApiCallResult
 
-interface BasketManager {
+interface BasketManager { // TODO rework with orderOnfo!
 
     suspend fun sendBasketToServer(): ApiCallResult<Unit>
 
