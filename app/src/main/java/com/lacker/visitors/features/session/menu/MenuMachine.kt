@@ -1,6 +1,5 @@
 package com.lacker.visitors.features.session.menu
 
-import com.lacker.utils.extensions.toCountMap
 import com.lacker.visitors.data.api.ApiCallResult
 import com.lacker.visitors.data.dto.menu.MenuItem
 import com.lacker.visitors.data.dto.menu.OrderInfo
@@ -27,6 +26,8 @@ class MenuMachine @Inject constructor(
         object Refresh : Wish()
 
         data class AddToOrder(val portion: DomainPortion) : Wish()
+        data class AddToBasket(val portion: DomainPortion) : Wish()
+        data class RemoveFromBasket(val portion: DomainPortion) : Wish()
     }
 
     sealed class Result {
@@ -76,6 +77,8 @@ class MenuMachine @Inject constructor(
             pushResult { loadBasket() }
         }
         is Wish.AddToOrder -> TODO("Create OrderManager and AuthChecker!")
+        is Wish.AddToBasket -> TODO()
+        is Wish.RemoveFromBasket -> TODO()
     }
 
     override fun onResult(res: Result, oldState: State): State = when (res) {
@@ -121,12 +124,7 @@ class MenuMachine @Inject constructor(
 
     private suspend fun loadBasket(): Result.BasketResult {
         return when (val res = basketManager.getBasket(restaurantId)) {
-            is ApiCallResult.Result -> res.value
-                .map { it.portionId }
-                .toCountMap()
-                .toList()
-                .map { OrderInfo(portionId = it.first, ordered = it.second) }
-                .let { Result.BasketResult.Basket(it) }
+            is ApiCallResult.Result -> Result.BasketResult.Basket(res.value)
             is ApiCallResult.ErrorOccurred -> return Result.BasketResult.Error(res.text)
         }
     }

@@ -5,6 +5,7 @@ import androidx.core.content.edit
 import com.ironz.binaryprefs.BinaryPreferencesBuilder
 import com.ironz.binaryprefs.Preferences
 import com.lacker.visitors.data.api.ApiCallResult
+import com.lacker.visitors.data.dto.menu.OrderInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -26,54 +27,54 @@ class PrefsBasketManager @Inject constructor(
             .build()
     }
 
-    override suspend fun sendBasketToServer(): ApiCallResult<Unit> {
+    override suspend fun sendBasketToServer(): ApiCallResult<List<OrderInfo>> {
         TODO("Not yet implemented")
     }
 
     override suspend fun addToBasket(
         restaurantId: String,
-        portion: BasketIdPair
-    ): ApiCallResult<Unit> {
-        basketIdPairs = if (this.restaurantId != restaurantId) {
+        portion: OrderInfo
+    ): ApiCallResult<List<OrderInfo>> {
+        basket = if (this.restaurantId != restaurantId) {
             this.restaurantId = restaurantId
             listOf(portion).also { notifyListeners(it) }
-        } else (basketIdPairs + portion).also { notifyListeners(it) }
+        } else (basket + portion).also { notifyListeners(it) }
 
-        return ApiCallResult.Result(Unit)
+        return ApiCallResult.Result(basket)
     }
 
     override suspend fun removeFromBasket(
         restaurantId: String,
-        portion: BasketIdPair
-    ): ApiCallResult<Unit> {
-        basketIdPairs = if (this.restaurantId != restaurantId) {
+        portion: OrderInfo
+    ): ApiCallResult<List<OrderInfo>> {
+        basket = if (this.restaurantId != restaurantId) {
             this.restaurantId = restaurantId
             emptyList()
-        } else (basketIdPairs - portion).also { notifyListeners(it) }
+        } else (basket - portion).also { notifyListeners(it) }
 
-        return ApiCallResult.Result(Unit)
+        return ApiCallResult.Result(basket)
     }
 
-    override suspend fun getBasket(restaurantId: String): ApiCallResult<List<BasketIdPair>> =
-        ApiCallResult.Result(basketIdPairs)
+    override suspend fun getBasket(restaurantId: String): ApiCallResult<List<OrderInfo>> =
+        ApiCallResult.Result(basket)
 
     private var restaurantId: String?
         get() = prefs.getString(RESTAURANT_ID_KEY, null)
         set(value) = prefs.edit { putString(restaurantId, value) }
 
-    private var basketIdPairs: List<BasketIdPair>
+    private var basket: List<OrderInfo>
         get() = prefs.getString(BASKET_IDS_KEY, null)
             ?.split('|')
             ?.filterNot { it.isBlank() }
-            ?.map { BasketIdPair(it.substringBefore('%'), it.substringAfter('%')) }
+            ?.map { OrderInfo(it.substringBefore('%'), it.substringAfter('%').toInt()) }
             .orEmpty()
         set(value) {
             val str = if (value.isEmpty()) null
-            else value.joinToString(separator = "|") { "${it.menuItemId}%${it.portionId}" }
+            else value.joinToString(separator = "|") { "${it.portionId}%${it.ordered}" }
             prefs.edit { putString(BASKET_IDS_KEY, str) }
         }
 
-    private suspend fun notifyListeners(newList: List<BasketIdPair>) {
+    private suspend fun notifyListeners(newList: List<OrderInfo>) {
         withContext(Dispatchers.Main) {
             listeners.values.forEach {
                 it.forEach { listener -> listener(newList) }
@@ -81,11 +82,11 @@ class PrefsBasketManager @Inject constructor(
         }
     }
 
-    private val listeners: MutableMap<Any, List<(List<BasketIdPair>) -> Unit>> = mutableMapOf()
+    private val listeners: MutableMap<Any, List<(List<OrderInfo>) -> Unit>> = mutableMapOf()
 
     override fun addBasketChangesListener(
         listenerOwner: Any,
-        listener: (List<BasketIdPair>) -> Unit
+        listener: (List<OrderInfo>) -> Unit
     ) {
         if (listeners[listenerOwner] == null) listeners[listenerOwner] = listOf(listener)
         else listeners[listenerOwner] = listeners[listenerOwner]?.plus(listener).orEmpty()

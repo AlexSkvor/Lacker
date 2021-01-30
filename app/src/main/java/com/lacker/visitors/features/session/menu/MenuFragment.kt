@@ -52,11 +52,11 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>(), SessionScreen {
     }
 
     private fun onRemovePortionFromBasket(portion: DomainPortion) {
-        portion.alsoPrintDebug("onRemovePortionFromBasket")
+        performWish(Wish.RemoveFromBasket(portion))
     }
 
     private fun onAddPortionToBasket(portion: DomainPortion) {
-        portion.alsoPrintDebug("onAddPortionToBasket")
+        performWish(Wish.AddToBasket(portion))
     }
 
     override fun onResume() {
