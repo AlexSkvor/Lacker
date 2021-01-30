@@ -44,4 +44,14 @@
         android:textSize="@dimen/_12ssp"
         tools:text="Long Campaign Name" />
 
+    <LinearLayout
+        android:id="@+id/portionsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:layout_marginBottom="@dimen/_6sdp"
+        android:orientation="vertical"/>
+
 </LinearLayout>

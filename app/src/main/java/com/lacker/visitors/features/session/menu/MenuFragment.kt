@@ -32,7 +32,14 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>(), SessionScreen {
 
     override fun layoutRes(): Int = R.layout.fragment_menu
 
-    private val adapter by lazy { getMenuAdapter(::onAddPortionToOrderClick, ::onMenuItemClick) }
+    private val adapter by lazy {
+        getMenuAdapter(
+            onAddToOrder = ::onAddPortionToOrderClick,
+            onItemClick = ::onMenuItemClick,
+            removeFromBasket = ::onRemovePortionFromBasket,
+            onAddToBasket = ::onAddPortionToBasket
+        )
+    }
 
     private val sessionHolder by lazy { getImplementation(SessionHolder::class.java) }
 
@@ -42,6 +49,14 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>(), SessionScreen {
 
     private fun onAddPortionToOrderClick(portion: DomainPortion) {
         portion.alsoPrintDebug("onAddPortionToOrderClick")
+    }
+
+    private fun onRemovePortionFromBasket(portion: DomainPortion) {
+        portion.alsoPrintDebug("onRemovePortionFromBasket")
+    }
+
+    private fun onAddPortionToBasket(portion: DomainPortion) {
+        portion.alsoPrintDebug("onAddPortionToBasket")
     }
 
     override fun onResume() {
