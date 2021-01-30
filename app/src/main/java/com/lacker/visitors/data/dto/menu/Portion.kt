@@ -11,10 +11,15 @@ data class Portion(
     @Json(name = "portionName") val portionName: String
 )
 
-fun Portion.toDomain(menuItemId: String, orders: List<OrderInfo>) = DomainPortion(
+fun Portion.toDomain(
+    menuItemId: String,
+    orders: List<OrderInfo>,
+    basket: List<OrderInfo>
+) = DomainPortion(
     id = id,
     menuItemId = menuItemId,
     price = price,
     portionName = portionName,
+    basketNumber = basket.firstOrNull { it.portionId == id }?.ordered ?: 0,
     orderedNumber = orders.firstOrNull { it.portionId == id }?.ordered ?: 0
 )

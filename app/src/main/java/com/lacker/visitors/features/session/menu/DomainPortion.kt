@@ -5,5 +5,6 @@ data class DomainPortion(
     val menuItemId: String,
     val price: Int,
     val portionName: String,
-    val orderedNumber: Int
+    val basketNumber: Int,
+    val orderedNumber: Int // TODO needs different counters for Ordered and Basket!
 )

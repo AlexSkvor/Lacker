@@ -13,10 +13,10 @@ data class MenuItem(
     @Json(name = "portions") val portions: List<Portion>
 )
 
-fun MenuItem.toDomain(orders: List<OrderInfo>) = DomainMenuItem(
+fun MenuItem.toDomain(orders: List<OrderInfo>, basket: List<OrderInfo>) = DomainMenuItem(
     id = id,
     name = name,
     photoFullUrl = photoFullUrl,
     shortDescription = shortDescription,
-    portions = portions.map { it.toDomain(id, orders) }
+    portions = portions.map { it.toDomain(id, orders, basket) }
 )
