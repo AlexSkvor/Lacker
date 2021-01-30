@@ -11,6 +11,7 @@
     <color name="absoluteTransparent">#00000000</color>
 
     <color name="brown">#5C2715</color>
+    <color name="darkBrown">#210B03</color>
     <color name="brownLight">#964B00</color>
     <color name="brownExtraLight">#CD7F32</color>
     <color name="rippleColor">#405C2715</color>

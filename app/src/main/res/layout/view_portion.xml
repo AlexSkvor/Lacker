@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/portionContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="start|center"
+    android:orientation="horizontal"
+    android:paddingVertical="@dimen/_8sdp">
+
+    <TextView
+        android:id="@+id/minusPortionButton"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:background="@drawable/bg_button_minus" />
+
+    <TextView
+        android:id="@+id/orderedPortionsNumber"
+        style="@style/Text.Bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:clickable="false"
+        android:maxLength="2"
+        android:textSize="@dimen/_14ssp"
+        tools:text="99" />
+
+    <TextView
+        android:id="@+id/plusPortionButton"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:background="@drawable/bg_button_plus" />
+
+    <TextView
+        android:id="@+id/portionPrice"
+        style="@style/Text.Bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:clickable="false"
+        android:lines="1"
+        android:maxLength="5"
+        android:maxLines="1"
+        android:textColor="@color/brownExtraLight"
+        android:textSize="@dimen/_14ssp"
+        tools:text="9999₽" />
+
+    <TextView
+        android:id="@+id/portionDescription"
+        style="@style/Text.Regular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_8sdp"
+        android:clickable="false"
+        android:ellipsize="end"
+        android:lines="1"
+        android:maxLines="1"
+        tools:text="Бокал 0.3л" />
+
+</LinearLayout>

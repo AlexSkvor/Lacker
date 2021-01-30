@@ -52,4 +52,7 @@
     <string name="basket">Basket</string>
     <string name="order">Order</string>
 
+    <!-- Common -->
+    <string name="rurSymbolPrice">%d₽</string>
+
 </resources>
