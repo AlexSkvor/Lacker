@@ -30,6 +30,7 @@ object Screens {
         override fun getFragment(): Fragment = OrderFragment.newInstance()
     }
 
+    //TODO make session fragments singletones!
     object FavouriteScreen : SupportAppScreen() {
         override fun getFragment(): Fragment = FavouriteFragment.newInstance()
     }

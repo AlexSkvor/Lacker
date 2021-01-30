@@ -11,9 +11,7 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.lacker.utils.extensions.appearFromBottom
-import com.lacker.utils.extensions.gone
 import com.lacker.utils.extensions.hideBelowBottom
-import com.lacker.utils.extensions.visible
 import com.lacker.visitors.data.storage.session.SessionStorage
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.terrakok.cicerone.Navigator
@@ -109,7 +107,9 @@ class MainActivity : AppCompatActivity(), ViewModelFactoryProvider, UserNotifier
             SessionNavigationView.State.BASKET -> Screens.BasketScreen
             SessionNavigationView.State.ORDER -> Screens.OrderScreen
         }
-        router.navigateTo(screen)
+
+        if (screen is Screens.MenuScreen) router.backTo(screen)
+        else router.navigateTo(screen)
     }
 
     override fun onResumeFragments() {
