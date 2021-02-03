@@ -16,6 +16,12 @@ class SessionNavigationView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
+    private companion object {
+        const val MIN_TIME_BETWEEN_CLICKS = 300
+    }
+
+    private var lastChangeTime: Long = 0L
+
     private val views by lazy {
         mutableListOf(
             menuTab to State.MENU,
@@ -30,9 +36,12 @@ class SessionNavigationView @JvmOverloads constructor(
 
         views.forEach { pair ->
             pair.first.setOnClickListener {
-                if (state != pair.second) {
-                    state = pair.second
-                    stateListener?.invoke(pair.second)
+                if (System.currentTimeMillis() - lastChangeTime > MIN_TIME_BETWEEN_CLICKS) {
+                    lastChangeTime = System.currentTimeMillis()
+                    if (state != pair.second) {
+                        state = pair.second
+                        stateListener?.invoke(pair.second)
+                    }
                 }
             }
         }
