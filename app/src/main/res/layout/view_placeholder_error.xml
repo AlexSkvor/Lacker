@@ -40,7 +40,7 @@
         style="@style/App.Button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/_48sdp"
+        android:layout_marginBottom="@dimen/_100sdp"
         android:text="@string/defaultButtonRetry"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/errorMessageText"

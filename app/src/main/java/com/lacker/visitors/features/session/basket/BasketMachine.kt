@@ -63,7 +63,11 @@ class BasketMachine @Inject constructor(
     override val initialState: State = State()
 
     override fun onWish(wish: Wish, oldState: State): State = when (wish) {
-        Wish.Refresh -> oldState.copy(menuLoading = true, basketLoading = true).also {
+        Wish.Refresh -> oldState.copy(
+            menuLoading = true,
+            basketLoading = true,
+            errorText = null
+        ).also {
             pushResult { loadMenu() }
             pushResult { loadBasket() }
         }
