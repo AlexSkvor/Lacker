@@ -57,7 +57,10 @@ class BasketMachine @Inject constructor(
         val basket: List<OrderInfo>? = null,
         val menuWithBasket: List<MenuAdapterItem>? = null,
         val errorText: String? = null
-    )
+    ) {
+        val empty = menuWithBasket == null
+        val showLoading = menuLoading || basketLoading
+    }
 
     private val restaurantId by lazy {
         sessionStorage.session?.restaurantId
@@ -110,10 +113,11 @@ class BasketMachine @Inject constructor(
 
         val basketPortionIds = basket.map { it.portionId }
 
+        //TODO empty placeholder if basket is empty
         val menu = menuItems
             .filter { it.portions.map { p -> p.id }.any { pId -> pId in basketPortionIds } }
             .map { it.toDomain(emptyList(), basket) }
-            .plus(startCookingItem)
+            .let { if (it.isEmpty()) emptyList() else it.plus(startCookingItem) }
 
         return copy(errorText = null, menuWithBasket = menu)
     }

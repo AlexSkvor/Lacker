@@ -62,7 +62,7 @@ class PrefsBasketManager @Inject constructor(
         return ApiCallResult.Result(basket.also { notifyListeners(it) })
     }
 
-    override suspend fun removeFromBasket(
+    override suspend fun removeFromBasket( // TODO remove key!
         restaurantId: String,
         portionId: String
     ): ApiCallResult<List<OrderInfo>> {
@@ -81,6 +81,7 @@ class PrefsBasketManager @Inject constructor(
         else {
             val newInfo = oldInfo.copy(ordered = max(oldInfo.ordered - 1, 0))
             oldBasket.map { if (it.portionId == portionId) newInfo else it }
+                .filter { it.ordered > 0 }
         }
 
         return ApiCallResult.Result(basket.also { notifyListeners(it) })

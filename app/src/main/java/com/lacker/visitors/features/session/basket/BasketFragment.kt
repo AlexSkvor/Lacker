@@ -1,11 +1,22 @@
 package com.lacker.visitors.features.session.basket
 
+import androidx.recyclerview.widget.SimpleItemAnimator
+import com.lacker.utils.extensions.alsoPrintDebug
+import com.lacker.utils.extensions.getImplementation
+import com.lacker.utils.extensions.visible
 import com.lacker.visitors.R
 import com.lacker.visitors.features.base.ToolbarFluxFragment
 import com.lacker.visitors.features.base.ToolbarFragmentSettings
+import com.lacker.visitors.features.session.SessionHolder
 import com.lacker.visitors.features.session.SessionScreen
 import com.lacker.visitors.features.session.basket.BasketMachine.Wish
 import com.lacker.visitors.features.session.basket.BasketMachine.State
+import com.lacker.visitors.features.session.common.DomainMenuItem
+import com.lacker.visitors.features.session.common.DomainPortion
+import com.lacker.visitors.features.session.common.MenuButtonItem
+import com.lacker.visitors.features.session.common.getMenuAdapter
+import com.lacker.visitors.utils.onScroll
+import kotlinx.android.synthetic.main.fragment_basket.*
 
 class BasketFragment : ToolbarFluxFragment<Wish, State>(), SessionScreen {
 
@@ -26,11 +37,66 @@ class BasketFragment : ToolbarFluxFragment<Wish, State>(), SessionScreen {
         )
     }
 
+    private val adapter by lazy {
+        getMenuAdapter(
+            onAddToOrder = ::onAddPortionToOrderClick,
+            onItemClick = ::onMenuItemClick,
+            removeFromBasket = ::onRemovePortionFromBasket,
+            onAddToBasket = ::onAddPortionToBasket,
+            onButtonClick = ::onButtonClick
+        )
+    }
+
+    private val sessionHolder by lazy { getImplementation(SessionHolder::class.java) }
+
+    private fun onMenuItemClick(item: DomainMenuItem) {
+        item.alsoPrintDebug("onMenuItemClick")
+    }
+
+    private fun onAddPortionToOrderClick(portion: DomainPortion) {
+        portion.alsoPrintDebug("onAddPortionToOrderClick")
+    }
+
+    private fun onRemovePortionFromBasket(portion: DomainPortion) {
+        performWish(Wish.RemoveFromBasket(portion))
+    }
+
+    private fun onAddPortionToBasket(portion: DomainPortion) {
+        performWish(Wish.AddToBasket(portion))
+    }
+
+    private fun onButtonClick(item: MenuButtonItem) {
+        item.wish?.let { if (it is Wish) performWish(it) }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        sessionHolder?.onSessionScreenStart(this)
+    }
+
     override fun onScreenInit() {
-        //TODO("Not yet implemented")
+        basketRecycler.adapter = adapter
+        basketRecycler.onScroll {
+            if (it) sessionHolder?.showNavigationAnimated()
+            else sessionHolder?.closeNavigationAnimated()
+        }
+        (basketRecycler.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
+
+        basketErrorPlaceholder.onRetry { performWish(Wish.Refresh) }
+        basketSwipeRefresh.setOnRefreshListener { performWish(Wish.Refresh) }
+        performWish(Wish.Refresh)
     }
 
     override fun render(state: State) {
-        //TODO("Not yet implemented")
+        adapter.items = state.menuWithBasket ?: emptyList()
+        basketErrorPlaceholder.errorText = state.errorText
+        basketProgressPlaceholder.visible = (state.showLoading && state.empty)
+        basketSwipeRefresh.visible = !state.empty
+        basketSwipeRefresh.isRefreshing = state.showLoading
+    }
+
+    override fun onDestroyView() {
+        basketRecycler.adapter = null
+        super.onDestroyView()
     }
 }

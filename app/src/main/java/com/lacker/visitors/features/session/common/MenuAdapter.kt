@@ -9,7 +9,7 @@ fun getMenuAdapter(
     onAddToBasket: (DomainPortion) -> Unit,
     removeFromBasket: (DomainPortion) -> Unit,
     onItemClick: (DomainMenuItem) -> Unit,
-    onButtonClick: (Any?) -> Unit
+    onButtonClick: (MenuButtonItem) -> Unit
 ) = AsyncListDifferDelegationAdapter(
     object : DiffUtil.ItemCallback<MenuAdapterItem>() {
         override fun areItemsTheSame(oldItem: MenuAdapterItem, newItem: MenuAdapterItem): Boolean {

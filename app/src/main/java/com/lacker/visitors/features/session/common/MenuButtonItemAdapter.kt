@@ -5,10 +5,10 @@ import com.lacker.visitors.R
 import kotlinx.android.synthetic.main.item_button.*
 
 fun getMenuButtonItemAdapter(
-    onItemClick: (Any?) -> Unit
+    onItemClick: (MenuButtonItem) -> Unit
 ) = adapterDelegateLayoutContainer<MenuButtonItem, MenuAdapterItem>(R.layout.item_button) {
 
-    itemButton.setOnClickListener { onItemClick(item.wish) }
+    itemButton.setOnClickListener { onItemClick(item) }
 
     bind {
         itemButton.text = item.text

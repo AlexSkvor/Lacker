@@ -78,7 +78,7 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>(), SessionScreen {
         menuErrorPlaceholder.onRetry { performWish(Wish.Refresh) }
         menuSwipeRefresh.setOnRefreshListener { performWish(Wish.Refresh) }
         performWish(Wish.Refresh)
-        (menuRecycler.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        (menuRecycler.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
     }
 
     override fun onDestroyView() {
