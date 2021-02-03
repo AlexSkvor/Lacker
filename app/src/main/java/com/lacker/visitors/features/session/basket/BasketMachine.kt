@@ -1,34 +1,137 @@
 package com.lacker.visitors.features.session.basket
 
+import com.lacker.visitors.data.api.ApiCallResult
+import com.lacker.visitors.data.dto.menu.MenuItem
+import com.lacker.visitors.data.dto.menu.OrderInfo
+import com.lacker.visitors.data.dto.menu.toDomain
+import com.lacker.visitors.data.storage.basket.BasketManager
+import com.lacker.visitors.data.storage.menu.MenuManager
+import com.lacker.visitors.data.storage.session.SessionStorage
 import javax.inject.Inject
 import com.lacker.visitors.features.session.basket.BasketMachine.Wish
 import com.lacker.visitors.features.session.basket.BasketMachine.State
 import com.lacker.visitors.features.session.basket.BasketMachine.Result
+import com.lacker.visitors.features.session.menu.DomainMenuItem
+import com.lacker.visitors.features.session.menu.DomainPortion
 import com.lacker.visitors.navigation.Screens
+import com.lacker.visitors.utils.ImpossibleSituationException
 import ru.terrakok.cicerone.Router
 import voodoo.rocks.flux.Machine
 
 class BasketMachine @Inject constructor(
-    private val router: Router
-) : Machine<Wish, Result, State>(){
+    private val router: Router,
+    private val sessionStorage: SessionStorage,
+    private val menuManager: MenuManager,
+    private val basketManager: BasketManager
+) : Machine<Wish, Result, State>() {
 
-    sealed class Wish{
+    sealed class Wish {
+        object Refresh : Wish()
+        object SendBasketToServer : Wish()
 
+        data class AddToOrder(val portion: DomainPortion) : Wish()
+        data class AddToBasket(val portion: DomainPortion) : Wish()
+        data class RemoveFromBasket(val portion: DomainPortion) : Wish()
     }
 
-    sealed class Result{
+    sealed class Result {
+        sealed class MenuResult : Result() {
+            data class Menu(val items: List<MenuItem>) : MenuResult()
+            data class Error(val text: String) : MenuResult()
+        }
 
+        sealed class BasketResult : Result() {
+            data class Basket(val basket: List<OrderInfo>) : BasketResult()
+            data class Error(val text: String) : BasketResult()
+        }
     }
 
     data class State(
-        val menuProgress: Boolean = false
+        val menuLoading: Boolean = false,
+        val basketLoading: Boolean = false,
+        val menuItems: List<MenuItem>? = null,
+        val basket: List<OrderInfo>? = null,
+        val menuWithBasket: List<DomainMenuItem>? = null,
+        val errorText: String? = null
     )
+
+    private val restaurantId by lazy {
+        sessionStorage.session?.restaurantId
+            ?: throw ImpossibleSituationException("User requested basket without restaurantId in SessionStorage")
+    }
 
     override val initialState: State = State()
 
-    override fun onResult(res: Result, oldState: State): State = oldState
+    override fun onWish(wish: Wish, oldState: State): State = when (wish) {
+        Wish.Refresh -> oldState.copy(menuLoading = true, basketLoading = true).also {
+            pushResult { loadMenu() }
+            pushResult { loadBasket() }
+        }
+        is Wish.AddToBasket -> oldState.also { pushResult { addToBasket(wish.portion) } }
+        is Wish.RemoveFromBasket -> oldState.also { pushResult { removeFromBasket(wish.portion) } }
+        is Wish.AddToOrder -> TODO("Create OrderManager and AuthChecker!")
+        Wish.SendBasketToServer -> TODO("Create OrderManager and AuthChecker!")
+    }
 
-    override fun onWish(wish: Wish, oldState: State): State = oldState
+    override fun onResult(res: Result, oldState: State): State = when (res) {
+        is Result.MenuResult.Menu -> oldState.copy(menuLoading = false, menuItems = res.items)
+            .recountMenuWithBasket()
+        is Result.MenuResult.Error -> oldState.copy(
+            menuLoading = false,
+            errorText = if (oldState.menuItems == null) res.text else oldState.errorText
+        ).also {
+            sendMessage(res.text)
+        }
+        is Result.BasketResult.Basket -> oldState.copy(basketLoading = false, basket = res.basket)
+            .recountMenuWithBasket()
+        is Result.BasketResult.Error -> oldState.copy(
+            basketLoading = false,
+            errorText = if (oldState.basket == null) res.text else oldState.errorText
+        ).also {
+            sendMessage(res.text)
+        }
+    }
+
+    private fun State.recountMenuWithBasket(): State {
+        if (menuLoading || basketLoading) return this
+        if (menuItems == null || basket == null) return copy(menuWithBasket = null)
+
+        val basketPortionIds = basket.map { it.portionId }
+
+        val menu = menuItems
+            .filter { it.portions.map { p -> p.id }.any { pId -> pId in basketPortionIds } }
+            .map { it.toDomain(emptyList(), basket) }
+
+        return copy(errorText = null, menuWithBasket = menu)
+    }
+
+    private suspend fun loadMenu(): Result.MenuResult {
+        return when (val res = menuManager.getMenu(restaurantId)) {
+            is ApiCallResult.Result -> Result.MenuResult.Menu(res.value)
+            is ApiCallResult.ErrorOccurred -> Result.MenuResult.Error(res.text)
+        }
+    }
+
+    private suspend fun loadBasket(): Result.BasketResult {
+        return when (val res = basketManager.getBasket(restaurantId)) {
+            is ApiCallResult.Result -> Result.BasketResult.Basket(res.value)
+            is ApiCallResult.ErrorOccurred -> Result.BasketResult.Error(res.text)
+        }
+    }
+
+    private suspend fun addToBasket(portion: DomainPortion): Result.BasketResult {
+        return when (val res = basketManager.addToBasket(restaurantId, portion.id)) {
+            is ApiCallResult.Result -> Result.BasketResult.Basket(res.value)
+            is ApiCallResult.ErrorOccurred -> Result.BasketResult.Error(res.text)
+        }
+    }
+
+    private suspend fun removeFromBasket(portion: DomainPortion): Result.BasketResult {
+        return when (val res = basketManager.removeFromBasket(restaurantId, portion.id)) {
+            is ApiCallResult.Result -> Result.BasketResult.Basket(res.value)
+            is ApiCallResult.ErrorOccurred -> Result.BasketResult.Error(res.text)
+        }
+    }
 
     override fun onBackPressed() {
         router.backTo(Screens.MenuScreen)
