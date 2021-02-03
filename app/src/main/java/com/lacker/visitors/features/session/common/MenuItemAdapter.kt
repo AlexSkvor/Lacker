@@ -1,7 +1,5 @@
-package com.lacker.visitors.features.session.menu
+package com.lacker.visitors.features.session.common
 
-import androidx.recyclerview.widget.DiffUtil
-import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateLayoutContainer
 import com.lacker.utils.extensions.gone
 import com.lacker.utils.extensions.loadFromNet
@@ -10,30 +8,12 @@ import com.lacker.visitors.R
 import com.lacker.visitors.views.PortionView
 import kotlinx.android.synthetic.main.item_menu_item.*
 
-fun getMenuAdapter(
-    onAddToOrder: (DomainPortion) -> Unit,
-    onAddToBasket: (DomainPortion) -> Unit,
-    removeFromBasket: (DomainPortion) -> Unit,
-    onItemClick: (DomainMenuItem) -> Unit
-) = AsyncListDifferDelegationAdapter(
-    object : DiffUtil.ItemCallback<DomainMenuItem>() {
-        override fun areItemsTheSame(oldItem: DomainMenuItem, newItem: DomainMenuItem): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(oldItem: DomainMenuItem, newItem: DomainMenuItem): Boolean {
-            return oldItem == newItem
-        }
-    },
-    getDomainMenuItemAdapter(onAddToOrder, onAddToBasket, removeFromBasket, onItemClick)
-)
-
 fun getDomainMenuItemAdapter(
     onAddToOrder: (DomainPortion) -> Unit,
     onAddToBasket: (DomainPortion) -> Unit,
     removeFromBasket: (DomainPortion) -> Unit,
     onItemClick: (DomainMenuItem) -> Unit
-) = adapterDelegateLayoutContainer<DomainMenuItem, DomainMenuItem>(R.layout.item_menu_item) {
+) = adapterDelegateLayoutContainer<DomainMenuItem, MenuAdapterItem>(R.layout.item_menu_item) {
 
     menuItemContainer.setOnClickListener { onItemClick(item) }
 

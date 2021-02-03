@@ -6,7 +6,7 @@ import android.widget.FrameLayout
 import com.lacker.utils.extensions.visible
 import com.lacker.visitors.R
 import com.lacker.visitors.data.storage.basket.BasketManager.Companion.MAX_BASKET_SIZE_FOR_ONE_MENU_ITEM
-import com.lacker.visitors.features.session.menu.DomainPortion
+import com.lacker.visitors.features.session.common.DomainPortion
 import kotlinx.android.synthetic.main.view_portion.view.*
 
 class PortionView @JvmOverloads constructor(

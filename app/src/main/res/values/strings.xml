@@ -32,6 +32,7 @@
     <!-- Basket Screen -->
     <string name="basketScreenTitle">Basket</string>
     <string name="basketWord">basket</string>
+    <string name="startCooking">Start cooking</string>
 
     <!-- Favourite Screen -->
     <string name="favouriteScreenTitle">Favourite</string>

@@ -1,5 +1,7 @@
 package com.lacker.visitors.features.session.basket
 
+import com.lacker.utils.resources.ResourceProvider
+import com.lacker.visitors.R
 import com.lacker.visitors.data.api.ApiCallResult
 import com.lacker.visitors.data.dto.menu.MenuItem
 import com.lacker.visitors.data.dto.menu.OrderInfo
@@ -11,8 +13,9 @@ import javax.inject.Inject
 import com.lacker.visitors.features.session.basket.BasketMachine.Wish
 import com.lacker.visitors.features.session.basket.BasketMachine.State
 import com.lacker.visitors.features.session.basket.BasketMachine.Result
-import com.lacker.visitors.features.session.menu.DomainMenuItem
-import com.lacker.visitors.features.session.menu.DomainPortion
+import com.lacker.visitors.features.session.common.DomainPortion
+import com.lacker.visitors.features.session.common.MenuAdapterItem
+import com.lacker.visitors.features.session.common.MenuButtonItem
 import com.lacker.visitors.navigation.Screens
 import com.lacker.visitors.utils.ImpossibleSituationException
 import ru.terrakok.cicerone.Router
@@ -22,7 +25,8 @@ class BasketMachine @Inject constructor(
     private val router: Router,
     private val sessionStorage: SessionStorage,
     private val menuManager: MenuManager,
-    private val basketManager: BasketManager
+    private val basketManager: BasketManager,
+    private val resourceProvider: ResourceProvider
 ) : Machine<Wish, Result, State>() {
 
     sealed class Wish {
@@ -51,13 +55,17 @@ class BasketMachine @Inject constructor(
         val basketLoading: Boolean = false,
         val menuItems: List<MenuItem>? = null,
         val basket: List<OrderInfo>? = null,
-        val menuWithBasket: List<DomainMenuItem>? = null,
+        val menuWithBasket: List<MenuAdapterItem>? = null,
         val errorText: String? = null
     )
 
     private val restaurantId by lazy {
         sessionStorage.session?.restaurantId
             ?: throw ImpossibleSituationException("User requested basket without restaurantId in SessionStorage")
+    }
+
+    private val startCookingItem by lazy {
+        MenuButtonItem(resourceProvider.getString(R.string.startCooking), Wish.SendBasketToServer)
     }
 
     override val initialState: State = State()
@@ -105,6 +113,7 @@ class BasketMachine @Inject constructor(
         val menu = menuItems
             .filter { it.portions.map { p -> p.id }.any { pId -> pId in basketPortionIds } }
             .map { it.toDomain(emptyList(), basket) }
+            .plus(startCookingItem)
 
         return copy(errorText = null, menuWithBasket = menu)
     }

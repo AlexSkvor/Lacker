@@ -9,6 +9,9 @@ import com.lacker.visitors.features.base.ToolbarFluxFragment
 import com.lacker.visitors.features.base.ToolbarFragmentSettings
 import com.lacker.visitors.features.session.SessionHolder
 import com.lacker.visitors.features.session.SessionScreen
+import com.lacker.visitors.features.session.common.DomainMenuItem
+import com.lacker.visitors.features.session.common.DomainPortion
+import com.lacker.visitors.features.session.common.getMenuAdapter
 import com.lacker.visitors.features.session.menu.MenuMachine.Wish
 import com.lacker.visitors.features.session.menu.MenuMachine.State
 import com.lacker.visitors.utils.onScroll
@@ -38,7 +41,8 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>(), SessionScreen {
             onAddToOrder = ::onAddPortionToOrderClick,
             onItemClick = ::onMenuItemClick,
             removeFromBasket = ::onRemovePortionFromBasket,
-            onAddToBasket = ::onAddPortionToBasket
+            onAddToBasket = ::onAddPortionToBasket,
+            onButtonClick = {}
         )
     }
 

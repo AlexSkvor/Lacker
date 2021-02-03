@@ -1,4 +1,4 @@
-package com.lacker.visitors.features.session.menu
+package com.lacker.visitors.features.session.common
 
 data class DomainPortion(
     val id: String,

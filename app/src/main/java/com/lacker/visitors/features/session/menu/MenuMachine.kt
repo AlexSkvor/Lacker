@@ -7,6 +7,8 @@ import com.lacker.visitors.data.dto.menu.toDomain
 import com.lacker.visitors.data.storage.basket.BasketManager
 import com.lacker.visitors.data.storage.menu.MenuManager
 import com.lacker.visitors.data.storage.session.SessionStorage
+import com.lacker.visitors.features.session.common.DomainMenuItem
+import com.lacker.visitors.features.session.common.DomainPortion
 import voodoo.rocks.flux.Machine
 import javax.inject.Inject
 import com.lacker.visitors.features.session.menu.MenuMachine.Wish
