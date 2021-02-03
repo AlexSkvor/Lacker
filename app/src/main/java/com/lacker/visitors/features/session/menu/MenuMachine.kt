@@ -71,11 +71,12 @@ class MenuMachine @Inject constructor(
     }
 
     override fun onWish(wish: Wish, oldState: State): State = when (wish) {
-        Wish.Refresh -> oldState.copy(orderLoading = true, menuLoading = true).also {
-            pushResult { loadMenu() }
-            pushResult { loadOrder() }
-            pushResult { loadBasket() }
-        }
+        Wish.Refresh -> oldState.copy(orderLoading = true, menuLoading = true, basketLoading = true)
+            .also {
+                pushResult { loadMenu() }
+                pushResult { loadOrder() }
+                pushResult { loadBasket() }
+            }
         is Wish.AddToOrder -> TODO("Create OrderManager and AuthChecker!")
         is Wish.AddToBasket -> oldState.also { pushResult { addToBasket(wish.portion) } }
         is Wish.RemoveFromBasket -> oldState.also { pushResult { removeFromBasket(wish.portion) } }
