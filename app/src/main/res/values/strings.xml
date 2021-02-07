@@ -6,20 +6,6 @@
     <string name="tokenError">Authorization failed</string>
     <string name="error">Error</string>
 
-    <!-- Auth Screen -->
-    <string name="invalidEmail">Email is invalid</string>
-    <string name="enterEmail">Email address</string>
-    <string name="password">Password</string>
-    <string name="logIn">Log in</string>
-
-    <!-- Main Auth Screen -->
-    <string name="signInUsingServicesHint">Sign in with</string>
-    <string name="signInUsingLackerAccountHint">or use</string>
-    <string name="signInLackerAccount">Läcker account</string>
-    <string name="createLackerAccount">Create Läcker account</string>
-    <string name="staffSignIn"><u>Staff sign in</u></string>
-    <string name="createLackerAccountHint">Don\'t have one?</string>
-
     <!-- Bottom Sheet Auth Screen -->
     <string name="authTitle">Sign in please</string>
     <string name="authReason">Some features in our app require user to be authorized.\n%s is one of this features.\nPlease use one of the services below.</string>

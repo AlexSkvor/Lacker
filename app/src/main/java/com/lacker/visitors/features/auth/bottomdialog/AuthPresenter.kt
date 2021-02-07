@@ -4,7 +4,7 @@ import com.lacker.visitors.data.api.ApiCallResult
 import com.lacker.visitors.data.api.NetworkManager
 import com.lacker.visitors.data.dto.auth.toDomainUser
 import com.lacker.visitors.data.storage.user.UserStorage
-import com.lacker.visitors.features.auth.main.GoogleAuthData
+import com.lacker.visitors.data.dto.auth.GoogleAuthData
 import com.lacker.visitors.utils.mvp.BaseMvpPresenter
 import javax.inject.Inject
 

@@ -1,4 +1,4 @@
-package com.lacker.visitors.features.auth.main
+package com.lacker.visitors.data.dto.auth
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass

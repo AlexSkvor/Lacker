@@ -6,8 +6,6 @@ import dagger.Binds
 import dagger.MapKey
 import dagger.Module
 import dagger.multibindings.IntoMap
-import com.lacker.visitors.features.auth.AuthMachine
-import com.lacker.visitors.features.auth.main.MainAuthMachine
 import com.lacker.visitors.features.session.menu.MenuMachine
 import com.lacker.visitors.features.scan.ScanMachine
 import com.lacker.visitors.features.session.basket.BasketMachine
@@ -29,16 +27,6 @@ abstract class ViewModelModule {
 
     @Binds
     internal abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(AuthMachine::class)
-    internal abstract fun bindAuthMachine(viewModel: AuthMachine): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(MainAuthMachine::class)
-    internal abstract fun bindMainAuthMachine(viewModel: MainAuthMachine): ViewModel
 
     @Binds
     @IntoMap

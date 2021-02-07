@@ -20,7 +20,7 @@ import com.lacker.utils.extensions.gone
 import com.lacker.utils.extensions.visible
 import com.lacker.visitors.R
 import com.lacker.visitors.di.DependencyProvider
-import com.lacker.visitors.features.auth.main.GoogleAuthData
+import com.lacker.visitors.data.dto.auth.GoogleAuthData
 import kotlinx.android.synthetic.main.bottom_sheet_auth_fragment.*
 import kotlinx.android.synthetic.main.bottom_sheet_auth_fragment.view.*
 import timber.log.Timber

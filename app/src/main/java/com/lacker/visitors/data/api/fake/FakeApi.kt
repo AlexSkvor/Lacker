@@ -3,13 +3,12 @@ package com.lacker.visitors.data.api.fake
 import com.lacker.visitors.data.api.Api
 import com.lacker.visitors.data.dto.auth.LoginResponse
 import com.lacker.visitors.data.dto.auth.UserFromServer
-import com.lacker.visitors.data.dto.auth.UserLoginRequest
 import com.lacker.visitors.data.dto.common.DateTimeResponse
 import com.lacker.visitors.data.dto.menu.Menu
 import com.lacker.visitors.data.dto.menu.MenuItem
 import com.lacker.visitors.data.dto.menu.Portion
 import com.lacker.visitors.data.storage.files.FilesManager
-import com.lacker.visitors.features.auth.main.GoogleAuthData
+import com.lacker.visitors.data.dto.auth.GoogleAuthData
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.delay
 import java.time.OffsetDateTime
@@ -20,10 +19,6 @@ class FakeApi(
     private val filesManager: FilesManager,
     private val json: Moshi
 ) : Api {
-
-    override suspend fun signInWithLackerAccount(request: UserLoginRequest): LoginResponse {
-        TODO("Not yet implemented")
-    }
 
     override suspend fun signInWithGoogle(request: GoogleAuthData): LoginResponse {
         delay(Random.nextLong(200, 5000))
