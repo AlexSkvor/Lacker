@@ -2,6 +2,7 @@ package com.lacker.visitors.data.api.fake
 
 import com.lacker.visitors.data.api.Api
 import com.lacker.visitors.data.dto.auth.LoginResponse
+import com.lacker.visitors.data.dto.auth.UserFromServer
 import com.lacker.visitors.data.dto.auth.UserLoginRequest
 import com.lacker.visitors.data.dto.common.DateTimeResponse
 import com.lacker.visitors.data.dto.menu.Menu
@@ -25,7 +26,18 @@ class FakeApi(
     }
 
     override suspend fun signInWithGoogle(request: GoogleAuthData): LoginResponse {
-        TODO("Not yet implemented")
+        delay(Random.nextLong(200, 5000))
+        possiblyThrow()
+        return LoginResponse(
+            user = UserFromServer(
+                id = UUID.randomUUID().toString(),
+                email = request.email,
+                name = request.name,
+                surname = request.surname,
+                token = "Fake Token hahaha",
+                photoId = UUID.randomUUID().toString()
+            )
+        )
     }
 
     override suspend fun getRestaurantMenu(restaurantId: String): Menu {
@@ -61,8 +73,8 @@ class FakeApi(
         if (tableId.length != 36) throw Exception()
     }
 
-    private fun possiblyThrow() {
-        if (Random.nextInt(0, 100) > 90) throw Exception()
+    private fun possiblyThrow(always: Boolean = false) {
+        if (Random.nextInt(0, 100) > 90 || always) throw Exception()
     }
 
     private val menus: MutableMap<String, Menu> = mutableMapOf()

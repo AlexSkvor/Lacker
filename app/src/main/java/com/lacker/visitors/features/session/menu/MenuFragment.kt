@@ -5,6 +5,7 @@ import com.lacker.utils.extensions.alsoPrintDebug
 import com.lacker.utils.extensions.getImplementation
 import com.lacker.utils.extensions.visible
 import com.lacker.visitors.R
+import com.lacker.visitors.features.auth.bottomdialog.withAuthCheck
 import com.lacker.visitors.features.base.ToolbarFluxFragment
 import com.lacker.visitors.features.base.ToolbarFragmentSettings
 import com.lacker.visitors.features.session.SessionHolder
@@ -53,7 +54,9 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>(), SessionScreen {
     }
 
     private fun onAddPortionToOrderClick(portion: DomainPortion) {
-        portion.alsoPrintDebug("onAddPortionToOrderClick")
+        withAuthCheck(R.string.orderCreationAuthReason) {
+            portion.alsoPrintDebug("onAddPortionToOrderClick")
+        }
     }
 
     private fun onRemovePortionFromBasket(portion: DomainPortion) {
