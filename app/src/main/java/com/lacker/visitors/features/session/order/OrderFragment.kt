@@ -3,11 +3,10 @@ package com.lacker.visitors.features.session.order
 import com.lacker.visitors.R
 import com.lacker.visitors.features.base.ToolbarFluxFragment
 import com.lacker.visitors.features.base.ToolbarFragmentSettings
-import com.lacker.visitors.features.session.SessionScreen
 import com.lacker.visitors.features.session.order.OrderMachine.Wish
 import com.lacker.visitors.features.session.order.OrderMachine.State
 
-class OrderFragment : ToolbarFluxFragment<Wish, State>(), SessionScreen {
+class OrderFragment : ToolbarFluxFragment<Wish, State>() {
 
     companion object {
         fun newInstance() = OrderFragment()

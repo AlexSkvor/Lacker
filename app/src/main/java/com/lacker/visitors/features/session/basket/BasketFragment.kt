@@ -2,23 +2,19 @@ package com.lacker.visitors.features.session.basket
 
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.lacker.utils.extensions.alsoPrintDebug
-import com.lacker.utils.extensions.getImplementation
 import com.lacker.utils.extensions.visible
 import com.lacker.visitors.R
 import com.lacker.visitors.features.base.ToolbarFluxFragment
 import com.lacker.visitors.features.base.ToolbarFragmentSettings
-import com.lacker.visitors.features.session.SessionHolder
-import com.lacker.visitors.features.session.SessionScreen
 import com.lacker.visitors.features.session.basket.BasketMachine.Wish
 import com.lacker.visitors.features.session.basket.BasketMachine.State
 import com.lacker.visitors.features.session.common.DomainMenuItem
 import com.lacker.visitors.features.session.common.DomainPortion
 import com.lacker.visitors.features.session.common.MenuButtonItem
 import com.lacker.visitors.features.session.common.getMenuAdapter
-import com.lacker.visitors.utils.onScroll
 import kotlinx.android.synthetic.main.fragment_basket.*
 
-class BasketFragment : ToolbarFluxFragment<Wish, State>(), SessionScreen {
+class BasketFragment : ToolbarFluxFragment<Wish, State>() {
 
     companion object {
         fun newInstance() = BasketFragment()
@@ -47,8 +43,6 @@ class BasketFragment : ToolbarFluxFragment<Wish, State>(), SessionScreen {
         )
     }
 
-    private val sessionHolder by lazy { getImplementation(SessionHolder::class.java) }
-
     private fun onMenuItemClick(item: DomainMenuItem) {
         item.alsoPrintDebug("onMenuItemClick")
     }
@@ -69,17 +63,8 @@ class BasketFragment : ToolbarFluxFragment<Wish, State>(), SessionScreen {
         item.wish?.let { if (it is Wish) performWish(it) }
     }
 
-    override fun onResume() {
-        super.onResume()
-        sessionHolder?.onSessionScreenStart(this)
-    }
-
     override fun onScreenInit() {
         basketRecycler.adapter = adapter
-        basketRecycler.onScroll {
-            if (it) sessionHolder?.showNavigationAnimated()
-            else sessionHolder?.closeNavigationAnimated()
-        }
         (basketRecycler.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
 
         basketErrorPlaceholder.onRetry { performWish(Wish.Refresh) }

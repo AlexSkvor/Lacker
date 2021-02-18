@@ -1,5 +1,7 @@
 package com.lacker.visitors.features.session.menu
 
+import com.lacker.utils.resources.ResourceProvider
+import com.lacker.visitors.R
 import com.lacker.visitors.data.api.ApiCallResult
 import com.lacker.visitors.data.dto.menu.MenuItem
 import com.lacker.visitors.data.dto.menu.OrderInfo
@@ -7,8 +9,9 @@ import com.lacker.visitors.data.dto.menu.toDomain
 import com.lacker.visitors.data.storage.basket.BasketManager
 import com.lacker.visitors.data.storage.menu.MenuManager
 import com.lacker.visitors.data.storage.session.SessionStorage
-import com.lacker.visitors.features.session.common.DomainMenuItem
 import com.lacker.visitors.features.session.common.DomainPortion
+import com.lacker.visitors.features.session.common.MenuAdapterItem
+import com.lacker.visitors.features.session.common.MenuButtonItem
 import voodoo.rocks.flux.Machine
 import javax.inject.Inject
 import com.lacker.visitors.features.session.menu.MenuMachine.Wish
@@ -21,7 +24,8 @@ import kotlin.random.Random
 class MenuMachine @Inject constructor(
     private val sessionStorage: SessionStorage,
     private val menuManager: MenuManager,
-    private val basketManager: BasketManager
+    private val basketManager: BasketManager,
+    private val resourceProvider: ResourceProvider
 ) : Machine<Wish, Result, State>() {
 
     sealed class Wish {
@@ -30,6 +34,8 @@ class MenuMachine @Inject constructor(
         data class AddToOrder(val portion: DomainPortion) : Wish()
         data class AddToBasket(val portion: DomainPortion) : Wish()
         data class RemoveFromBasket(val portion: DomainPortion) : Wish()
+        data class ChangeShowType(val type: State.Type) : Wish()
+        object SendBasketToServer : Wish()
     }
 
     sealed class Result {
@@ -58,11 +64,27 @@ class MenuMachine @Inject constructor(
         val order: List<OrderInfo>? = null,
         val menuItems: List<MenuItem>? = null,
         val basket: List<OrderInfo>? = null,
-        val menuWithOrders: List<DomainMenuItem>? = null,
-        val errorText: String? = null
+        val menuShowList: List<MenuAdapterItem>? = null,
+        val basketShowList: List<MenuAdapterItem>? = null,
+        val favouriteShowList: List<MenuAdapterItem>? = null,
+        val orderShowList: List<MenuAdapterItem>? = null,
+        val errorText: String? = null,
+        val type: Type = Type.MENU
     ) {
-        val empty = menuWithOrders == null
-        val showLoading = (orderLoading || menuLoading || basketLoading)
+
+        val showList = when (type) {
+            Type.MENU -> menuShowList
+            Type.FAVOURITE -> favouriteShowList
+            Type.BASKET -> basketShowList
+            Type.ORDER -> orderShowList
+        }
+
+        val empty = showList == null
+        val showLoading = (orderLoading || menuLoading || basketLoading) //TODO add favouriteLoading
+
+        enum class Type {
+            MENU, FAVOURITE, BASKET, ORDER
+        }
     }
 
     override val initialState: State = State()
@@ -79,13 +101,15 @@ class MenuMachine @Inject constructor(
             basketLoading = true,
             errorText = null
         ).also {
-                pushResult { loadMenu() }
-                pushResult { loadOrder() }
-                pushResult { loadBasket() }
-            }
+            pushResult { loadMenu() }
+            pushResult { loadOrder() }
+            pushResult { loadBasket() }
+        }
         is Wish.AddToOrder -> TODO("Create OrderManager and AuthChecker!")
         is Wish.AddToBasket -> oldState.also { pushResult { addToBasket(wish.portion) } }
         is Wish.RemoveFromBasket -> oldState.also { pushResult { removeFromBasket(wish.portion) } }
+        is Wish.ChangeShowType -> oldState.copy(type = wish.type)
+        Wish.SendBasketToServer -> TODO("Create OrderManager and AuthChecker!")
     }
 
     override fun onResult(res: Result, oldState: State): State = when (res) {
@@ -115,11 +139,30 @@ class MenuMachine @Inject constructor(
         }
     }
 
+    private val startCookingItem by lazy {
+        MenuButtonItem(resourceProvider.getString(R.string.startCooking), Wish.SendBasketToServer)
+    }
+
     private fun State.recountMenuWithOrdersAndBasket(): State {
         if (orderLoading || menuLoading || basketLoading) return this
-        if (order == null || menuItems == null || basket == null) return copy(menuWithOrders = null)
+        if (order == null || menuItems == null || basket == null) return copy(
+            menuShowList = null,
+            basketShowList = null,
+            orderShowList = null,
+            favouriteShowList = null
+        )
 
-        return copy(errorText = null, menuWithOrders = menuItems.map { it.toDomain(order, basket) })
+        val menuTmp = menuItems.map { it.toDomain(order, basket) }
+        val basketTmp = menuTmp.filter { it.portions.any { p -> p.basketNumber > 0 } }
+            .let { if (it.isEmpty()) emptyList() else it.plus(startCookingItem) }
+
+        return copy(
+            errorText = null,
+            menuShowList = menuTmp,
+            basketShowList = basketTmp,
+            orderShowList = emptyList(), // TODO
+            favouriteShowList = emptyList() // TODO
+        )
     }
 
     private suspend fun loadMenu(): Result.MenuResult {

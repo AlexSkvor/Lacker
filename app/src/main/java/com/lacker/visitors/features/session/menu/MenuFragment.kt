@@ -2,23 +2,25 @@ package com.lacker.visitors.features.session.menu
 
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.lacker.utils.extensions.alsoPrintDebug
-import com.lacker.utils.extensions.getImplementation
+import com.lacker.utils.extensions.appearFromBottom
+import com.lacker.utils.extensions.hideBelowBottom
 import com.lacker.utils.extensions.visible
 import com.lacker.visitors.R
 import com.lacker.visitors.features.auth.bottomdialog.withAuthCheck
 import com.lacker.visitors.features.base.ToolbarFluxFragment
 import com.lacker.visitors.features.base.ToolbarFragmentSettings
-import com.lacker.visitors.features.session.SessionHolder
-import com.lacker.visitors.features.session.SessionScreen
 import com.lacker.visitors.features.session.common.DomainMenuItem
 import com.lacker.visitors.features.session.common.DomainPortion
+import com.lacker.visitors.features.session.common.MenuButtonItem
 import com.lacker.visitors.features.session.common.getMenuAdapter
 import com.lacker.visitors.features.session.menu.MenuMachine.Wish
 import com.lacker.visitors.features.session.menu.MenuMachine.State
 import com.lacker.visitors.utils.onScroll
+import com.lacker.visitors.views.asDomain
+import com.lacker.visitors.views.asUi
 import kotlinx.android.synthetic.main.fragment_menu.*
 
-class MenuFragment : ToolbarFluxFragment<Wish, State>(), SessionScreen {
+class MenuFragment : ToolbarFluxFragment<Wish, State>() {
 
     companion object {
         fun newInstance() = MenuFragment()
@@ -43,11 +45,9 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>(), SessionScreen {
             onItemClick = ::onMenuItemClick,
             removeFromBasket = ::onRemovePortionFromBasket,
             onAddToBasket = ::onAddPortionToBasket,
-            onButtonClick = {}
+            onButtonClick = ::onButtonClick
         )
     }
-
-    private val sessionHolder by lazy { getImplementation(SessionHolder::class.java) }
 
     private fun onMenuItemClick(item: DomainMenuItem) {
         item.alsoPrintDebug("onMenuItemClick")
@@ -67,19 +67,21 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>(), SessionScreen {
         performWish(Wish.AddToBasket(portion))
     }
 
-    override fun onResume() {
-        super.onResume()
-        sessionHolder?.onSessionScreenStart(this)
+    private fun onButtonClick(item: MenuButtonItem){
+        item.wish?.let { if (it is Wish) performWish(it) }
     }
 
     override fun onScreenInit() {
         menuRecycler.adapter = adapter
         menuRecycler.onScroll {
-            if (it) sessionHolder?.showNavigationAnimated()
-            else sessionHolder?.closeNavigationAnimated()
+            if (it) menuNavigationBar.appearFromBottom(200)
+            else menuNavigationBar.hideBelowBottom(200)
         }
         menuErrorPlaceholder.onRetry { performWish(Wish.Refresh) }
         menuSwipeRefresh.setOnRefreshListener { performWish(Wish.Refresh) }
+        menuNavigationBar.onStateChange {
+            performWish(Wish.ChangeShowType(it.asDomain()))
+        }
         performWish(Wish.Refresh)
         (menuRecycler.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
     }
@@ -90,10 +92,11 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>(), SessionScreen {
     }
 
     override fun render(state: State) {
-        adapter.items = state.menuWithOrders ?: emptyList()
+        adapter.items = state.showList.orEmpty()
         menuErrorPlaceholder.errorText = state.errorText
         menuProgressPlaceholder.visible = (state.showLoading && state.empty)
         menuSwipeRefresh.visible = !state.empty
         menuSwipeRefresh.isRefreshing = state.showLoading
+        menuNavigationBar.setState(state.type.asUi())
     }
 }

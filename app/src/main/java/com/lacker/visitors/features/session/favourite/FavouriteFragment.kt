@@ -3,11 +3,10 @@ package com.lacker.visitors.features.session.favourite
 import com.lacker.visitors.R
 import com.lacker.visitors.features.base.ToolbarFluxFragment
 import com.lacker.visitors.features.base.ToolbarFragmentSettings
-import com.lacker.visitors.features.session.SessionScreen
 import com.lacker.visitors.features.session.favourite.FavouriteMachine.Wish
 import com.lacker.visitors.features.session.favourite.FavouriteMachine.State
 
-class FavouriteFragment : ToolbarFluxFragment<Wish, State>(), SessionScreen {
+class FavouriteFragment : ToolbarFluxFragment<Wish, State>() {
 
     companion object {
         fun newInstance() = FavouriteFragment()

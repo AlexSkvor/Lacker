@@ -8,6 +8,7 @@ import com.lacker.utils.extensions.getColor
 import com.lacker.utils.extensions.setTextSizeRes
 import com.lacker.utils.extensions.setTintColor
 import com.lacker.visitors.R
+import com.lacker.visitors.features.session.menu.MenuMachine
 import kotlinx.android.synthetic.main.view_session_navigation.view.*
 
 class SessionNavigationView @JvmOverloads constructor(
@@ -15,12 +16,6 @@ class SessionNavigationView @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
-
-    private companion object {
-        const val MIN_TIME_BETWEEN_CLICKS = 300
-    }
-
-    private var lastChangeTime: Long = 0L
 
     private val views by lazy {
         mutableListOf(
@@ -36,13 +31,7 @@ class SessionNavigationView @JvmOverloads constructor(
 
         views.forEach { pair ->
             pair.first.setOnClickListener {
-                if (System.currentTimeMillis() - lastChangeTime > MIN_TIME_BETWEEN_CLICKS) {
-                    lastChangeTime = System.currentTimeMillis()
-                    if (state != pair.second) {
-                        state = pair.second
-                        stateListener?.invoke(pair.second)
-                    }
-                }
+                stateListener?.invoke(pair.second)
             }
         }
     }
@@ -53,13 +42,9 @@ class SessionNavigationView @JvmOverloads constructor(
         stateListener = listener
     }
 
-    var state: State? = null
-        set(value) {
-            field = value
-            value?.let {
-                setupButtonsForState(value)
-            }
-        }
+    fun setState(value: State) {
+        setupButtonsForState(value)
+    }
 
     private fun setupButtonsForState(state: State) {
         views.forEach {
@@ -72,6 +57,20 @@ class SessionNavigationView @JvmOverloads constructor(
         MENU, FAVOURITE, BASKET, ORDER
     }
 
+}
+
+fun SessionNavigationView.State.asDomain() = when (this) {
+    SessionNavigationView.State.MENU -> MenuMachine.State.Type.MENU
+    SessionNavigationView.State.FAVOURITE -> MenuMachine.State.Type.FAVOURITE
+    SessionNavigationView.State.BASKET -> MenuMachine.State.Type.BASKET
+    SessionNavigationView.State.ORDER -> MenuMachine.State.Type.ORDER
+}
+
+fun MenuMachine.State.Type.asUi() = when (this) {
+    MenuMachine.State.Type.MENU -> SessionNavigationView.State.MENU
+    MenuMachine.State.Type.FAVOURITE -> SessionNavigationView.State.FAVOURITE
+    MenuMachine.State.Type.BASKET -> SessionNavigationView.State.BASKET
+    MenuMachine.State.Type.ORDER -> SessionNavigationView.State.ORDER
 }
 
 private fun TextView.select() {
