@@ -1,10 +1,7 @@
 package com.lacker.visitors.features.session.menu
 
 import androidx.recyclerview.widget.SimpleItemAnimator
-import com.lacker.utils.extensions.alsoPrintDebug
-import com.lacker.utils.extensions.appearFromBottom
-import com.lacker.utils.extensions.hideBelowBottom
-import com.lacker.utils.extensions.visible
+import com.lacker.utils.extensions.*
 import com.lacker.visitors.R
 import com.lacker.visitors.features.auth.bottomdialog.withAuthCheck
 import com.lacker.visitors.features.base.ToolbarFluxFragment
@@ -62,9 +59,7 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
     }
 
     private fun onAddPortionToOrderClick(portion: DomainPortion) {
-        withAuthCheck(R.string.orderCreationAuthReason) {
-            portion.alsoPrintDebug("onAddPortionToOrderClick")
-        }
+        withAuthCheck(R.string.orderCreationAuthReason) { portion.alsoPrintDebug("onAddPortionToOrderClick") }
     }
 
     private fun onRemovePortionFromBasket(portion: DomainPortion) {
@@ -99,16 +94,26 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
         super.onDestroyView()
     }
 
-    // TODO empty state
     // TODO format sum as vw
     override fun render(state: State) {
-        refreshToolbar()
-        menuProgressPlaceholder.cookingThingText = currentTitle.toLowerCase(Locale.getDefault())
-        adapter.items = state.showList.orEmpty()
         menuErrorPlaceholder.errorText = state.errorText
+
         menuProgressPlaceholder.visible = (state.showLoading && state.empty)
+        menuProgressPlaceholder.cookingThingText = currentTitle.toLowerCase(Locale.getDefault())
+
         menuSwipeRefresh.visible = !state.empty
         menuSwipeRefresh.isRefreshing = state.showLoading
+
+        refreshToolbar()
+
+        if (state.empty || state.errorText.isNotNull())
+            menuNavigationBar.appearFromBottom(0)
         menuNavigationBar.setState(state.type.asUi())
+
+        menuEmptyPlaceholder.emptyThingText = currentTitle.toLowerCase(Locale.getDefault())
+        menuEmptyPlaceholder.visible = state.empty &&
+                !(state.showLoading || state.errorText.isNotNull())
+
+        adapter.items = state.showList.orEmpty()
     }
 }

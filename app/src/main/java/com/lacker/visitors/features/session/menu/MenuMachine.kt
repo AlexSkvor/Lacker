@@ -79,7 +79,7 @@ class MenuMachine @Inject constructor(
             Type.ORDER -> orderShowList
         }
 
-        val empty = showList == null
+        val empty = showList.isNullOrEmpty()
         val showLoading = (orderLoading || menuLoading || basketLoading) //TODO add favouriteLoading
 
         enum class Type {

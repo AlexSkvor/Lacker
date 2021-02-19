@@ -11,4 +11,8 @@
         <attr name="cookingThing" format="reference" localization="suggested" />
     </declare-styleable>
 
+    <declare-styleable name="EmptyPlaceholderView">
+        <attr name="emptyThing" format="reference" localization="suggested" />
+    </declare-styleable>
+
 </resources>

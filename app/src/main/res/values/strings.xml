@@ -31,6 +31,10 @@
     <string name="cookingThingForYou">We are cooking %s for you</string>
     <string name="defaultProgressThing">this</string>
 
+    <!-- Empty Placeholder View -->
+    <string name="emptyList">Looks like our %s is empty right now</string>
+    <string name="defaultEmptyThing">list</string>
+
     <!-- Common -->
     <string name="rurSymbolPrice">%d₽</string>
 

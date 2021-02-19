@@ -37,6 +37,13 @@
         app:cookingThing="@string/menuScreenTitle"
         tools:visibility="visible" />
 
+    <com.lacker.visitors.views.EmptyPlaceholderView
+        android:id="@+id/menuEmptyPlaceholder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:emptyThing="@string/menuScreenTitle" />
+
     <com.lacker.visitors.views.SessionNavigationView
         android:id="@+id/menuNavigationBar"
         android:layout_width="match_parent"
