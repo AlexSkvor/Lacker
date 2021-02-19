@@ -17,18 +17,10 @@
 
     <!-- Menu Screen -->
     <string name="menuScreenTitle">Menu</string>
-    <string name="menuWord">menu</string>
     <string name="orderCreationAuthReason">Order creation</string>
-
-    <!-- Basket Screen -->
     <string name="basketScreenTitle">Basket</string>
-    <string name="basketWord">basket</string>
     <string name="startCooking">Start cooking</string>
-
-    <!-- Favourite Screen -->
     <string name="favouriteScreenTitle">Favourite</string>
-
-    <!-- Order Screen -->
     <string name="orderScreenTitle">Order</string>
 
     <!-- Error Placeholder View -->
@@ -38,12 +30,6 @@
     <!-- Progress Placeholder View -->
     <string name="cookingThingForYou">We are cooking %s for you</string>
     <string name="defaultProgressThing">this</string>
-
-    <!-- Session Navigation View -->
-    <string name="menu">Menu</string>
-    <string name="favourite">Favourite</string>
-    <string name="basket">Basket</string>
-    <string name="order">Order</string>
 
     <!-- Common -->
     <string name="rurSymbolPrice">%d₽</string>
