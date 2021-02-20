@@ -1,5 +1,6 @@
 package com.lacker.visitors.features.scan
 
+import com.lacker.utils.extensions.onNull
 import com.lacker.utils.resources.ResourceProvider
 import com.lacker.visitors.R
 import com.lacker.visitors.data.api.ApiCallResult
@@ -87,7 +88,12 @@ class ScanMachine @Inject constructor(
         }
     }
 
+    private var lastClickTime: Long? = null
     override fun onBackPressed() {
-        // TODO Implement "type-twice" probably
+        val now = System.currentTimeMillis()
+        if (lastClickTime == null || now - lastClickTime.onNull(0) > 2000) {
+            lastClickTime = now
+            sendMessage(resourceProvider.getString(R.string.clickAgainToCloseApp))
+        } else router.exit()
     }
 }
