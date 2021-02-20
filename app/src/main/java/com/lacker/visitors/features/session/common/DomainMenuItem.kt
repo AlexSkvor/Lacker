@@ -5,5 +5,6 @@ data class DomainMenuItem(
     val name: String,
     val photoFullUrl: String,
     val shortDescription: String,
-    val portions: List<DomainPortion>
+    val portions: List<DomainPortion>,
+    val inFavourites: Boolean
 ) : MenuAdapterItem

@@ -7,6 +7,7 @@ import com.lacker.visitors.data.dto.menu.MenuItem
 import com.lacker.visitors.data.dto.menu.OrderInfo
 import com.lacker.visitors.data.dto.menu.toDomain
 import com.lacker.visitors.data.storage.basket.BasketManager
+import com.lacker.visitors.data.storage.favourite.FavouritesManager
 import com.lacker.visitors.data.storage.menu.MenuManager
 import com.lacker.visitors.data.storage.session.SessionStorage
 import com.lacker.visitors.features.session.common.DomainPortion
@@ -25,6 +26,7 @@ class MenuMachine @Inject constructor(
     private val sessionStorage: SessionStorage,
     private val menuManager: MenuManager,
     private val basketManager: BasketManager,
+    private val favouritesManager: FavouritesManager,
     private val resourceProvider: ResourceProvider
 ) : Machine<Wish, Result, State>() {
 
@@ -33,7 +35,10 @@ class MenuMachine @Inject constructor(
 
         data class AddToOrder(val portion: DomainPortion) : Wish()
         data class AddToBasket(val portion: DomainPortion) : Wish()
+        data class AddToFavourite(val menuItemId: String) : Wish()
         data class RemoveFromBasket(val portion: DomainPortion) : Wish()
+        data class RemoveFromFavourite(val menuItemId: String) : Wish()
+
         data class ChangeShowType(val type: State.Type) : Wish()
         object SendBasketToServer : Wish()
     }
@@ -55,15 +60,22 @@ class MenuMachine @Inject constructor(
             data class Error(val text: String) : BasketResult()
         }
 
+        sealed class FavouriteResult : Result() {
+            data class Favourites(val items: Set<String>) : FavouriteResult()
+            data class Error(val text: String) : FavouriteResult()
+        }
+
     }
 
     data class State(
         val orderLoading: Boolean = false,
         val menuLoading: Boolean = false,
         val basketLoading: Boolean = false,
+        val favouritesLoading: Boolean = false,
         val order: List<OrderInfo>? = null,
         val menuItems: List<MenuItem>? = null,
         val basket: List<OrderInfo>? = null,
+        val favourites: Set<String>? = null,
         val menuShowList: List<MenuAdapterItem>? = null,
         val basketShowList: List<MenuAdapterItem>? = null,
         val favouriteShowList: List<MenuAdapterItem>? = null,
@@ -80,7 +92,7 @@ class MenuMachine @Inject constructor(
         }
 
         val empty = showList.isNullOrEmpty()
-        val showLoading = (orderLoading || menuLoading || basketLoading) //TODO add favouriteLoading
+        val showLoading = (orderLoading || menuLoading || basketLoading || favouritesLoading)
 
         enum class Type {
             MENU, FAVOURITE, BASKET, ORDER
@@ -99,22 +111,26 @@ class MenuMachine @Inject constructor(
             orderLoading = true,
             menuLoading = true,
             basketLoading = true,
+            favouritesLoading = true,
             errorText = null
         ).also {
             pushResult { loadMenu() }
             pushResult { loadOrder() }
             pushResult { loadBasket() }
+            pushResult { loadFavourites() }
         }
         is Wish.AddToOrder -> TODO("Create OrderManager and AuthChecker!")
         is Wish.AddToBasket -> oldState.also { pushResult { addToBasket(wish.portion) } }
+        is Wish.AddToFavourite -> oldState.also { pushResult { addToFavourites(wish.menuItemId) } }
         is Wish.RemoveFromBasket -> oldState.also { pushResult { removeFromBasket(wish.portion) } }
+        is Wish.RemoveFromFavourite -> oldState.also { pushResult { removeFromFavourites(wish.menuItemId) } }
         is Wish.ChangeShowType -> oldState.copy(type = wish.type)
         Wish.SendBasketToServer -> TODO("Create OrderManager and AuthChecker!")
     }
 
     override fun onResult(res: Result, oldState: State): State = when (res) {
         is Result.OrderResult.Order -> oldState.copy(orderLoading = false, order = res.order)
-            .recountMenuWithOrdersAndBasket()
+            .recountMenuWithOrdersAndBasketAndFavourites()
         is Result.OrderResult.Error -> oldState.copy(
             orderLoading = false,
             errorText = if (oldState.order == null) res.text else oldState.errorText
@@ -122,7 +138,7 @@ class MenuMachine @Inject constructor(
             sendMessage(res.text)
         }
         is Result.MenuResult.Menu -> oldState.copy(menuLoading = false, menuItems = res.items)
-            .recountMenuWithOrdersAndBasket()
+            .recountMenuWithOrdersAndBasketAndFavourites()
         is Result.MenuResult.Error -> oldState.copy(
             menuLoading = false,
             errorText = if (oldState.menuItems == null) res.text else oldState.errorText
@@ -130,10 +146,20 @@ class MenuMachine @Inject constructor(
             sendMessage(res.text)
         }
         is Result.BasketResult.Basket -> oldState.copy(basketLoading = false, basket = res.basket)
-            .recountMenuWithOrdersAndBasket()
+            .recountMenuWithOrdersAndBasketAndFavourites()
         is Result.BasketResult.Error -> oldState.copy(
             basketLoading = false,
             errorText = if (oldState.basket == null) res.text else oldState.errorText
+        ).also {
+            sendMessage(res.text)
+        }
+        is Result.FavouriteResult.Favourites -> oldState.copy(
+            favouritesLoading = false,
+            favourites = res.items
+        ).recountMenuWithOrdersAndBasketAndFavourites()
+        is Result.FavouriteResult.Error -> oldState.copy(
+            favouritesLoading = false,
+            errorText = if (oldState.favourites == null) res.text else oldState.errorText
         ).also {
             sendMessage(res.text)
         }
@@ -143,16 +169,16 @@ class MenuMachine @Inject constructor(
         MenuButtonItem(resourceProvider.getString(R.string.startCooking), Wish.SendBasketToServer)
     }
 
-    private fun State.recountMenuWithOrdersAndBasket(): State {
-        if (orderLoading || menuLoading || basketLoading) return this
-        if (order == null || menuItems == null || basket == null) return copy(
+    private fun State.recountMenuWithOrdersAndBasketAndFavourites(): State {
+        if (orderLoading || menuLoading || basketLoading || favouritesLoading) return this
+        if (order == null || menuItems == null || basket == null || favourites == null) return copy(
             menuShowList = null,
             basketShowList = null,
             orderShowList = null,
             favouriteShowList = null
         )
 
-        val menuTmp = menuItems.map { it.toDomain(order, basket) }
+        val menuTmp = menuItems.map { it.toDomain(order, basket, favourites) }
         val basketTmp = menuTmp.filter { it.portions.any { p -> p.basketNumber > 0 } }
             .let { if (it.isEmpty()) emptyList() else it.plus(startCookingItem) }
 
@@ -161,7 +187,7 @@ class MenuMachine @Inject constructor(
             menuShowList = menuTmp,
             basketShowList = basketTmp,
             orderShowList = emptyList(), // TODO
-            favouriteShowList = emptyList() // TODO
+            favouriteShowList = menuTmp.filter { it.inFavourites }
         )
     }
 
@@ -190,6 +216,27 @@ class MenuMachine @Inject constructor(
         return when (val res = basketManager.removeFromBasket(restaurantId, portion.id)) {
             is ApiCallResult.Result -> Result.BasketResult.Basket(res.value)
             is ApiCallResult.ErrorOccurred -> Result.BasketResult.Error(res.text)
+        }
+    }
+
+    private suspend fun loadFavourites(): Result.FavouriteResult {
+        return when (val res = favouritesManager.getFavourites(restaurantId)) {
+            is ApiCallResult.Result -> Result.FavouriteResult.Favourites(res.value)
+            is ApiCallResult.ErrorOccurred -> Result.FavouriteResult.Error(res.text)
+        }
+    }
+
+    private suspend fun addToFavourites(menuItemId: String): Result.FavouriteResult {
+        return when (val res = favouritesManager.addToFavourites(restaurantId, menuItemId)) {
+            is ApiCallResult.Result -> Result.FavouriteResult.Favourites(res.value)
+            is ApiCallResult.ErrorOccurred -> Result.FavouriteResult.Error(res.text)
+        }
+    }
+
+    private suspend fun removeFromFavourites(menuItemId: String): Result.FavouriteResult {
+        return when (val res = favouritesManager.removeFromFavourites(restaurantId, menuItemId)) {
+            is ApiCallResult.Result -> Result.FavouriteResult.Favourites(res.value)
+            is ApiCallResult.ErrorOccurred -> Result.FavouriteResult.Error(res.text)
         }
     }
 
