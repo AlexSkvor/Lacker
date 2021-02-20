@@ -1,6 +1,7 @@
 package com.lacker.visitors.navigation
 
 import androidx.fragment.app.Fragment
+import com.lacker.visitors.features.profile.ProfileFragment
 import com.lacker.visitors.features.session.menu.MenuFragment
 import com.lacker.visitors.features.scan.ScanFragment
 import ru.terrakok.cicerone.android.support.SupportAppScreen
@@ -20,7 +21,7 @@ object Screens {
     }
 
     object ProfileScreen : SupportAppScreen() {
-        override fun getFragment(): Fragment = TODO()
+        override fun getFragment(): Fragment = ProfileFragment.newInstance()
     }
 
     object OrderHistoryScreen : SupportAppScreen() {

@@ -2,6 +2,7 @@ package com.lacker.visitors.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.lacker.visitors.features.profile.ProfileMachine
 import dagger.Binds
 import dagger.MapKey
 import dagger.Module
@@ -35,4 +36,8 @@ abstract class ViewModelModule {
     @ViewModelKey(MenuMachine::class)
     internal abstract fun bindMenuMachine(viewModel: MenuMachine): ViewModel
 
+    @Binds
+    @IntoMap
+    @ViewModelKey(ProfileMachine::class)
+    internal abstract fun bindProfileMachine(viewModel: ProfileMachine): ViewModel
 }

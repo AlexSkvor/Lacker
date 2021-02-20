@@ -23,6 +23,24 @@
     <string name="favouriteScreenTitle">Favourite</string>
     <string name="orderScreenTitle">Order</string>
 
+    <!-- Profile Screen -->
+    <string name="profileScreenTitle">Profile</string>
+
+    <!--My Order Screen -->
+    <string name="myOrderScreenTitle">My Order</string>
+
+    <!-- History Screen -->
+    <string name="historyScreenTitle">Orders History</string>
+
+    <!-- News Screen -->
+    <string name="newsScreenTitle">News</string>
+
+    <!-- Settings Screen -->
+    <string name="settingsScreenTitle">Settings</string>
+
+    <!-- About Screen -->
+    <string name="aboutScreenTitle">About this App</string>
+
     <!-- Error Placeholder View -->
     <string name="defaultButtonRetry">Try again</string>
     <string name="defaultErrorStarter">Error happened</string>
