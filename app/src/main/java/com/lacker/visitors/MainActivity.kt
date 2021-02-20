@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity(), ViewModelFactoryProvider, UserNotifier
         setSupportActionBar(findViewById(R.id.toolbar))
 
         if (savedInstanceState == null)
-            router.backTo(defaultScreen)
+            router.newRootScreen(defaultScreen)
     }
 
     @Inject

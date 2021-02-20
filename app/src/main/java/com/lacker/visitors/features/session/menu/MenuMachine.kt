@@ -1,5 +1,6 @@
 package com.lacker.visitors.features.session.menu
 
+import com.lacker.utils.extensions.onNull
 import com.lacker.utils.resources.ResourceProvider
 import com.lacker.visitors.R
 import com.lacker.visitors.data.api.ApiCallResult
@@ -20,6 +21,7 @@ import com.lacker.visitors.features.session.menu.MenuMachine.State
 import com.lacker.visitors.features.session.menu.MenuMachine.Result
 import com.lacker.visitors.utils.ImpossibleSituationException
 import kotlinx.coroutines.delay
+import ru.terrakok.cicerone.Router
 import kotlin.random.Random
 
 class MenuMachine @Inject constructor(
@@ -27,7 +29,8 @@ class MenuMachine @Inject constructor(
     private val menuManager: MenuManager,
     private val basketManager: BasketManager,
     private val favouritesManager: FavouritesManager,
-    private val resourceProvider: ResourceProvider
+    private val resourceProvider: ResourceProvider,
+    private val router: Router
 ) : Machine<Wish, Result, State>() {
 
     sealed class Wish {
@@ -246,7 +249,12 @@ class MenuMachine @Inject constructor(
         //TODO Just stub here, rework when OrderManager appear!
     }
 
+    private var lastClickTime: Long? = null
     override fun onBackPressed() {
-        // TODO Tap twice to exit
+        val now = System.currentTimeMillis()
+        if (lastClickTime == null || now - lastClickTime.onNull(0) > 2000) {
+            lastClickTime = now
+            sendMessage(resourceProvider.getString(R.string.clickAgainToCloseApp))
+        } else router.exit()
     }
 }

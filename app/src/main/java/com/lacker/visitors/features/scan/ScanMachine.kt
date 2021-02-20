@@ -63,7 +63,7 @@ class ScanMachine @Inject constructor(
 
     override fun onResult(res: Result, oldState: State): State = when (res) {
         Result.CorrectRestaurantCode -> oldState.copy(loadingInProcess = false).also {
-            router.navigateTo(Screens.MenuScreen)
+            router.replaceScreen(Screens.MenuScreen)
         }
         is Result.Error -> oldState.copy(loadingInProcess = false, cameraEnabled = true)
             .also { sendMessage(res.text) }
