@@ -50,12 +50,18 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
             onItemClick = ::onMenuItemClick,
             removeFromBasket = ::onRemovePortionFromBasket,
             onAddToBasket = ::onAddPortionToBasket,
-            onButtonClick = ::onButtonClick
+            onButtonClick = ::onButtonClick,
+            onFavouriteClick = ::onFavouriteClick
         )
     }
 
     private fun onMenuItemClick(item: DomainMenuItem) {
         item.alsoPrintDebug("onMenuItemClick")
+    }
+
+    private fun onFavouriteClick(item: DomainMenuItem) {
+        if (item.inFavourites) performWish(Wish.RemoveFromFavourite(item.id))
+        else performWish(Wish.AddToFavourite(item.id))
     }
 
     private fun onAddPortionToOrderClick(portion: DomainPortion) {
