@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -37,8 +39,10 @@ class MainActivity : AppCompatActivity(), ViewModelFactoryProvider, UserNotifier
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
 
+        setupNavigationDrawer()
+
         if (savedInstanceState == null)
-            router.newRootScreen(defaultScreen)
+            router.replaceScreen(defaultScreen)
     }
 
     @Inject
@@ -65,6 +69,32 @@ class MainActivity : AppCompatActivity(), ViewModelFactoryProvider, UserNotifier
                 fragmentTransaction.setReorderingAllowed(true)
             }
         }
+
+    private val drawerToggle by lazy {
+        object : ActionBarDrawerToggle(
+            this,
+            drawerLayout,
+            toolbar,
+            R.string.openDrawer,
+            R.string.closeDrawer
+        ) {
+            override fun onDrawerClosed(drawerView: View) {
+                super.onDrawerClosed(drawerView)
+                invalidateOptionsMenu()
+            }
+
+            override fun onDrawerOpened(drawerView: View) {
+                super.onDrawerOpened(drawerView)
+                invalidateOptionsMenu()
+            }
+        }.apply {
+            drawerLayout.addDrawerListener(this)
+            syncState()
+            setToolbarNavigationClickListener { onBackPressed() }
+            supportActionBar?.setDisplayHomeAsUpEnabled(false)
+            supportActionBar?.setHomeButtonEnabled(true)
+        }
+    }
 
     override fun onResumeFragments() {
         super.onResumeFragments()
@@ -96,7 +126,16 @@ class MainActivity : AppCompatActivity(), ViewModelFactoryProvider, UserNotifier
             supportActionBar?.show()
             supportActionBar?.title = it.title
             supportActionBar?.subtitle = it.subtitle
-            supportActionBar?.setDisplayHomeAsUpEnabled(it.showBackIcon)
+
+            if (it.showBackIcon) {
+                drawerToggle.isDrawerIndicatorEnabled = false
+                supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            } else {
+                supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                drawerToggle.isDrawerIndicatorEnabled = true
+            }
+            drawerToggle.syncState()
+
             toolbar?.menu?.clear()
             invalidateOptionsMenu()
         } ?: supportActionBar?.hide()
@@ -114,6 +153,31 @@ class MainActivity : AppCompatActivity(), ViewModelFactoryProvider, UserNotifier
         else -> {
             val consumedByFragment = currentFragment?.onMenuItemChosen(item.itemId) ?: false
             if (!consumedByFragment) super.onOptionsItemSelected(item) else false
+        }
+    }
+
+    private fun setupNavigationDrawer() {
+        leftNavigation.setNavigationItemSelectedListener { item ->
+            val nextScreen = when (item.itemId) {
+                R.id.navigateProfile -> Screens.ProfileScreen
+                R.id.navigateMyOrder -> defaultScreen
+                R.id.navigateHistory -> Screens.OrderHistoryScreen
+                R.id.navigateNews -> Screens.NewsScreen
+                R.id.navigateSettings -> Screens.SettingsScreen
+                R.id.navigateAbout -> Screens.AboutScreen
+                else -> null
+            }
+            requireNotNull(nextScreen)
+
+            if (nextScreen == defaultScreen) router.backTo(null)
+            else when (supportFragmentManager.backStackEntryCount) {
+                0 -> router.navigateTo(nextScreen)
+                1 -> router.replaceScreen(nextScreen)
+                else -> router.newRootChain(defaultScreen, nextScreen)
+            }
+
+            drawerLayout.closeDrawer(leftNavigation) // TODO nav drawer text color
+            false
         }
     }
 
