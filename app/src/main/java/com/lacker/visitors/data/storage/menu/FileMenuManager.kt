@@ -34,7 +34,7 @@ class FileMenuManager @Inject constructor(
             return ApiCallResult.Result(savedMenu.items)
         } catch (t: Throwable) {
             Timber.e(t)
-            return ApiCallResult.ErrorOccurred("Unknown error: ${t.message}")
+            return ApiCallResult.ErrorOccurred("Unknown error: ${t.message}") // TODO to resources
         }
     }
 

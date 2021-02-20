@@ -2,6 +2,8 @@ package com.lacker.visitors.di
 
 import com.lacker.visitors.data.storage.basket.BasketManager
 import com.lacker.visitors.data.storage.basket.PrefsBasketManager
+import com.lacker.visitors.data.storage.favourite.FavouritesManager
+import com.lacker.visitors.data.storage.favourite.FileFavouritesManager
 import dagger.Binds
 import dagger.Module
 import com.lacker.visitors.data.storage.user.UserPrefs
@@ -30,4 +32,8 @@ interface DataModule {
     @Singleton
     @Binds
     fun bindBasketManager(manager: PrefsBasketManager): BasketManager
+
+    @Singleton
+    @Binds
+    fun bindFavouriteManager(manager: FileFavouritesManager): FavouritesManager
 }

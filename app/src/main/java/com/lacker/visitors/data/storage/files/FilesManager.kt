@@ -12,6 +12,8 @@ class FilesManager @Inject constructor(
 
         object Menu : FileType("txt", "menus")
 
+        object FavouriteMenu: FileType("txt", "favourite_in_menu")
+
         data class Other(
             override val ext: String,
             override val folderName: String
