@@ -12,10 +12,6 @@ import ru.terrakok.cicerone.android.support.SupportAppScreen
 
 object Screens {
 
-    object HomeScreen : SupportAppScreen() {
-        override fun getFragment(): Fragment = TODO()
-    }
-
     object ScanScreen : SupportAppScreen() {
         override fun getFragment(): Fragment = ScanFragment.newInstance()
     }
