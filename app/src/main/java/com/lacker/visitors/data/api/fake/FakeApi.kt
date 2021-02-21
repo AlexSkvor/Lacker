@@ -30,7 +30,7 @@ class FakeApi(
                 name = request.name,
                 surname = request.surname,
                 token = "Fake Token hahaha",
-                photoId = UUID.randomUUID().toString()
+                fullPhotoUrl = "https://i.ytimg.com/vi/Yh5whB-37HY/hqdefault_live.jpg"
             )
         )
     }

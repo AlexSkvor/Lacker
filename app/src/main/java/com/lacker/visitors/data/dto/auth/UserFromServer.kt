@@ -11,7 +11,7 @@ data class UserFromServer(
     @Json(name = "name") val name: String,
     @Json(name = "surname") val surname: String,
     @Json(name = "accessToken") val token: String,
-    @Json(name = "photoId") val photoId: String
+    @Json(name = "fullPhotoUrl") val fullPhotoUrl: String
 )
 
 fun UserFromServer.toDomainUser(): User = User(
@@ -20,5 +20,5 @@ fun UserFromServer.toDomainUser(): User = User(
     surname = surname,
     email = email,
     token = token,
-    photoId = photoId
+    photoId = fullPhotoUrl
 )
