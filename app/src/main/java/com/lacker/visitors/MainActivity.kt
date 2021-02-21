@@ -1,13 +1,11 @@
 package com.lacker.visitors
 
 import android.os.Bundle
-import android.view.KeyEvent
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
@@ -114,7 +112,13 @@ class MainActivity : AppCompatActivity(), ViewModelFactoryProvider, UserNotifier
 
     override fun notify(text: String, toast: Boolean) {
         if (toast) Toast.makeText(this, text, Toast.LENGTH_LONG).show()
-        else Snackbar.make(mainActivityContainer, text, Snackbar.LENGTH_LONG).show()
+        else {
+            val snack = Snackbar.make(fragmentContainer, text, Snackbar.LENGTH_LONG)
+            val params = snack.view.layoutParams as CoordinatorLayout.LayoutParams
+            params.gravity = Gravity.TOP
+            snack.view.layoutParams = params
+            snack.show()
+        }
     }
 
     override fun onBackPressed() {
