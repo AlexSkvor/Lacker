@@ -33,7 +33,8 @@ class MainActivity : AppCompatActivity(), ViewModelFactoryProvider, UserNotifier
 
     override fun onCreate(savedInstanceState: Bundle?) {
         DependencyProvider.get().component.inject(this)
-        super.onCreate(savedInstanceState) // TODO splash screen theme
+        setTheme(R.style.AppThemeNoActionBar)
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
 
