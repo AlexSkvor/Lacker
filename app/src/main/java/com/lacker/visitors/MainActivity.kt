@@ -122,7 +122,9 @@ class MainActivity : AppCompatActivity(), ViewModelFactoryProvider, UserNotifier
     }
 
     override fun onBackPressed() {
-        currentFragment?.onBackPressed() ?: super.onBackPressed()
+        if (drawerLayout.isDrawerOpen(leftNavigation))
+            drawerLayout.closeDrawer(leftNavigation)
+        else currentFragment?.onBackPressed() ?: super.onBackPressed()
     }
 
     override fun refreshToolbar() {
