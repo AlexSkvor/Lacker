@@ -101,7 +101,6 @@
 
     <style name="NavigationDrawerText">
         <item name="android:fontFamily">@font/montserrat_bold</item>
-        <item name="android:textColor">@color/text_color_brown_with_press_reaction</item>
         <item name="android:textSize">@dimen/_13ssp</item>
     </style>
 
