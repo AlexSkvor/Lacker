@@ -182,7 +182,7 @@ class MainActivity : AppCompatActivity(), ViewModelFactoryProvider, UserNotifier
                 else -> router.newRootChain(defaultScreen, nextScreen)
             }
 
-            drawerLayout.closeDrawer(leftNavigation) // TODO nav drawer text color
+            drawerLayout.closeDrawer(leftNavigation)
             false
         }
     }

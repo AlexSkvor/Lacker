@@ -1,10 +1,8 @@
 package com.lacker.visitors.features.profile
 
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.lacker.utils.extensions.alsoPrintDebug
 import com.lacker.utils.extensions.loadDrawableRes
 import com.lacker.utils.extensions.loadFromNet
-import com.lacker.utils.extensions.visible
 import com.lacker.visitors.R
 import com.lacker.visitors.data.storage.user.User
 import com.lacker.visitors.di.DependencyProvider
