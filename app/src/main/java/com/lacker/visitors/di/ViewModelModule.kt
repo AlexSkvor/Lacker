@@ -3,6 +3,7 @@ package com.lacker.visitors.di
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.lacker.visitors.features.history.HistoryMachine
+import com.lacker.visitors.features.news.NewsMachine
 import com.lacker.visitors.features.profile.ProfileMachine
 import dagger.Binds
 import dagger.MapKey
@@ -46,4 +47,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(HistoryMachine::class)
     internal abstract fun bindHistoryMachine(viewModel: HistoryMachine): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(NewsMachine::class)
+    internal abstract fun bindNewsMachine(viewModel: NewsMachine): ViewModel
 }
