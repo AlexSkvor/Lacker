@@ -65,7 +65,9 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
     }
 
     private fun onAddPortionToOrderClick(portion: DomainPortion) {
-        withAuthCheck(R.string.orderCreationAuthReason) { portion.alsoPrintDebug("onAddPortionToOrderClick") }
+        withAuthCheck(false, R.string.orderCreationAuthReason) {
+            portion.alsoPrintDebug("onAddPortionToOrderClick")
+        }
     }
 
     private fun onRemovePortionFromBasket(portion: DomainPortion) {

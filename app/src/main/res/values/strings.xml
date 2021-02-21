@@ -7,8 +7,9 @@
     <string name="error">Error</string>
 
     <!-- Bottom Sheet Auth Screen -->
-    <string name="authTitle">Sign in please</string>
+    <string name="authTitle">Let\'s get acquainted</string>
     <string name="authReason">Some features in our app require user to be authorized.\n%s is one of this features.\nPlease use one of the services below.</string>
+    <string name="authReasonFromProfile">You can sign in with any of services shown below</string>
 
     <!-- Scan Screen -->
     <string name="qrCodeInvalidFormat">This QR is invalid.\nCheck if you are using the latest Läcker version</string>
@@ -25,6 +26,9 @@
 
     <!-- Profile Screen -->
     <string name="profileScreenTitle">Profile</string>
+    <string name="guest">Guest</string>
+    <string name="signOut">Sign Out</string>
+    <string name="signIn">Sign In</string>
 
     <!--My Order Screen -->
     <string name="myOrderScreenTitle">My Order</string>

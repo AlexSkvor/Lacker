@@ -12,7 +12,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -29,12 +29,17 @@ import javax.inject.Inject
 class AuthBottomSheetDialogFragment : BottomSheetDialogFragment(), AuthView {
 
     companion object {
-        fun show(manager: FragmentManager, reason: String, onSuccess: () -> Unit) =
-            AuthBottomSheetDialogFragment().apply {
-                this.listener = onSuccess
-                this.reason = reason
-                show(manager, "AuthBottomSheetDialogFragment TAG")
-            }
+        fun show(
+            manager: FragmentManager,
+            reason: String,
+            onSuccess: () -> Unit,
+            reasonIsFull: Boolean = false
+        ) = AuthBottomSheetDialogFragment().apply {
+            this.listener = onSuccess
+            this.reason = reason
+            this.reasonIsFull = reasonIsFull
+            show(manager, "AuthBottomSheetDialogFragment TAG")
+        }
 
         private const val REQUEST_CODE_SIGN_IN_GOOGLE = 50
     }
@@ -42,21 +47,12 @@ class AuthBottomSheetDialogFragment : BottomSheetDialogFragment(), AuthView {
     @Inject
     lateinit var presenter: AuthPresenter
 
-    private var listener: (() -> Unit)? = null
+    @Inject
+    lateinit var googleApiClient: GoogleSignInClient
+
+    private var listener: (() -> Unit)? = null // TODO add onError someHow!
     private lateinit var reason: String
-
-    private val googleSignInOptions by lazy {
-        GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestEmail()
-            .build()
-    }
-
-    private val googleApiClient by lazy {
-        GoogleSignIn.getClient(
-            requireContext(),
-            googleSignInOptions
-        )
-    }
+    private var reasonIsFull: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,7 +62,8 @@ class AuthBottomSheetDialogFragment : BottomSheetDialogFragment(), AuthView {
         DependencyProvider.get().component.inject(this)
         presenter.bindView(this)
         val view = inflater.inflate(R.layout.bottom_sheet_auth_fragment, container, false)
-        view.explanation.text = getString(R.string.authReason, reason)
+        view.explanation.text = if (!reasonIsFull) getString(R.string.authReason, reason)
+        else reason
         view.googleSignIn.setOnClickListener { getGoogleAccount() }
         return view
     }
@@ -129,15 +126,22 @@ class AuthBottomSheetDialogFragment : BottomSheetDialogFragment(), AuthView {
 }
 
 fun FragmentActivity.withAuthCheck(
+    reasonIsFull: Boolean = false,
     @StringRes reasonRes: Int,
     onSuccess: () -> Unit
 ) {
     val user = DependencyProvider.get().component.getUserStorage().user
     if (!user.isEmpty()) return onSuccess()
-    AuthBottomSheetDialogFragment.show(supportFragmentManager, getString(reasonRes), onSuccess)
+    AuthBottomSheetDialogFragment.show(
+        supportFragmentManager,
+        getString(reasonRes),
+        onSuccess,
+        reasonIsFull
+    )
 }
 
 fun Fragment.withAuthCheck(
+    reasonIsFull: Boolean = false,
     @StringRes reasonRes: Int,
     onSuccess: () -> Unit
-) = requireActivity().withAuthCheck(reasonRes, onSuccess)
+) = requireActivity().withAuthCheck(reasonIsFull, reasonRes, onSuccess)
