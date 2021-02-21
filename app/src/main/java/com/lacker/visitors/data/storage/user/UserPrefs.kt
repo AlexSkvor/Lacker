@@ -37,7 +37,7 @@ class UserPrefs @Inject constructor(
             surname = surname,
             email = email,
             token = token,
-            photoId = photoId
+            fullPhotoUrl = fullPhotoUrl
         )
         set(value) {
             id = value.id
@@ -45,7 +45,7 @@ class UserPrefs @Inject constructor(
             surname = value.surname
             email = value.email
             token = value.token
-            photoId = value.photoId
+            fullPhotoUrl = value.fullPhotoUrl
         }
 
 
@@ -69,8 +69,8 @@ class UserPrefs @Inject constructor(
         get() = prefs.getString(SURNAME_KEY, empty.surname).onNull(empty.surname)
         set(value) = prefs.edit { putString(SURNAME_KEY, value) }
 
-    private var photoId: String
-        get() = prefs.getString(PHOTO_KEY, empty.photoId).onNull(empty.photoId)
+    private var fullPhotoUrl: String
+        get() = prefs.getString(PHOTO_KEY, empty.fullPhotoUrl).onNull(empty.fullPhotoUrl)
         set(value) = prefs.edit { putString(PHOTO_KEY, value) }
 
 }

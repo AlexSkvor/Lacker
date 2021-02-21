@@ -20,5 +20,5 @@ fun UserFromServer.toDomainUser(): User = User(
     surname = surname,
     email = email,
     token = token,
-    photoId = fullPhotoUrl
+    fullPhotoUrl = fullPhotoUrl
 )
