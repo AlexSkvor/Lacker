@@ -59,7 +59,7 @@
 
     <!-- Common -->
     <string name="clickAgainToCloseApp">Click \"Back\" again to close Läcker</string>
-    <string name="rurSymbolPrice">%d₽</string>
+    <string name="rurSymbolPrice">%s ₽</string>
     <string name="openDrawer">Open navigation drawer</string>
     <string name="closeDrawer">Close navigation drawer</string>
 

@@ -7,6 +7,7 @@ import com.lacker.utils.extensions.visible
 import com.lacker.visitors.R
 import com.lacker.visitors.data.storage.basket.BasketManager.Companion.MAX_BASKET_SIZE_FOR_ONE_MENU_ITEM
 import com.lacker.visitors.features.session.common.DomainPortion
+import com.lacker.visitors.utils.asMoney
 import kotlinx.android.synthetic.main.view_portion.view.*
 
 class PortionView @JvmOverloads constructor(
@@ -27,7 +28,7 @@ class PortionView @JvmOverloads constructor(
     ) {
         portionDescription.text = portion.portionName
         orderedPortionsNumber.text = (portion.basketNumber + portion.orderedNumber).toString()
-        portionPrice.text = resources.getString(R.string.rurSymbolPrice, portion.price)
+        portionPrice.text = resources.getString(R.string.rurSymbolPrice, portion.price.asMoney())
 
         minusPortionButton.visible = portion.basketNumber + portion.orderedNumber > 0
         orderedPortionsNumber.visible = portion.basketNumber + portion.orderedNumber > 0

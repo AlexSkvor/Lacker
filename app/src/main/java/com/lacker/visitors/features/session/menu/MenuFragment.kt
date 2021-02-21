@@ -102,7 +102,6 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
         super.onDestroyView()
     }
 
-    // TODO format sum as vw
     override fun render(state: State) { // TODO save position for every state type
         menuErrorPlaceholder.errorText = state.errorText
 

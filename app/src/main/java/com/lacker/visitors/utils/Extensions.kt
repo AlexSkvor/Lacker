@@ -2,7 +2,10 @@ package com.lacker.visitors.utils
 
 import android.annotation.SuppressLint
 import android.view.MotionEvent
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import java.text.DecimalFormatSymbols
+import java.util.*
 
 /**
  * Calls listener with true param if scrolled up
@@ -38,3 +41,13 @@ fun RecyclerView.onScroll(listener: (Boolean) -> Unit) {
         false
     }
 }
+
+private val formatMoney by lazy {
+    val formatSymbols = DecimalFormatSymbols(Locale.ENGLISH).apply {
+        decimalSeparator = ' '
+        groupingSeparator = ' '
+    }
+    java.text.DecimalFormat("#,###", formatSymbols)
+}
+
+fun Int.asMoney(): String = formatMoney.format(this)
