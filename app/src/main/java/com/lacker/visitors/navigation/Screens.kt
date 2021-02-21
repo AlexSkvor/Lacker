@@ -6,6 +6,7 @@ import com.lacker.visitors.features.news.NewsFragment
 import com.lacker.visitors.features.profile.ProfileFragment
 import com.lacker.visitors.features.session.menu.MenuFragment
 import com.lacker.visitors.features.scan.ScanFragment
+import com.lacker.visitors.features.settings.SettingsFragment
 import ru.terrakok.cicerone.android.support.SupportAppScreen
 
 object Screens {
@@ -35,7 +36,7 @@ object Screens {
     }
 
     object SettingsScreen : SupportAppScreen() {
-        override fun getFragment(): Fragment = TODO()
+        override fun getFragment(): Fragment = SettingsFragment.newInstance()
     }
 
     object AboutScreen : SupportAppScreen() {

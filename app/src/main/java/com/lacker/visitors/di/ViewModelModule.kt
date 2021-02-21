@@ -11,6 +11,7 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 import com.lacker.visitors.features.session.menu.MenuMachine
 import com.lacker.visitors.features.scan.ScanMachine
+import com.lacker.visitors.features.settings.SettingsMachine
 import kotlin.reflect.KClass
 
 @Target(
@@ -52,4 +53,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(NewsMachine::class)
     internal abstract fun bindNewsMachine(viewModel: NewsMachine): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SettingsMachine::class)
+    internal abstract fun bindSettingsMachine(viewModel: SettingsMachine): ViewModel
 }
