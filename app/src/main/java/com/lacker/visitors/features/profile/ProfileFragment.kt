@@ -59,7 +59,7 @@ class ProfileFragment : ToolbarFluxFragment<Wish, State>() {
     }
 
     private fun renderUser(user: User) {
-        avatarProfile.loadFromNet(user.fullPhotoUrl)
+        avatarProfile.loadFromNet(user.fullPhotoUrl, crossFade = false)
         fullName.text = user.name + " " + user.surname
         signButton.text = getString(R.string.signOut)
         signButton.setOnClickListener {

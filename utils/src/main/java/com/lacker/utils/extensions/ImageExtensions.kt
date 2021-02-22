@@ -56,9 +56,13 @@ fun ImageView.loadDrawable(drawable: Drawable) {
     load(drawable)
 }
 
-fun ImageView.loadDrawableRes(@DrawableRes id: Int, cornersRoundPx: Int = -1) {
+fun ImageView.loadDrawableRes(
+    @DrawableRes id: Int,
+    crossFade: Boolean = false,
+    cornersRoundPx: Int = -1
+) {
     load(id) {
-        crossfade(true)
+        crossfade(crossFade)
         if (cornersRoundPx > 0)
             transformations(RoundedCornersTransformation(cornersRoundPx.toFloat()))
     }
