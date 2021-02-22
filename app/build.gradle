@@ -20,12 +20,17 @@ android {
         }
     }
 
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
     defaultConfig {
         applicationId "com.lacker.visitors"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
+
+        resValue "string", "client_id", properties.getProperty("client.id", "")
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
