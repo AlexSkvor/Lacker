@@ -30,8 +30,12 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
             title = currentTitle,
             subtitle = null,
             showBackIcon = false,
-            menuResId = R.menu.main_menu_menu // TODO filters icon & filters as right-side NavigationDrawer
+            menuResId = currentMenu // TODO filters as right-side NavigationDrawer
         )
+
+    private val currentMenu: Int
+        get() = if (machine.states().value.type != State.Type.MENU) R.menu.main_menu_menu
+        else R.menu.main_menu_menu_with_filters
 
     private val currentTitle: String
         get() = when (machine.states().value.type) {
@@ -130,9 +134,19 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
     }
 
     override fun onMenuItemChosen(itemId: Int): Boolean {
-        if (itemId == R.id.bellIcon1) {
-            openCallStaffDialog()
-            return true
+        when (itemId) {
+            R.id.bellIcon1 -> {
+                openCallStaffDialog()
+                return true
+            }
+            R.id.bellIcon2 -> {
+                openCallStaffDialog()
+                return true
+            }
+            R.id.filtersIcon -> {
+                alsoPrintDebug("AAAAAAAA")
+                return true
+            }
         }
 
         return false
