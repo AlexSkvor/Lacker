@@ -118,6 +118,10 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
             menuNavigationBar.appearFromBottom(0)
         menuNavigationBar.setState(state.type.asUi())
 
+        menuNavigationBar.setFavouriteBadge(state.favourites.orEmpty().size)
+        menuNavigationBar.setBasketBadge(state.basket.orEmpty().sumBy { it.ordered })
+        menuNavigationBar.setOrderBadge(state.order.orEmpty().sumBy { it.ordered })
+
         menuEmptyPlaceholder.emptyThingText = currentTitle.toLowerCase(Locale.getDefault())
         menuEmptyPlaceholder.visible = state.empty &&
                 !(state.showLoading || state.errorText.isNotNull())

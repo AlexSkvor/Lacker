@@ -7,6 +7,7 @@ import android.widget.TextView
 import com.lacker.utils.extensions.getColor
 import com.lacker.utils.extensions.setTextSizeRes
 import com.lacker.utils.extensions.setTintColor
+import com.lacker.utils.extensions.visible
 import com.lacker.visitors.R
 import com.lacker.visitors.features.session.menu.MenuMachine
 import kotlinx.android.synthetic.main.view_session_navigation.view.*
@@ -55,6 +56,21 @@ class SessionNavigationView @JvmOverloads constructor(
 
     enum class State {
         MENU, FAVOURITE, BASKET, ORDER
+    }
+
+    fun setFavouriteBadge(value: Int) {
+        favouriteBadge.visible = value > 0
+        favouriteBadge.text = value.toString()
+    }
+
+    fun setBasketBadge(value: Int) {
+        basketBadge.visible = value > 0
+        basketBadge.text = value.toString()
+    }
+
+    fun setOrderBadge(value: Int) {
+        orderBadge.visible = value > 0
+        orderBadge.text = value.toString()
     }
 
 }

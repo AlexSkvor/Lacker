@@ -26,5 +26,6 @@
     <color name="grey">#55000000</color>
     <color name="lightGrey">#44000000</color>
     <color name="veryLightGrey">#33000000</color>
+    <color name="greyNotTransparent">#555</color>
 
 </resources>
