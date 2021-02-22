@@ -23,6 +23,15 @@
     <string name="startCooking">Start cooking</string>
     <string name="favouriteScreenTitle">Favourite</string>
     <string name="orderScreenTitle">Order</string>
+    <string name="staffCalling">Staff calling</string>
+
+    <!-- Call Staff Screen -->
+    <string name="weWillNotifyStaff">Your request was accepted, please wait</string>
+    <string name="callStaff">Call the waiter for…</string>
+    <string name="bankCardPayment">Bank card payment</string>
+    <string name="cashPayment">Cash payment</string>
+    <string name="consultation">Consultation</string>
+    <string name="shouldSelectRestaurantBeforeCallStaff">You should select restaurant before call staff</string>
 
     <!-- Profile Screen -->
     <string name="profileScreenTitle">Profile</string>

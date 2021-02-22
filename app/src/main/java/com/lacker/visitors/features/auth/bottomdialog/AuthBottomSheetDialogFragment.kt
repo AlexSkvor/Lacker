@@ -16,6 +16,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.lacker.utils.extensions.alsoPrintDebug
 import com.lacker.utils.extensions.gone
 import com.lacker.utils.extensions.visible
 import com.lacker.visitors.R
@@ -85,6 +86,7 @@ class AuthBottomSheetDialogFragment : BottomSheetDialogFragment(), AuthView {
         try {
             val account = requireNotNull(completedTask.getResult(ApiException::class.java))
 
+            account.idToken.alsoPrintDebug("AAAAAAAAAAAA")
             val data = GoogleAuthData(
                 googleId = requireNotNull(account.id),
                 name = requireNotNull(account.givenName),

@@ -6,6 +6,7 @@ import com.lacker.visitors.R
 import com.lacker.visitors.features.auth.bottomdialog.withAuthCheck
 import com.lacker.visitors.features.base.ToolbarFluxFragment
 import com.lacker.visitors.features.base.ToolbarFragmentSettings
+import com.lacker.visitors.features.session.callstaff.openCallStaffDialog
 import com.lacker.visitors.features.session.common.DomainMenuItem
 import com.lacker.visitors.features.session.common.DomainPortion
 import com.lacker.visitors.features.session.common.MenuButtonItem
@@ -29,7 +30,7 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
             title = currentTitle,
             subtitle = null,
             showBackIcon = false,
-            menuResId = null // TODO filters icon & filters as right-side NavigationDrawer
+            menuResId = R.menu.main_menu_menu // TODO filters icon & filters as right-side NavigationDrawer
         )
 
     private val currentTitle: String
@@ -122,5 +123,14 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
                 !(state.showLoading || state.errorText.isNotNull())
 
         adapter.items = state.showList.orEmpty()
+    }
+
+    override fun onMenuItemChosen(itemId: Int): Boolean {
+        if (itemId == R.id.bellIcon1) {
+            openCallStaffDialog()
+            return true
+        }
+
+        return false
     }
 }

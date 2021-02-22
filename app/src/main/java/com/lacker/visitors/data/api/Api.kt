@@ -31,4 +31,10 @@ interface Api {
         @Path("restaurantId") restaurantId: String,
         @Path("tableId") tableId: String
     )
+
+    @POST("restaurants/{restaurantId}/callStaff/{type}")
+    suspend fun callStaff(
+        @Path("restaurantId") restaurantId: String,
+        @Path("type") type: String
+    )
 }

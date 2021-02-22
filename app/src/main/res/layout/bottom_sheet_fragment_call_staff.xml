@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/_32sdp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/callStaffTitle"
+            style="@style/Text.Bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/_8sdp"
+            android:clickable="false"
+            android:text="@string/callStaff"
+            android:textColor="@color/brown"
+            android:textSize="@dimen/_14ssp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/bankCardPaymentButton"
+            style="@style/App.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:text="@string/bankCardPayment" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cashPaymentButton"
+            style="@style/App.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_16sdp"
+            android:text="@string/cashPayment" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/consultationButton"
+            style="@style/App.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_16sdp"
+            android:text="@string/consultation" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/callStaffProgress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/grey"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
+</FrameLayout>
