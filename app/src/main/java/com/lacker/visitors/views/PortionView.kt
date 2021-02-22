@@ -42,12 +42,6 @@ class PortionView @JvmOverloads constructor(
             onAddToOrder(portion)
             true
         }
-
-        portionContainer.setOnClickListener { onAddToBasket(portion) }
-        portionContainer.setOnLongClickListener {
-            onAddToOrder(portion)
-            true
-        }
     }
 
 
