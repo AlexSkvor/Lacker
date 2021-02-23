@@ -84,7 +84,13 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
     }
 
     private fun onButtonClick(item: MenuButtonItem) {
-        item.wish?.let { if (it is Wish) performWish(it) }
+        item.wish?.let {
+            if (it is Wish.SendBasketToServer) {
+                withAuthCheck(reasonRes = R.string.orderCreationAuthReason) {
+                    performWish(it)
+                }
+            }
+        }
     }
 
     override fun onScreenInit() {
