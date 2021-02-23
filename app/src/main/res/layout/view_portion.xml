@@ -4,15 +4,42 @@
     android:id="@+id/portionContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="start|center"
+    android:gravity="end|center"
     android:orientation="horizontal"
-    android:paddingVertical="@dimen/_8sdp">
+    android:paddingVertical="@dimen/_6sdp">
 
     <TextView
-        android:id="@+id/plusPortionButton"
+        android:id="@+id/portionDescription"
+        style="@style/Text.Regular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_8sdp"
+        android:clickable="false"
+        android:ellipsize="end"
+        android:lines="1"
+        android:maxLines="1"
+        android:textColor="@color/brown"
+        tools:text="Бокал 0.3л" />
+
+    <TextView
+        android:id="@+id/portionPrice"
+        style="@style/Text.Bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_12sdp"
+        android:clickable="false"
+        android:lines="1"
+        android:maxLength="9"
+        android:maxLines="1"
+        android:textColor="@color/brownExtraLight"
+        android:textSize="@dimen/_14ssp"
+        tools:text="999 999 ₽" />
+
+    <TextView
+        android:id="@+id/minusPortionButton"
         android:layout_width="@dimen/_20sdp"
         android:layout_height="@dimen/_20sdp"
-        android:background="@drawable/bg_button_plus" />
+        android:background="@drawable/bg_button_minus" />
 
     <TextView
         android:id="@+id/orderedPortionsNumber"
@@ -29,36 +56,9 @@
         tools:text="99" />
 
     <TextView
-        android:id="@+id/minusPortionButton"
+        android:id="@+id/plusPortionButton"
         android:layout_width="@dimen/_20sdp"
         android:layout_height="@dimen/_20sdp"
-        android:background="@drawable/bg_button_minus" />
-
-    <TextView
-        android:id="@+id/portionPrice"
-        style="@style/Text.Bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_12sdp"
-        android:clickable="false"
-        android:lines="1"
-        android:maxLength="9"
-        android:maxLines="1"
-        android:textColor="@color/brownExtraLight"
-        android:textSize="@dimen/_14ssp"
-        tools:text="999 999 ₽" />
-
-    <TextView
-        android:id="@+id/portionDescription"
-        style="@style/Text.Regular"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_8sdp"
-        android:clickable="false"
-        android:ellipsize="end"
-        android:lines="1"
-        android:maxLines="1"
-        android:textColor="@color/brown"
-        tools:text="Бокал 0.3л" />
+        android:background="@drawable/bg_button_plus" />
 
 </LinearLayout>
