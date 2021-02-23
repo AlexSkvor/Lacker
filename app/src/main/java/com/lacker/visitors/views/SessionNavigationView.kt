@@ -4,10 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import android.widget.TextView
-import com.lacker.utils.extensions.getColor
-import com.lacker.utils.extensions.setTextSizeRes
-import com.lacker.utils.extensions.setTintColor
-import com.lacker.utils.extensions.visible
+import com.lacker.utils.extensions.*
 import com.lacker.visitors.R
 import com.lacker.visitors.features.session.menu.MenuMachine
 import kotlinx.android.synthetic.main.view_session_navigation.view.*
@@ -27,12 +24,17 @@ class SessionNavigationView @JvmOverloads constructor(
         )
     }
 
+    private var lastClickTime: Long = 0
+
     init {
         inflate(context, R.layout.view_session_navigation, this)
 
         views.forEach { pair ->
             pair.first.setOnClickListener {
-                stateListener?.invoke(pair.second)
+                if (System.currentTimeMillis() - lastClickTime > 350) {
+                    lastClickTime = System.currentTimeMillis()
+                    stateListener?.invoke(pair.second)
+                }
             }
         }
     }

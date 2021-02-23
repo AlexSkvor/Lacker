@@ -19,7 +19,6 @@ class ErrorPlaceholderView @JvmOverloads constructor(
         set(value) {
             field = value
             errorMessageText.text = "$errorTextStarter\n\n$value"
-            visible = value != null
         }
 
     var errorTextStarter: String = context.getString(R.string.defaultErrorStarter)

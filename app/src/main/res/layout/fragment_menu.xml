@@ -9,40 +9,73 @@
         android:id="@+id/menuSwipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        tools:visibility="visible">
+        android:visibility="visible">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/menuRecycler"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_menu_item" />
+            android:layout_height="match_parent">
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/menuRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"
+                android:visibility="gone"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_menu_item"
+                tools:visibility="visible" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/favouriteRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"
+                android:visibility="gone"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_menu_item" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/basketRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"
+                android:visibility="gone"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_menu_item" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/orderRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"
+                android:visibility="gone"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_menu_item" />
+
+            <com.lacker.visitors.views.ErrorPlaceholderView
+                android:id="@+id/menuErrorPlaceholder"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <com.lacker.visitors.views.ProgressPlaceholderView
+                android:id="@+id/menuProgressPlaceholder"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                app:cookingThing="@string/menuScreenTitle"
+                tools:visibility="visible" />
+
+            <com.lacker.visitors.views.EmptyPlaceholderView
+                android:id="@+id/menuEmptyPlaceholder"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                app:emptyThing="@string/menuScreenTitle" />
+
+        </FrameLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-    <com.lacker.visitors.views.ErrorPlaceholderView
-        android:id="@+id/menuErrorPlaceholder"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        tools:visibility="visible" />
-
-    <com.lacker.visitors.views.ProgressPlaceholderView
-        android:id="@+id/menuProgressPlaceholder"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        app:cookingThing="@string/menuScreenTitle"
-        tools:visibility="visible" />
-
-    <com.lacker.visitors.views.EmptyPlaceholderView
-        android:id="@+id/menuEmptyPlaceholder"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        app:emptyThing="@string/menuScreenTitle" />
 
     <com.lacker.visitors.views.SessionNavigationView
         android:id="@+id/menuNavigationBar"

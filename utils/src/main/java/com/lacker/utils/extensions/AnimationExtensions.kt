@@ -41,6 +41,55 @@ fun View.animateScale(onAnimationMiddle: (() -> Unit)? = null) {
     }
 }
 
+fun View.appearFromRight(duration: Long = 500L) {
+    animation?.setAnimationListener(null)
+    animation?.cancel()
+    clearAnimation()
+    animate()
+        .translationX(context.resources.displayMetrics.widthPixels.toFloat())
+        .setDuration(0)
+        .withEndAction {
+            animate()
+                .setInterpolator(DecelerateInterpolator())
+                .translationX(0f)
+                .withStartAction { visible() }
+                .withEndAction { visible() }
+                .duration = duration
+        }
+}
+
+fun View.appearFromLeft(duration: Long = 500L) {
+    animation?.setAnimationListener(null)
+    animation?.cancel()
+    clearAnimation()
+    animate()
+        .translationX(-context.resources.displayMetrics.widthPixels.toFloat())
+        .setDuration(0)
+        .withEndAction {
+            animate()
+                .setInterpolator(DecelerateInterpolator())
+                .translationX(0f)
+                .withStartAction { visible() }
+                .withEndAction { visible() }
+                .duration = duration
+        }
+}
+
+fun View.hideOnLeft(duration: Long = 500L) {
+    animate()
+        .setInterpolator(DecelerateInterpolator())
+        .withEndAction { gone() }
+        .x(-context.resources.displayMetrics.widthPixels.toFloat())
+        .duration = duration
+}
+
+fun View.hideOnRight(duration: Long = 500L) {
+    animate()
+        .setInterpolator(DecelerateInterpolator())
+        .withEndAction { gone() }
+        .x(context.resources.displayMetrics.widthPixels.toFloat())
+        .duration = duration
+}
 
 fun View.appearFromBottom(duration: Long = 500L) {
     animate()

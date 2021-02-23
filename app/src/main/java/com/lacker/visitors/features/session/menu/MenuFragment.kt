@@ -1,5 +1,7 @@
 package com.lacker.visitors.features.session.menu
 
+import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.lacker.utils.extensions.*
 import com.lacker.visitors.R
@@ -49,16 +51,10 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
 
     override fun layoutRes(): Int = R.layout.fragment_menu
 
-    private val adapter by lazy {
-        getMenuAdapter(
-            onAddToOrder = ::onAddPortionToOrderClick,
-            onItemClick = ::onMenuItemClick,
-            removeFromBasket = ::onRemovePortionFromBasket,
-            onAddToBasket = ::onAddPortionToBasket,
-            onButtonClick = ::onButtonClick,
-            onFavouriteClick = ::onFavouriteClick
-        )
-    }
+    private val menuAdapter by lazy { createAdapter() }
+    private val favouriteAdapter by lazy { createAdapter() }
+    private val basketAdapter by lazy { createAdapter() }
+    private val orderAdapter by lazy { createAdapter() }
 
     private fun onMenuItemClick(item: DomainMenuItem) {
         item.alsoPrintDebug("onMenuItemClick")
@@ -94,10 +90,15 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
     }
 
     override fun onScreenInit() {
-        menuRecycler.adapter = adapter
-        menuRecycler.onScroll {
-            if (it) menuNavigationBar.appearFromBottom(200)
-            else menuNavigationBar.hideBelowBottom(200)
+        menuRecycler.adapter = menuAdapter
+        favouriteRecycler.adapter = favouriteAdapter
+        basketRecycler.adapter = basketAdapter
+        orderRecycler.adapter = orderAdapter
+        listOf(menuRecycler, favouriteRecycler, basketRecycler, orderRecycler).forEach {
+            it.onScroll { upper ->
+                if (upper) menuNavigationBar.appearFromBottom(200)
+                else menuNavigationBar.hideBelowBottom(200)
+            }
         }
         menuErrorPlaceholder.onRetry { performWish(Wish.Refresh) }
         menuSwipeRefresh.setOnRefreshListener { performWish(Wish.Refresh) }
@@ -105,25 +106,76 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
             performWish(Wish.ChangeShowType(it.asDomain()))
         }
         performWish(Wish.Refresh)
-        (menuRecycler.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
+        recyclers.forEach {
+            (it.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
+        }
     }
 
     override fun onDestroyView() {
-        menuRecycler.adapter = null
+        recyclers.forEach { it.adapter = null }
         super.onDestroyView()
     }
 
-    override fun render(state: State) { // TODO save position for every state type
-        menuErrorPlaceholder.errorText = state.errorText
+    private val recyclers: List<RecyclerView>
+        get() = listOf(menuRecycler, favouriteRecycler, basketRecycler, orderRecycler)
 
-        menuProgressPlaceholder.visible = (state.showLoading && state.empty)
-        menuProgressPlaceholder.cookingThingText = currentTitle.toLowerCase(Locale.getDefault())
+    private var prevStateType: State.Type? = null
 
-        menuSwipeRefresh.visible = !state.empty
-        menuSwipeRefresh.isRefreshing = state.showLoading
+    private fun recyclerForStateType(type: State.Type): RecyclerView = when (type) {
+        State.Type.MENU -> menuRecycler
+        State.Type.FAVOURITE -> favouriteRecycler
+        State.Type.BASKET -> basketRecycler
+        State.Type.ORDER -> orderRecycler
+    }
 
-        refreshToolbar()
+    private fun nextVisibleViewFromState(state: State): View = when {
+        state.errorText.isNotNull() -> menuErrorPlaceholder
+        (state.showLoading && state.empty) -> menuProgressPlaceholder
+        state.empty && !state.showLoading && state.errorText.isNull() -> menuEmptyPlaceholder
+        else -> recyclerForStateType(state.type)
+    }
 
+    private val allViews
+        get() = listOf(
+            menuErrorPlaceholder,
+            menuProgressPlaceholder,
+            menuEmptyPlaceholder
+        ) + recyclers
+
+    private val currentVisibleView
+        get() = allViews.firstOrNull { it.visible }
+
+    private fun shouldAppearFromRight(newType: State.Type): Boolean {
+        val oldPos = State.Type.values().indexOf(prevStateType)
+        val newPos = State.Type.values().indexOf(newType)
+        return oldPos < newPos
+    }
+
+    private fun renderVisibleView(state: State) {
+        val nextVisibleView = nextVisibleViewFromState(state)
+        val previousVisibleView = currentVisibleView
+        allViews.forEach {
+            if (it != nextVisibleView && it != previousVisibleView)
+                it.gone()
+        }
+        val typeNotChanged = prevStateType == state.type || prevStateType == null
+        if (typeNotChanged) {
+            if (previousVisibleView != nextVisibleView)
+                previousVisibleView?.gone()
+            nextVisibleView.visible()
+            nextVisibleView.x = 0f
+        } else {
+            if (shouldAppearFromRight(state.type)) {
+                previousVisibleView?.hideOnLeft(300L)
+                nextVisibleView.appearFromRight(300L)
+            } else {
+                previousVisibleView?.hideOnRight(300L)
+                nextVisibleView.appearFromLeft(300L)
+            }
+        }
+    }
+
+    override fun render(state: State) {
         if (state.empty || state.errorText.isNotNull())
             menuNavigationBar.appearFromBottom(0)
         menuNavigationBar.setState(state.type.asUi())
@@ -132,11 +184,26 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
         menuNavigationBar.setBasketBadge(state.basket.orEmpty().sumBy { it.ordered })
         menuNavigationBar.setOrderBadge(state.order.orEmpty().sumBy { it.ordered })
 
-        menuEmptyPlaceholder.emptyThingText = currentTitle.toLowerCase(Locale.getDefault())
-        menuEmptyPlaceholder.visible = state.empty &&
-                !(state.showLoading || state.errorText.isNotNull())
+        refreshToolbar()
 
-        adapter.items = state.showList.orEmpty()
+        menuErrorPlaceholder.errorText = state.errorText
+
+        menuProgressPlaceholder.cookingThingText = currentTitle.toLowerCase(Locale.getDefault())
+
+        menuSwipeRefresh.isEnabled = !state.empty
+        menuSwipeRefresh.isRefreshing = state.showLoading
+
+        menuEmptyPlaceholder.emptyThingText = currentTitle.toLowerCase(Locale.getDefault())
+
+        renderVisibleView(state)
+
+        when (state.type) {
+            State.Type.MENU -> menuAdapter.items = state.showList.orEmpty()
+            State.Type.FAVOURITE -> favouriteAdapter.items = state.showList.orEmpty()
+            State.Type.BASKET -> basketAdapter.items = state.showList.orEmpty()
+            State.Type.ORDER -> orderAdapter.items = state.showList.orEmpty()
+        }
+        prevStateType = state.type
     }
 
     override fun onMenuItemChosen(itemId: Int): Boolean {
@@ -157,4 +224,13 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
 
         return false
     }
+
+    private fun createAdapter() = getMenuAdapter(
+        onAddToOrder = ::onAddPortionToOrderClick,
+        onItemClick = ::onMenuItemClick,
+        removeFromBasket = ::onRemovePortionFromBasket,
+        onAddToBasket = ::onAddPortionToBasket,
+        onButtonClick = ::onButtonClick,
+        onFavouriteClick = ::onFavouriteClick
+    )
 }
