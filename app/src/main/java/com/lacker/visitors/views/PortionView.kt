@@ -42,6 +42,8 @@ class PortionView @JvmOverloads constructor(
             onAddToOrder(portion)
             true
         }
+
+        portionContainer.setOnClickListener {  }
     }
 
 

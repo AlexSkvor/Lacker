@@ -9,10 +9,10 @@
     android:paddingVertical="@dimen/_8sdp">
 
     <TextView
-        android:id="@+id/minusPortionButton"
+        android:id="@+id/plusPortionButton"
         android:layout_width="@dimen/_20sdp"
         android:layout_height="@dimen/_20sdp"
-        android:background="@drawable/bg_button_minus" />
+        android:background="@drawable/bg_button_plus" />
 
     <TextView
         android:id="@+id/orderedPortionsNumber"
@@ -29,10 +29,10 @@
         tools:text="99" />
 
     <TextView
-        android:id="@+id/plusPortionButton"
+        android:id="@+id/minusPortionButton"
         android:layout_width="@dimen/_20sdp"
         android:layout_height="@dimen/_20sdp"
-        android:background="@drawable/bg_button_plus" />
+        android:background="@drawable/bg_button_minus" />
 
     <TextView
         android:id="@+id/portionPrice"
