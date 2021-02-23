@@ -7,11 +7,9 @@ import com.ironz.binaryprefs.Preferences
 import com.lacker.visitors.data.api.ApiCallResult
 import com.lacker.visitors.data.storage.basket.BasketManager.Companion.MAX_BASKET_SIZE_FOR_ONE_MENU_ITEM
 import com.lacker.visitors.data.dto.menu.OrderInfo
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import java.lang.Math.min
-import java.lang.Math.max
 import javax.inject.Inject
+import kotlin.math.max
+import kotlin.math.min
 
 class PrefsBasketManager @Inject constructor(
     private val context: Context
@@ -30,8 +28,10 @@ class PrefsBasketManager @Inject constructor(
             .build()
     }
 
-    override suspend fun sendBasketToServer(): ApiCallResult<List<OrderInfo>> {
-        TODO("Not yet implemented")
+    override suspend fun clearBasket(): ApiCallResult<List<OrderInfo>> {
+        restaurantId = null
+        basket = emptyList()
+        return ApiCallResult.Result(basket)
     }
 
     override suspend fun addToBasket(
@@ -59,10 +59,10 @@ class PrefsBasketManager @Inject constructor(
             oldBasket.map { if (it.portionId == portionId) newInfo else it }
         }
 
-        return ApiCallResult.Result(basket.also { notifyListeners(it) })
+        return ApiCallResult.Result(basket)
     }
 
-    override suspend fun removeFromBasket( // TODO remove key!
+    override suspend fun removeFromBasket(
         restaurantId: String,
         portionId: String
     ): ApiCallResult<List<OrderInfo>> {
@@ -84,7 +84,7 @@ class PrefsBasketManager @Inject constructor(
                 .filter { it.ordered > 0 }
         }
 
-        return ApiCallResult.Result(basket.also { notifyListeners(it) })
+        return ApiCallResult.Result(basket)
     }
 
     override suspend fun getBasket(restaurantId: String): ApiCallResult<List<OrderInfo>> =
@@ -105,26 +105,4 @@ class PrefsBasketManager @Inject constructor(
             else value.joinToString(separator = "|") { "${it.portionId}%${it.ordered}" }
             prefs.edit { putString(BASKET_IDS_KEY, str) }
         }
-
-    private suspend fun notifyListeners(newList: List<OrderInfo>) {
-        withContext(Dispatchers.Main) {
-            listeners.values.forEach {
-                it.forEach { listener -> listener(newList) }
-            }
-        }
-    }
-
-    private val listeners: MutableMap<Any, List<(List<OrderInfo>) -> Unit>> = mutableMapOf()
-
-    override fun addBasketChangesListener(
-        listenerOwner: Any,
-        listener: (List<OrderInfo>) -> Unit
-    ) {
-        if (listeners[listenerOwner] == null) listeners[listenerOwner] = listOf(listener)
-        else listeners[listenerOwner] = listeners[listenerOwner]?.plus(listener).orEmpty()
-    }
-
-    override fun clearMyBasketChangesListeners(listenerOwner: Any) {
-        listeners.remove(listenerOwner)
-    }
 }
