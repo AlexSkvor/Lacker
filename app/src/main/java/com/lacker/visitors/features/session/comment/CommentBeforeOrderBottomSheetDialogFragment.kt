@@ -69,6 +69,7 @@ class CommentBeforeOrderBottomSheetDialogFragment : BottomSheetDialogFragment() 
     var removeFromBasketListener: ((DomainPortion) -> Unit)? = null
     var commentListener: ((String) -> Unit)? = null
     var submitListener: (() -> Unit)? = null
+    var onDismissListener: (() -> Unit)? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
@@ -99,6 +100,11 @@ class CommentBeforeOrderBottomSheetDialogFragment : BottomSheetDialogFragment() 
         val lastComment = lastStateCommentText ?: return
         val lastItems = lastStateItems ?: return
         render(lastItems, lastComment)
+    }
+
+    override fun onDestroy() {
+        onDismissListener?.invoke()
+        super.onDestroy()
     }
 
     fun show(manager: FragmentManager?) {

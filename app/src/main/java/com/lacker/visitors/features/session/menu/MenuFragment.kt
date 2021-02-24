@@ -52,15 +52,24 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
 
     override fun layoutRes(): Int = R.layout.fragment_menu
 
-    private val commentFragment by lazy {
-        CommentBeforeOrderBottomSheetDialogFragment()
-            .apply {
-                addToBasketListener = ::onAddPortionToBasket
-                removeFromBasketListener = ::onRemovePortionFromBasket
-                commentListener = { performWish(Wish.ChangeComment(it)) }
-                submitListener = { performWish(Wish.SendBasketToServer) }
-            }
+    private fun createCommentFragment() {
+        if (commentFragment == null)
+            commentFragment = CommentBeforeOrderBottomSheetDialogFragment()
+                .apply {
+                    addToBasketListener = ::onAddPortionToBasket
+                    removeFromBasketListener = ::onRemovePortionFromBasket
+                    commentListener = { performWish(Wish.ChangeComment(it)) }
+                    submitListener = { performWish(Wish.SendBasketToServer) }
+                    onDismissListener = { commentFragment = null }
+                    val state = machine.states().value
+                    render(
+                        state.basketShowList.orEmpty().filterIsInstance<DomainMenuItem>(),
+                        state.comment
+                    )
+                }
     }
+
+    private var commentFragment: CommentBeforeOrderBottomSheetDialogFragment? = null
 
     private val menuAdapter by lazy { createAdapter() }
     private val favouriteAdapter by lazy { createAdapter() }
@@ -94,7 +103,8 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
         item.wish?.let {
             if (it is Wish.SendBasketToServer) {
                 withAuthCheck(reasonRes = R.string.orderCreationAuthReason) {
-                    commentFragment.show(requireActivity().supportFragmentManager)
+                    createCommentFragment()
+                    commentFragment?.show(requireActivity().supportFragmentManager)
                 }
             }
         }
@@ -216,7 +226,7 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
         }
         prevStateType = state.type
 
-        commentFragment.render(
+        commentFragment?.render(
             state.basketShowList.orEmpty().filterIsInstance<DomainMenuItem>(),
             state.comment
         )
