@@ -9,6 +9,7 @@ import com.lacker.visitors.features.auth.bottomdialog.withAuthCheck
 import com.lacker.visitors.features.base.ToolbarFluxFragment
 import com.lacker.visitors.features.base.ToolbarFragmentSettings
 import com.lacker.visitors.features.session.callstaff.openCallStaffDialog
+import com.lacker.visitors.features.session.comment.CommentBeforeOrderBottomSheetDialogFragment
 import com.lacker.visitors.features.session.common.DomainMenuItem
 import com.lacker.visitors.features.session.common.DomainPortion
 import com.lacker.visitors.features.session.common.MenuButtonItem
@@ -51,6 +52,16 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
 
     override fun layoutRes(): Int = R.layout.fragment_menu
 
+    private val commentFragment by lazy {
+        CommentBeforeOrderBottomSheetDialogFragment()
+            .apply {
+                addToBasketListener = ::onAddPortionToBasket
+                removeFromBasketListener = ::onRemovePortionFromBasket
+                commentListener = { performWish(Wish.ChangeComment(it)) }
+                submitListener = { performWish(Wish.SendBasketToServer) }
+            }
+    }
+
     private val menuAdapter by lazy { createAdapter() }
     private val favouriteAdapter by lazy { createAdapter() }
     private val basketAdapter by lazy { createAdapter() }
@@ -83,7 +94,7 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
         item.wish?.let {
             if (it is Wish.SendBasketToServer) {
                 withAuthCheck(reasonRes = R.string.orderCreationAuthReason) {
-                    performWish(it)
+                    commentFragment.show(requireActivity().supportFragmentManager)
                 }
             }
         }
@@ -204,6 +215,11 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
             State.Type.ORDER -> orderAdapter.items = state.showList.orEmpty()
         }
         prevStateType = state.type
+
+        commentFragment.render(
+            state.basketShowList.orEmpty().filterIsInstance<DomainMenuItem>(),
+            state.comment
+        )
     }
 
     override fun onMenuItemChosen(itemId: Int): Boolean {

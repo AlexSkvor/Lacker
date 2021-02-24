@@ -24,6 +24,9 @@
     <string name="favouriteScreenTitle">Favourite</string>
     <string name="orderScreenTitle">Order</string>
     <string name="staffCalling">Staff calling</string>
+    <string name="leaveYourCommentHere">Leave your comment here</string>
+    <string name="youHaveChosenDishes">You have chosen %d dishes</string>
+    <string name="confirm">Confirm</string>
 
     <!-- Call Staff Screen -->
     <string name="weWillNotifyStaff">Your request was accepted, please wait</string>

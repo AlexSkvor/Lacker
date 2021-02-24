@@ -42,6 +42,8 @@ class MenuMachine @Inject constructor(
         data class RemoveFromBasket(val portion: DomainPortion) : Wish()
         data class RemoveFromFavourite(val menuItemId: String) : Wish()
 
+        data class ChangeComment(val comment: String) : Wish()
+
         data class ChangeShowType(val type: State.Type) : Wish()
         object SendBasketToServer : Wish()
     }
@@ -84,7 +86,9 @@ class MenuMachine @Inject constructor(
         val favouriteShowList: List<MenuAdapterItem>? = null,
         val orderShowList: List<MenuAdapterItem>? = null,
         val errorText: String? = null,
-        val type: Type = Type.MENU
+        val type: Type = Type.MENU,
+        val comment: String = "",
+        val drinksImmediately: Boolean = false // TODO use it on order dialog
     ) {
 
         val showList = when (type) {
@@ -129,6 +133,8 @@ class MenuMachine @Inject constructor(
         is Wish.RemoveFromFavourite -> oldState.also { pushResult { removeFromFavourites(wish.menuItemId) } }
         is Wish.ChangeShowType -> oldState.copy(type = wish.type)
         Wish.SendBasketToServer -> TODO("Create OrderManager and AuthChecker!")
+        // add filter for OrderLoading!
+        is Wish.ChangeComment -> oldState.copy(comment = wish.comment)
     }
 
     override fun onResult(res: Result, oldState: State): State = when (res) {
