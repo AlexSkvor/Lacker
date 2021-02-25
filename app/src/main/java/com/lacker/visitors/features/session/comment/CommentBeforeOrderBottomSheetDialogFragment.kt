@@ -20,13 +20,6 @@ import com.lacker.visitors.features.session.common.DomainPortion
 import com.lacker.visitors.views.SmallMenuItemView
 import kotlinx.android.synthetic.main.bottom_sheet_fragment_comment_before_order.*
 
-
-/**
- * Это должен быть всегда один и тот же диалог :(
- * Обновлять в нем ресайклер через адаптер, подаваемый снаружи
- * Для заказа одного блюда (не корзины) - отдельный боттом шит!
- * Кнопку и едит текст тоже как элементы ресайклера?
- */
 class CommentBeforeOrderBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     fun render(items: List<DomainMenuItem>, commentText: String) {
