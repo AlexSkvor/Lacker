@@ -19,10 +19,8 @@ class CallStaffPresenter @Inject constructor(
     private var taskExecuting: Boolean = false
 
     fun callFor(type: CallStaffType) {
-        val restaurantId = sessionStorage.session?.restaurantId
-        if (restaurantId.isNullOrBlank()) {
-            return view.showError(resourceProvider.getString(R.string.shouldSelectRestaurantBeforeCallStaff))
-        }
+        val session = sessionStorage.session
+            ?: return view.showError(resourceProvider.getString(R.string.shouldSelectRestaurantBeforeCallStaff))
 
         if (taskExecuting) return
         taskExecuting = true
@@ -30,7 +28,9 @@ class CallStaffPresenter @Inject constructor(
         view.showProgress()
 
         launchIo {
-            val res = net.callResult { callStaff(restaurantId, type.apiName) } // TODO also use auth token later
+            val res = net.callResult {
+                callStaff(session.restaurantId, type.apiName, session.tableId)
+            }
 
             launchUi {
                 when (res) {

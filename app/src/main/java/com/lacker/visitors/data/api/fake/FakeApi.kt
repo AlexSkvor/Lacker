@@ -68,7 +68,7 @@ class FakeApi(
         if (tableId.length != 36) throw Exception()
     }
 
-    override suspend fun callStaff(restaurantId: String, type: String) {
+    override suspend fun callStaff(restaurantId: String, type: String, tableId: String) {
         delay(Random.nextLong(100, 2000))
         possiblyThrow()
     }

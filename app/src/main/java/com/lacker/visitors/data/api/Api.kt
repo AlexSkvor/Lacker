@@ -26,15 +26,17 @@ interface Api {
         @Path("restaurantId") restaurantId: String
     ): DateTimeResponse
 
-    @GET("restaurants/{restaurantId}/hasTable/{tableId}")
+    @GET("restaurants/{restaurantId}/hasTable")
     suspend fun checkRestaurantExistsAndHasTable(
         @Path("restaurantId") restaurantId: String,
-        @Path("tableId") tableId: String
+        @Query("tableId") tableId: String
     )
 
+    // TODO also use auth token later
     @POST("restaurants/{restaurantId}/callStaff/{type}")
     suspend fun callStaff(
         @Path("restaurantId") restaurantId: String,
-        @Path("type") type: String
+        @Query("type") type: String,
+        @Query("tableId") tableId: String
     )
 }
