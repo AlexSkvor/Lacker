@@ -1,13 +1,12 @@
 package com.lacker.visitors.data.api
 
-import retrofit2.http.Body
-import retrofit2.http.POST
 import com.lacker.visitors.data.dto.auth.LoginResponse
 import com.lacker.visitors.data.dto.common.DateTimeResponse
 import com.lacker.visitors.data.dto.menu.Menu
 import com.lacker.visitors.data.dto.auth.GoogleAuthData
-import retrofit2.http.GET
-import retrofit2.http.Path
+import com.lacker.visitors.data.dto.order.CurrentOrderResponse
+import com.lacker.visitors.data.dto.order.SubOrder
+import retrofit2.http.*
 
 interface Api {
 
@@ -39,4 +38,19 @@ interface Api {
         @Query("type") type: String,
         @Query("tableId") tableId: String
     )
+
+    // TODO also use auth token later
+    @GET("restaurants/{restaurantId}/orders/current")
+    suspend fun getCurrentOrder(
+        @Path("restaurantId") restaurantId: String,
+        @Query("tableId") tableId: String
+    ): CurrentOrderResponse
+
+    // TODO also use auth token later
+    @POST("restaurants/{restaurantId}/orders/current")
+    suspend fun addToCurrentOrder(
+        @Path("restaurantId") restaurantId: String,
+        @Query("tableId") tableId: String,
+        @Body subOrder: SubOrder
+    ): CurrentOrderResponse
 }

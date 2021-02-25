@@ -9,6 +9,9 @@ import com.lacker.visitors.data.dto.menu.MenuItem
 import com.lacker.visitors.data.dto.menu.Portion
 import com.lacker.visitors.data.storage.files.FilesManager
 import com.lacker.visitors.data.dto.auth.GoogleAuthData
+import com.lacker.visitors.data.dto.order.CurrentOrderResponse
+import com.lacker.visitors.data.dto.order.Order
+import com.lacker.visitors.data.dto.order.SubOrder
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.delay
 import java.time.OffsetDateTime
@@ -71,6 +74,28 @@ class FakeApi(
     override suspend fun callStaff(restaurantId: String, type: String, tableId: String) {
         delay(Random.nextLong(100, 2000))
         possiblyThrow()
+    }
+
+    private var currentOrder = Order(status = "", subOrders = listOf())
+
+    override suspend fun getCurrentOrder(
+        restaurantId: String,
+        tableId: String
+    ): CurrentOrderResponse {
+        delay(Random.nextLong(100, 5000))
+        possiblyThrow()
+        return CurrentOrderResponse(currentOrder)
+    }
+
+    override suspend fun addToCurrentOrder(
+        restaurantId: String,
+        tableId: String,
+        subOrder: SubOrder
+    ) : CurrentOrderResponse{
+        delay(Random.nextLong(100, 5000))
+        possiblyThrow()
+        currentOrder = currentOrder.copy(subOrders = listOf(subOrder) + currentOrder.subOrders)
+        return CurrentOrderResponse(currentOrder)
     }
 
     private fun possiblyThrow(always: Boolean = false) {
