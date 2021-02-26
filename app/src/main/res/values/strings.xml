@@ -36,6 +36,7 @@
     <string name="yourComment">Your comment: %s</string>
     <string name="drinksImmediately">Drinks asap: %s</string>
     <string name="requestSent">Request sent</string>
+    <string name="orderImmediately">Order immediately</string>
 
     <!-- Call Staff Screen -->
     <string name="weWillNotifyStaff">Your request was accepted, please wait</string>

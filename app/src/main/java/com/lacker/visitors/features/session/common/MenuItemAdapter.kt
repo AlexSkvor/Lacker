@@ -10,7 +10,7 @@ import com.lacker.visitors.views.PortionView
 import kotlinx.android.synthetic.main.item_menu_item.*
 
 fun getDomainMenuItemAdapter(
-    onAddToOrder: (DomainPortion) -> Unit,
+    onAddToOrder: (DomainMenuItem, DomainPortion) -> Unit,
     onAddToBasket: (DomainPortion) -> Unit,
     removeFromBasket: (DomainPortion) -> Unit,
     onItemClick: (DomainMenuItem) -> Unit,
@@ -36,7 +36,7 @@ fun getDomainMenuItemAdapter(
 
             val portionView = portionsContainer.getChildAt(i) as? PortionView
             portionView?.apply {
-                setupForPortion(portion, onAddToOrder, onAddToBasket, removeFromBasket)
+                setupForPortion(portion, { onAddToOrder(item, portion) }, onAddToBasket, removeFromBasket)
                 visible()
             }
         }

@@ -25,6 +25,7 @@ class SmallMenuItemView @JvmOverloads constructor(
         item: DomainMenuItem,
         onAddToBasket: (DomainPortion) -> Unit,
         removeFromBasket: (DomainPortion) -> Unit,
+        allowChanges: Boolean = true
     ) {
         divider.visible = index != 0
         menuItemName.text = item.name
@@ -34,7 +35,7 @@ class SmallMenuItemView @JvmOverloads constructor(
                 smallMenuItemContainer.addView(PortionView(context))
             val portionView = smallMenuItemContainer.getChildAt(i) as PortionView
             portionView.apply {
-                setupForPortion(portion, {}, onAddToBasket, removeFromBasket)
+                setupForPortion(portion, {}, onAddToBasket, removeFromBasket, allowChanges)
                 visible()
             }
         }

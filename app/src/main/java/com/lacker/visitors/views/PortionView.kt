@@ -25,6 +25,7 @@ class PortionView @JvmOverloads constructor(
         onAddToOrder: (DomainPortion) -> Unit,
         onAddToBasket: (DomainPortion) -> Unit,
         removeFromBasket: (DomainPortion) -> Unit,
+        allowChanges: Boolean = true
     ) {
         portionDescription.text = portion.portionName
         orderedPortionsNumber.text = (portion.basketNumber + portion.orderedNumber).toString()
@@ -33,8 +34,9 @@ class PortionView @JvmOverloads constructor(
         minusPortionButton.visible = portion.basketNumber + portion.orderedNumber > 0
         orderedPortionsNumber.visible = portion.basketNumber + portion.orderedNumber > 0
 
-        minusPortionButton.isEnabled = portion.basketNumber > 0
-        plusPortionButton.isEnabled = portion.basketNumber + portion.orderedNumber < MAX_BASKET_SIZE_FOR_ONE_MENU_ITEM
+        minusPortionButton.isEnabled = portion.basketNumber > 0 && allowChanges
+        plusPortionButton.isEnabled = allowChanges &&
+                portion.basketNumber + portion.orderedNumber < MAX_BASKET_SIZE_FOR_ONE_MENU_ITEM
 
         minusPortionButton.setOnClickListener { removeFromBasket(portion) }
         plusPortionButton.setOnClickListener { onAddToBasket(portion) }
@@ -43,7 +45,7 @@ class PortionView @JvmOverloads constructor(
             true
         }
 
-        portionContainer.setOnClickListener {  }
+        portionContainer.setOnClickListener { }
     }
 
 

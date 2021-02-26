@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.DiffUtil
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 
 fun getMenuAdapter(
-    onAddToOrder: (DomainPortion) -> Unit,
+    onAddToOrder: (DomainMenuItem, DomainPortion) -> Unit,
     onAddToBasket: (DomainPortion) -> Unit,
     removeFromBasket: (DomainPortion) -> Unit,
     onItemClick: (DomainMenuItem) -> Unit,

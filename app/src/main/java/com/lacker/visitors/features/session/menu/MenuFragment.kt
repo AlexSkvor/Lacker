@@ -10,6 +10,7 @@ import com.lacker.visitors.features.base.ToolbarFluxFragment
 import com.lacker.visitors.features.base.ToolbarFragmentSettings
 import com.lacker.visitors.features.session.callstaff.openCallStaffDialog
 import com.lacker.visitors.features.session.comment.CommentBeforeOrderBottomSheetDialogFragment
+import com.lacker.visitors.features.session.comment.orderSingleItem
 import com.lacker.visitors.features.session.common.DomainMenuItem
 import com.lacker.visitors.features.session.common.DomainPortion
 import com.lacker.visitors.features.session.common.MenuButtonItem
@@ -85,9 +86,11 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
         else performWish(Wish.AddToFavourite(item.id))
     }
 
-    private fun onAddPortionToOrderClick(portion: DomainPortion) {
+    private fun onAddPortionToOrderClick(item: DomainMenuItem, portion: DomainPortion) {
         withAuthCheck(false, R.string.orderCreationAuthReason) {
-            portion.alsoPrintDebug("onAddPortionToOrderClick")
+            orderSingleItem(item, portion.id) { comment, info ->
+                performWish(Wish.AddToOrder(comment, info))
+            }
         }
     }
 

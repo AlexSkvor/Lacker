@@ -40,7 +40,7 @@ class MenuMachine @Inject constructor(
     sealed class Wish {
         object Refresh : Wish()
 
-        data class AddToOrder(val portion: DomainPortion) : Wish()
+        data class AddToOrder(val comment: String, val portion: OrderInfo) : Wish()
         data class AddToBasket(val portion: DomainPortion) : Wish()
         data class AddToFavourite(val menuItemId: String) : Wish()
         data class RemoveFromBasket(val portion: DomainPortion) : Wish()
@@ -139,7 +139,10 @@ class MenuMachine @Inject constructor(
             pushResult { loadBasket() }
             pushResult { loadFavourites() }
         }
-        is Wish.AddToOrder -> TODO("Create OrderManager and AuthChecker!")
+        is Wish.AddToOrder -> oldState.also {
+            sendMessage(resourceProvider.getString(R.string.requestSent))
+            pushResult { sendSinglePortionOrderToServer(wish.comment, wish.portion) }
+        }
         is Wish.AddToBasket -> oldState.also { pushResult { addToBasket(wish.portion) } }
         is Wish.AddToFavourite -> oldState.also { pushResult { addToFavourites(wish.menuItemId) } }
         is Wish.RemoveFromBasket -> oldState.also { pushResult { removeFromBasket(wish.portion) } }
@@ -342,6 +345,23 @@ class MenuMachine @Inject constructor(
                 drinksImmediately,
                 res.text
             )
+        }
+    }
+
+    private suspend fun sendSinglePortionOrderToServer(
+        comment: String,
+        order: OrderInfo
+    ): Result.OrderResult {
+        val subOrder = SubOrder(
+            comment = comment,
+            drinksImmediately = true,
+            orderList = listOf(order),
+            createdTimeStamp = OffsetDateTime.now()
+        )
+        val res = net.callResult { addToCurrentOrder(restaurantId, tableId, subOrder) }
+        return when (res) {
+            is ApiCallResult.Result -> Result.OrderResult.OrderLoaded(res.value.order)
+            is ApiCallResult.ErrorOccurred -> Result.OrderResult.Error(null, null, null, res.text)
         }
     }
 
