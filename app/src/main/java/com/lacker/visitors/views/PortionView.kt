@@ -1,6 +1,10 @@
 package com.lacker.visitors.views
 
 import android.content.Context
+import android.graphics.Color
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import com.lacker.utils.extensions.visible
@@ -28,7 +32,7 @@ class PortionView @JvmOverloads constructor(
         allowChanges: Boolean = true
     ) {
         portionDescription.text = portion.portionName
-        orderedPortionsNumber.text = (portion.basketNumber + portion.orderedNumber).toString()
+        orderedPortionsNumber.text = portion.getOrderedNumberString()
         portionPrice.text = resources.getString(R.string.rurSymbolPrice, portion.price.asMoney())
 
         minusPortionButton.visible = portion.basketNumber + portion.orderedNumber > 0
@@ -48,5 +52,22 @@ class PortionView @JvmOverloads constructor(
         portionContainer.setOnClickListener { }
     }
 
+    private fun DomainPortion.getOrderedNumberString(): CharSequence {
+        if (orderedNumber == 0) return basketNumber.toString()
+
+        val text = if (basketNumber > 0) "$orderedNumber + $basketNumber"
+        else orderedNumber.toString()
+
+        val spannable = SpannableString(text)
+        val index = text.indexOf(orderedNumber.toString())
+        spannable.setSpan(
+            ForegroundColorSpan(Color.GRAY),
+            index,
+            index + orderedNumber.toString().length,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        return spannable
+    }
 
 }

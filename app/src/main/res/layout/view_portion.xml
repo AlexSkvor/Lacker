@@ -49,11 +49,11 @@
         android:layout_marginStart="@dimen/_8sdp"
         android:layout_marginEnd="@dimen/_8sdp"
         android:clickable="false"
-        android:maxLength="2"
+        android:maxLength="7"
         android:minWidth="@dimen/_24sdp"
         android:textColor="@color/brown"
         android:textSize="@dimen/_14ssp"
-        tools:text="99" />
+        tools:text="99 + 99" />
 
     <TextView
         android:id="@+id/plusPortionButton"
