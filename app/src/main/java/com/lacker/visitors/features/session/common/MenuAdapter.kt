@@ -17,7 +17,7 @@ fun getMenuAdapter(
             return when {
                 oldItem is DomainMenuItem && newItem is DomainMenuItem -> oldItem.id == newItem.id
                 oldItem is MenuButtonItem && newItem is MenuButtonItem -> oldItem == newItem
-                else -> false
+                else -> oldItem == newItem
             }
         }
 
@@ -29,7 +29,7 @@ fun getMenuAdapter(
             return when {
                 oldItem is DomainMenuItem && newItem is DomainMenuItem -> oldItem == newItem
                 oldItem is MenuButtonItem && newItem is MenuButtonItem -> oldItem == newItem
-                else -> false
+                else -> oldItem == newItem
             }
         }
     },
@@ -40,5 +40,6 @@ fun getMenuAdapter(
         onItemClick,
         onFavouriteClick
     ),
-    getMenuButtonItemAdapter(onButtonClick)
+    getMenuButtonItemAdapter(onButtonClick),
+    getSubOrderTitleAdapter()
 )

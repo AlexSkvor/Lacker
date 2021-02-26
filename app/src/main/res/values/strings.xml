@@ -5,6 +5,9 @@
     <string name="unknownErrorNotification">Unknown error happened</string>
     <string name="tokenError">Authorization failed</string>
     <string name="error">Error</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
 
     <!-- Bottom Sheet Auth Screen -->
     <string name="authTitle">Let\'s get acquainted</string>
@@ -27,6 +30,12 @@
     <string name="leaveYourCommentHere">Leave your comment here</string>
     <string name="youHaveChosenDishes">You have chosen %d dishes</string>
     <string name="confirm">Confirm</string>
+    <string name="dateTimeTitleText">Created at %s</string>
+    <string name="failedToParseDateTime">Failed to parse date and time</string>
+    <string name="noComment">You left no comment</string>
+    <string name="yourComment">Your comment: %s</string>
+    <string name="drinksImmediately">Drinks asap: %s</string>
+    <string name="requestSent">Request sent</string>
 
     <!-- Call Staff Screen -->
     <string name="weWillNotifyStaff">Your request was accepted, please wait</string>

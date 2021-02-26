@@ -4,13 +4,17 @@ import com.lacker.utils.extensions.onNull
 import com.lacker.utils.resources.ResourceProvider
 import com.lacker.visitors.R
 import com.lacker.visitors.data.api.ApiCallResult
+import com.lacker.visitors.data.api.NetworkManager
 import com.lacker.visitors.data.dto.menu.MenuItem
 import com.lacker.visitors.data.dto.menu.OrderInfo
 import com.lacker.visitors.data.dto.menu.toDomain
+import com.lacker.visitors.data.dto.order.Order
+import com.lacker.visitors.data.dto.order.SubOrder
 import com.lacker.visitors.data.storage.basket.BasketManager
 import com.lacker.visitors.data.storage.favourite.FavouritesManager
 import com.lacker.visitors.data.storage.menu.MenuManager
 import com.lacker.visitors.data.storage.session.SessionStorage
+import com.lacker.visitors.features.session.common.SubOrderTitle
 import com.lacker.visitors.features.session.common.DomainPortion
 import com.lacker.visitors.features.session.common.MenuAdapterItem
 import com.lacker.visitors.features.session.common.MenuButtonItem
@@ -20,9 +24,8 @@ import com.lacker.visitors.features.session.menu.MenuMachine.Wish
 import com.lacker.visitors.features.session.menu.MenuMachine.State
 import com.lacker.visitors.features.session.menu.MenuMachine.Result
 import com.lacker.visitors.utils.ImpossibleSituationException
-import kotlinx.coroutines.delay
 import ru.terrakok.cicerone.Router
-import kotlin.random.Random
+import java.time.OffsetDateTime
 
 class MenuMachine @Inject constructor(
     private val sessionStorage: SessionStorage,
@@ -30,7 +33,8 @@ class MenuMachine @Inject constructor(
     private val basketManager: BasketManager,
     private val favouritesManager: FavouritesManager,
     private val resourceProvider: ResourceProvider,
-    private val router: Router
+    private val router: Router,
+    private val net: NetworkManager
 ) : Machine<Wish, Result, State>() {
 
     sealed class Wish {
@@ -51,8 +55,13 @@ class MenuMachine @Inject constructor(
     sealed class Result {
 
         sealed class OrderResult : Result() {
-            data class Order(val order: List<OrderInfo>) : OrderResult()
-            data class Error(val text: String) : OrderResult()
+            data class OrderLoaded(val order: Order?) : OrderResult()
+            data class Error(
+                val restoreBasket: List<OrderInfo>?,
+                val restoreComment: String?,
+                val restoreDrinksFlag: Boolean?,
+                val text: String
+            ) : OrderResult()
         }
 
         sealed class MenuResult : Result() {
@@ -77,7 +86,8 @@ class MenuMachine @Inject constructor(
         val menuLoading: Boolean = false,
         val basketLoading: Boolean = false,
         val favouritesLoading: Boolean = false,
-        val order: List<OrderInfo>? = null,
+        val order: Order? = null,
+        val subOrders: List<SubOrder>? = null,
         val menuItems: List<MenuItem>? = null,
         val basket: List<OrderInfo>? = null,
         val favourites: Set<String>? = null,
@@ -108,10 +118,13 @@ class MenuMachine @Inject constructor(
 
     override val initialState: State = State()
 
-    private val restaurantId by lazy {
-        sessionStorage.session?.restaurantId
-            ?: throw ImpossibleSituationException("User requested menu without restaurantId in SessionStorage")
+    private val session by lazy {
+        sessionStorage.session
+            ?: throw ImpossibleSituationException("User requested menu without session in SessionStorage")
     }
+
+    private val restaurantId by lazy { session.restaurantId }
+    private val tableId by lazy { session.tableId }
 
     override fun onWish(wish: Wish, oldState: State): State = when (wish) {
         Wish.Refresh -> oldState.copy(
@@ -132,19 +145,41 @@ class MenuMachine @Inject constructor(
         is Wish.RemoveFromBasket -> oldState.also { pushResult { removeFromBasket(wish.portion) } }
         is Wish.RemoveFromFavourite -> oldState.also { pushResult { removeFromFavourites(wish.menuItemId) } }
         is Wish.ChangeShowType -> oldState.copy(type = wish.type)
-        Wish.SendBasketToServer -> TODO("Create OrderManager and AuthChecker!")
-        // add filter for OrderLoading!
+        Wish.SendBasketToServer -> {
+            pushResult { clearBasket() }
+            pushResult {
+                sendBasketToServer(
+                    oldState.comment,
+                    oldState.drinksImmediately,
+                    oldState.basket.orEmpty()
+                )
+            }
+            sendMessage(resourceProvider.getString(R.string.requestSent))
+            oldState.copy(
+                comment = "",
+                drinksImmediately = true
+            )
+        }
         is Wish.ChangeComment -> oldState.copy(comment = wish.comment)
     }
 
     override fun onResult(res: Result, oldState: State): State = when (res) {
-        is Result.OrderResult.Order -> oldState.copy(orderLoading = false, order = res.order)
-            .recountMenuWithOrdersAndBasketAndFavourites()
-        is Result.OrderResult.Error -> oldState.copy(
+        is Result.OrderResult.OrderLoaded -> oldState.copy(
             orderLoading = false,
-            errorText = if (oldState.order == null) res.text else oldState.errorText
-        ).also {
-            sendMessage(res.text)
+            subOrders = res.order?.subOrders.orEmpty(),
+            order = res.order
+        ).recountMenuWithOrdersAndBasketAndFavourites()
+        is Result.OrderResult.Error -> {
+            val tmpState = if (res.restoreDrinksFlag != null) oldState.copy(
+                drinksImmediately = res.restoreDrinksFlag, comment = res.restoreComment.orEmpty()
+            ) else oldState
+            tmpState.copy(
+                orderLoading = false,
+                errorText = if (oldState.subOrders == null) res.text else oldState.errorText
+            ).also {
+                res.restoreBasket?.let { basket -> pushResult { restoreBasket(basket) } }
+                sendMessage(res.text)
+            }
         }
         is Result.MenuResult.Menu -> oldState.copy(menuLoading = false, menuItems = res.items)
             .recountMenuWithOrdersAndBasketAndFavourites()
@@ -180,22 +215,36 @@ class MenuMachine @Inject constructor(
 
     private fun State.recountMenuWithOrdersAndBasketAndFavourites(): State {
         if (orderLoading || menuLoading || basketLoading || favouritesLoading) return this
-        if (order == null || menuItems == null || basket == null || favourites == null) return copy(
+        if (subOrders == null || menuItems == null || basket == null || favourites == null) return copy(
             menuShowList = null,
             basketShowList = null,
             orderShowList = null,
             favouriteShowList = null
         )
 
-        val menuTmp = menuItems.map { it.toDomain(order, basket, favourites) }
+        val menuTmp = menuItems.map { it.toDomain(subOrders, basket, favourites) }
         val basketTmp = menuTmp.filter { it.portions.any { p -> p.basketNumber > 0 } }
             .let { if (it.isEmpty()) emptyList() else it.plus(startCookingItem) }
+        val orderTmp = subOrders.map { subOrder ->
+            val portionIds: List<String> = subOrder.orderList.map { p -> p.portionId }
+            val menuItemsFiltered = menuItems.filter {
+                it.portions.map { p -> p.id }.any { id -> id in portionIds }
+            }
+            val items = menuItemsFiltered.map { it.toDomain(listOf(subOrder), basket, favourites) }
+            listOf(
+                SubOrderTitle(
+                    dateTime = subOrder.createdTimeStamp,
+                    drinksImmediately = subOrder.drinksImmediately,
+                    comment = subOrder.comment
+                )
+            ) + items
+        }.flatten()
 
         return copy(
             errorText = null,
             menuShowList = menuTmp,
             basketShowList = basketTmp,
-            orderShowList = emptyList(), // TODO
+            orderShowList = orderTmp,
             favouriteShowList = menuTmp.filter { it.inFavourites }
         )
     }
@@ -215,14 +264,30 @@ class MenuMachine @Inject constructor(
     }
 
     private suspend fun addToBasket(portion: DomainPortion): Result.BasketResult {
-        return when (val res = basketManager.addToBasket(restaurantId, portion.id)) {
+        return addToBasket(portion.id)
+    }
+
+    private suspend fun removeFromBasket(portion: DomainPortion): Result.BasketResult {
+        return when (val res = basketManager.removeFromBasket(restaurantId, portion.id)) {
             is ApiCallResult.Result -> Result.BasketResult.Basket(res.value)
             is ApiCallResult.ErrorOccurred -> Result.BasketResult.Error(res.text)
         }
     }
 
-    private suspend fun removeFromBasket(portion: DomainPortion): Result.BasketResult {
-        return when (val res = basketManager.removeFromBasket(restaurantId, portion.id)) {
+    private suspend fun restoreBasket(oldBasket: List<OrderInfo>): Result.BasketResult {
+        val portionIds = oldBasket.map { info -> List(info.ordered) { info.portionId } }.flatten()
+        return addToBasket(*portionIds.toTypedArray())
+    }
+
+    private suspend fun addToBasket(vararg portionIds: String): Result.BasketResult {
+        return when (val res = basketManager.addToBasket(restaurantId, *portionIds)) {
+            is ApiCallResult.Result -> Result.BasketResult.Basket(res.value)
+            is ApiCallResult.ErrorOccurred -> Result.BasketResult.Error(res.text)
+        }
+    }
+
+    private suspend fun clearBasket(): Result.BasketResult {
+        return when (val res = basketManager.clearBasket()) {
             is ApiCallResult.Result -> Result.BasketResult.Basket(res.value)
             is ApiCallResult.ErrorOccurred -> Result.BasketResult.Error(res.text)
         }
@@ -250,9 +315,34 @@ class MenuMachine @Inject constructor(
     }
 
     private suspend fun loadOrder(): Result.OrderResult {
-        delay(Random.nextLong(100, 2000))
-        return Result.OrderResult.Order(emptyList())
-        //TODO Just stub here, rework when OrderManager appear!
+        return when (val res = net.callResult { getCurrentOrder(restaurantId, tableId) }) {
+            is ApiCallResult.Result -> Result.OrderResult.OrderLoaded(res.value.order)
+            is ApiCallResult.ErrorOccurred -> Result.OrderResult.Error(null, null, null, res.text)
+        }
+    }
+
+    private suspend fun sendBasketToServer(
+        comment: String,
+        drinksImmediately: Boolean,
+        basket: List<OrderInfo>
+    ): Result.OrderResult {
+        val subOrder = SubOrder(
+            comment = comment,
+            drinksImmediately = drinksImmediately,
+            orderList = basket,
+            createdTimeStamp = OffsetDateTime.now()
+        )
+
+        val res = net.callResult { addToCurrentOrder(restaurantId, tableId, subOrder) }
+        return when (res) {
+            is ApiCallResult.Result -> Result.OrderResult.OrderLoaded(res.value.order)
+            is ApiCallResult.ErrorOccurred -> Result.OrderResult.Error(
+                basket,
+                comment,
+                drinksImmediately,
+                res.text
+            )
+        }
     }
 
     private var lastClickTime: Long? = null

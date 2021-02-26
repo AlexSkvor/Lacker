@@ -1,5 +1,6 @@
 package com.lacker.visitors.data.dto.menu
 
+import com.lacker.visitors.data.dto.order.SubOrder
 import com.lacker.visitors.features.session.common.DomainPortion
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -13,7 +14,7 @@ data class Portion(
 
 fun Portion.toDomain(
     menuItemId: String,
-    orders: List<OrderInfo>,
+    orders: List<SubOrder>,
     basket: List<OrderInfo>
 ) = DomainPortion(
     id = id,
@@ -21,5 +22,8 @@ fun Portion.toDomain(
     price = price,
     portionName = portionName,
     basketNumber = basket.firstOrNull { it.portionId == id }?.ordered ?: 0,
-    orderedNumber = orders.firstOrNull { it.portionId == id }?.ordered ?: 0
+    orderedNumber = orders.map { it.orderList }
+        .flatten()
+        .filter { it.portionId == id }
+        .sumBy { it.ordered }
 )

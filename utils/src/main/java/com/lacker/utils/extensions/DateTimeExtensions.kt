@@ -25,6 +25,16 @@ val userFormatterWithoutSecs: DateTimeFormatter by lazy {
     DateTimeFormatter.ofPattern(USER_FORMAT_WITHOUT_SECS)
 }
 
+private const val USER_DATE_FORMAT_SPACES = "dd MMM yyyy"
+val userDateFormatterSpaces: DateTimeFormatter by lazy {
+    DateTimeFormatter.ofPattern(USER_DATE_FORMAT_SPACES)
+}
+
+private const val USER_FORMAT_SPACES_WITHOUT_SECS = "HH:mm $USER_DATE_FORMAT_SPACES"
+val userFormatterSpacesWithoutSecs: DateTimeFormatter by lazy {
+    DateTimeFormatter.ofPattern(USER_FORMAT_SPACES_WITHOUT_SECS)
+}
+
 private const val USER_TIME_FORMAT = "HH:mm:ss"
 val userTimeFormatter: DateTimeFormatter by lazy { DateTimeFormatter.ofPattern(USER_TIME_FORMAT) }
 

@@ -13,7 +13,7 @@ interface BasketManager {
 
     suspend fun addToBasket(
         restaurantId: String,
-        portionId: String
+        vararg portionIds: String
     ): ApiCallResult<List<OrderInfo>>
 
     suspend fun removeFromBasket(

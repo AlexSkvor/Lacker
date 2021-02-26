@@ -1,5 +1,6 @@
 package com.lacker.visitors.data.dto.menu
 
+import com.lacker.visitors.data.dto.order.SubOrder
 import com.lacker.visitors.features.session.common.DomainMenuItem
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -14,7 +15,7 @@ data class MenuItem(
 )
 
 fun MenuItem.toDomain(
-    orders: List<OrderInfo>,
+    orders: List<SubOrder>,
     basket: List<OrderInfo>,
     favourites: Set<String>
 ) = DomainMenuItem(

@@ -36,7 +36,7 @@ class PrefsBasketManager @Inject constructor(
 
     override suspend fun addToBasket(
         restaurantId: String,
-        portionId: String
+        vararg portionIds: String
     ): ApiCallResult<List<OrderInfo>> {
 
         if (this.restaurantId != restaurantId) {
@@ -44,22 +44,24 @@ class PrefsBasketManager @Inject constructor(
             basket = emptyList()
         }
 
-        val oldBasket = basket
-
-        val oldInfo = oldBasket.find { it.portionId == portionId }
-
-        basket = if (oldInfo == null) oldBasket + OrderInfo(portionId, 1)
-        else {
-            val newInfo = oldInfo.copy(
-                ordered = min(
-                    oldInfo.ordered + 1,
-                    MAX_BASKET_SIZE_FOR_ONE_MENU_ITEM
-                )
-            )
-            oldBasket.map { if (it.portionId == portionId) newInfo else it }
-        }
+        basket = basket.addPortions(*portionIds)
 
         return ApiCallResult.Result(basket)
+    }
+
+    private fun List<OrderInfo>.addPortions(vararg portionIds: String): List<OrderInfo> {
+        var newList = this.toList()
+        portionIds.forEach { portionId ->
+            val oldInfo = newList.find { it.portionId == portionId }
+            newList = if (oldInfo == null) newList + OrderInfo(portionId, 1)
+            else {
+                val newInfo = oldInfo.copy(
+                    ordered = min(oldInfo.ordered + 1, MAX_BASKET_SIZE_FOR_ONE_MENU_ITEM)
+                )
+                newList.map { if (it.portionId == portionId) newInfo else it }
+            }
+        }
+        return newList
     }
 
     override suspend fun removeFromBasket(

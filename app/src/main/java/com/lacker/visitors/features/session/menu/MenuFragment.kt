@@ -203,7 +203,12 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
 
         menuNavigationBar.setFavouriteBadge(state.favourites.orEmpty().size)
         menuNavigationBar.setBasketBadge(state.basket.orEmpty().sumBy { it.ordered })
-        menuNavigationBar.setOrderBadge(state.order.orEmpty().sumBy { it.ordered })
+        menuNavigationBar.setOrderBadge(
+            state.subOrders.orEmpty()
+                .map { it.orderList }
+                .flatten()
+                .sumBy { it.ordered }
+        )
 
         refreshToolbar()
 
