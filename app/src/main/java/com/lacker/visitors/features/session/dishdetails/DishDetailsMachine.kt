@@ -168,11 +168,13 @@ class DishDetailsMachine @Inject constructor(
         val res = net.callResult { addToCurrentOrder(restaurantId, tableId, subOrder) }
         return when (res) {
             is ApiCallResult.Result -> {
-                val map = res.value.order?.subOrders.orEmpty()
+                val map = mutableMapOf<String, Int>()
+                res.value.order?.subOrders.orEmpty()
                     .map { it.orderList }.flatten()
                     .filter { it.portionId in possiblePortionIds }
-                    .map { it.portionId to it.ordered }
-                    .toMap()
+                    .forEach {
+                        map[it.portionId] = map.getOrDefault(it.portionId, 0) + it.ordered
+                    }
                 Result.OrderResult.OrderLoaded(map)
             }
             is ApiCallResult.ErrorOccurred -> Result.OrderResult.Error(res.text)
