@@ -5,9 +5,6 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/navigateProfile"
-            android:title="@string/profileScreenTitle" />
-        <item
             android:id="@+id/navigateMyOrder"
             android:title="@string/myOrderScreenTitle" />
         <item

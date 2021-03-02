@@ -2,6 +2,8 @@ package com.lacker.visitors
 
 import android.os.Bundle
 import android.view.*
+import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -10,7 +12,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
+import com.lacker.utils.extensions.loadDrawableRes
+import com.lacker.utils.extensions.loadFromNet
 import com.lacker.visitors.data.storage.session.SessionStorage
+import com.lacker.visitors.data.storage.user.UserStorage
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.NavigatorHolder
@@ -21,7 +26,9 @@ import com.lacker.visitors.features.base.ToolbarOwner
 import com.lacker.visitors.features.base.VolumeKeysPressListener
 import com.lacker.visitors.navigation.BackToImplementedNavigator
 import com.lacker.visitors.navigation.Screens
+import de.hdodenhof.circleimageview.CircleImageView
 import ru.terrakok.cicerone.Router
+import ru.terrakok.cicerone.android.support.SupportAppScreen
 import voodoo.rocks.flux.interfaces.UserNotifier
 import voodoo.rocks.flux.interfaces.ViewModelFactoryProvider
 import javax.inject.Inject
@@ -49,6 +56,9 @@ class MainActivity : AppCompatActivity(), ViewModelFactoryProvider, UserNotifier
 
     @Inject
     lateinit var router: Router
+
+    @Inject
+    lateinit var userStorage: UserStorage
 
     @Inject
     lateinit var sessionStorage: SessionStorage
@@ -84,6 +94,7 @@ class MainActivity : AppCompatActivity(), ViewModelFactoryProvider, UserNotifier
 
             override fun onDrawerOpened(drawerView: View) {
                 super.onDrawerOpened(drawerView)
+                renderUserInfo()
                 invalidateOptionsMenu()
             }
         }.apply {
@@ -93,6 +104,20 @@ class MainActivity : AppCompatActivity(), ViewModelFactoryProvider, UserNotifier
             supportActionBar?.setDisplayHomeAsUpEnabled(false)
             supportActionBar?.setHomeButtonEnabled(true)
         }
+    }
+
+    private fun renderUserInfo() {
+        val user = userStorage.user
+        val name = if (user.isEmpty()) getString(R.string.guest)
+        else user.name + " " + user.surname
+
+        val header = leftNavigation.getHeaderView(0)
+
+        val avatarView = header.findViewById<CircleImageView>(R.id.avatarProfileNavHeader)
+        if (user.isEmpty()) avatarView.loadDrawableRes(R.drawable.ic_baseline_person_24)
+        else avatarView.loadFromNet(user.fullPhotoUrl, crossFade = false)
+
+        header.findViewById<TextView>(R.id.usernameNavHeader).text = name
     }
 
     override fun onResumeFragments() {
@@ -166,7 +191,6 @@ class MainActivity : AppCompatActivity(), ViewModelFactoryProvider, UserNotifier
     private fun setupNavigationDrawer() {
         leftNavigation.setNavigationItemSelectedListener { item ->
             val nextScreen = when (item.itemId) {
-                R.id.navigateProfile -> Screens.ProfileScreen
                 R.id.navigateMyOrder -> defaultScreen
                 R.id.navigateHistory -> Screens.OrderHistoryScreen
                 R.id.navigateNews -> Screens.NewsScreen
@@ -175,17 +199,23 @@ class MainActivity : AppCompatActivity(), ViewModelFactoryProvider, UserNotifier
                 else -> null
             }
             requireNotNull(nextScreen)
-
-            if (nextScreen == defaultScreen) router.backTo(null)
-            else when (supportFragmentManager.backStackEntryCount) {
-                0 -> router.navigateTo(nextScreen)
-                1 -> router.replaceScreen(nextScreen)
-                else -> router.newRootChain(defaultScreen, nextScreen)
-            }
-
-            drawerLayout.closeDrawer(leftNavigation)
+            navigateFromNavDrawerToScreen(nextScreen)
             false
         }
+        leftNavigation.getHeaderView(0)
+            .setOnClickListener { navigateFromNavDrawerToScreen(Screens.ProfileScreen) }
+        renderUserInfo()
+    }
+
+    private fun navigateFromNavDrawerToScreen(nextScreen: SupportAppScreen) {
+        if (nextScreen == defaultScreen) router.backTo(null)
+        else when (supportFragmentManager.backStackEntryCount) {
+            0 -> router.navigateTo(nextScreen)
+            1 -> router.replaceScreen(nextScreen)
+            else -> router.newRootChain(defaultScreen, nextScreen)
+        }
+
+        drawerLayout.closeDrawer(leftNavigation)
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
