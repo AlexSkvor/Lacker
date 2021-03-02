@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.MotionEvent
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
 import java.text.DecimalFormatSymbols
 import java.util.*
 
@@ -40,6 +41,12 @@ fun RecyclerView.onScroll(listener: (Boolean) -> Unit) {
 
         false
     }
+}
+
+fun List<RecyclerView>.disableBlinking() = forEach { it.disableBlinking() }
+
+fun RecyclerView.disableBlinking() {
+    (itemAnimator as? SimpleItemAnimator?)?.supportsChangeAnimations = false
 }
 
 private val formatMoney by lazy {

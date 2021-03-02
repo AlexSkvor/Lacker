@@ -2,7 +2,6 @@ package com.lacker.visitors.features.session.menu
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.SimpleItemAnimator
 import com.lacker.utils.extensions.*
 import com.lacker.visitors.R
 import com.lacker.visitors.features.auth.bottomdialog.withAuthCheck
@@ -17,6 +16,7 @@ import com.lacker.visitors.features.session.common.MenuButtonItem
 import com.lacker.visitors.features.session.common.getMenuAdapter
 import com.lacker.visitors.features.session.menu.MenuMachine.Wish
 import com.lacker.visitors.features.session.menu.MenuMachine.State
+import com.lacker.visitors.utils.disableBlinking
 import com.lacker.visitors.utils.onScroll
 import com.lacker.visitors.views.asDomain
 import com.lacker.visitors.views.asUi
@@ -130,9 +130,7 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
             performWish(Wish.ChangeShowType(it.asDomain()))
         }
         performWish(Wish.Refresh)
-        recyclers.forEach {
-            (it.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
-        }
+        recyclers.disableBlinking()
     }
 
     override fun onDestroyView() {
