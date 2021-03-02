@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dishDetailsContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/_8sdp">
+
+    <ImageView
+        android:id="@+id/favouriteMarkerDishDetails"
+        android:layout_width="@dimen/_24sdp"
+        android:layout_height="@dimen/_24sdp"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:layout_marginEnd="@dimen/_6sdp"
+        android:contentDescription="@string/stub"
+        android:foreground="?attr/selectableItemBackground"
+        app:tint="@color/brown"
+        tools:src="@drawable/ic_baseline_favorite_border_24" />
+
+    <LinearLayout
+        android:id="@+id/dishDetailsVerticalContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/dishDetailsName"
+            style="@style/Text.Bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_30sdp"
+            android:ellipsize="end"
+            android:textSize="@dimen/_16ssp"
+            tools:text="Menu item name." />
+
+        <ImageView
+            android:id="@+id/dishDetailsPicture"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_160sdp"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:contentDescription="@string/stub" />
+
+        <TextView
+            android:id="@+id/dishDetailsDescription"
+            style="@style/Text.Medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_6sdp"
+            android:gravity="start"
+            android:textSize="@dimen/_12ssp"
+            tools:text="Short Item description" />
+
+        <LinearLayout
+            android:id="@+id/dishDetailsPortionsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:layout_marginEnd="@dimen/_18sdp"
+            android:layout_marginBottom="@dimen/_6sdp"
+            android:orientation="vertical" />
+
+    </LinearLayout>
+</FrameLayout>

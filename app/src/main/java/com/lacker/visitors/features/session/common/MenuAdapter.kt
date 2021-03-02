@@ -12,6 +12,19 @@ fun getMenuAdapter(
     onButtonClick: (MenuButtonItem) -> Unit,
     onFavouriteClick: (DomainMenuItem) -> Unit
 ) = AsyncListDifferDelegationAdapter(
+    menuDiffUtil,
+    getDomainMenuItemAdapter(
+        onAddToOrder,
+        onAddToBasket,
+        removeFromBasket,
+        onItemClick,
+        onFavouriteClick
+    ),
+    getMenuButtonItemAdapter(onButtonClick),
+    getSubOrderTitleAdapter()
+)
+
+val menuDiffUtil by lazy {
     object : DiffUtil.ItemCallback<MenuAdapterItem>() {
         override fun areItemsTheSame(oldItem: MenuAdapterItem, newItem: MenuAdapterItem): Boolean {
             return when {
@@ -32,14 +45,5 @@ fun getMenuAdapter(
                 else -> oldItem == newItem
             }
         }
-    },
-    getDomainMenuItemAdapter(
-        onAddToOrder,
-        onAddToBasket,
-        removeFromBasket,
-        onItemClick,
-        onFavouriteClick
-    ),
-    getMenuButtonItemAdapter(onButtonClick),
-    getSubOrderTitleAdapter()
-)
+    }
+}
