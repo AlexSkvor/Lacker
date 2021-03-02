@@ -2,7 +2,6 @@ package com.lacker.visitors
 
 import android.os.Bundle
 import android.view.*
-import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
