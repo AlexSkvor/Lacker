@@ -14,15 +14,13 @@ import com.lacker.visitors.data.storage.basket.BasketManager
 import com.lacker.visitors.data.storage.favourite.FavouritesManager
 import com.lacker.visitors.data.storage.menu.MenuManager
 import com.lacker.visitors.data.storage.session.SessionStorage
-import com.lacker.visitors.features.session.common.SubOrderTitle
-import com.lacker.visitors.features.session.common.DomainPortion
-import com.lacker.visitors.features.session.common.MenuAdapterItem
-import com.lacker.visitors.features.session.common.MenuButtonItem
+import com.lacker.visitors.features.session.common.*
 import voodoo.rocks.flux.Machine
 import javax.inject.Inject
 import com.lacker.visitors.features.session.menu.MenuMachine.Wish
 import com.lacker.visitors.features.session.menu.MenuMachine.State
 import com.lacker.visitors.features.session.menu.MenuMachine.Result
+import com.lacker.visitors.navigation.Screens
 import com.lacker.visitors.utils.ImpossibleSituationException
 import ru.terrakok.cicerone.Router
 import java.time.OffsetDateTime
@@ -50,6 +48,8 @@ class MenuMachine @Inject constructor(
 
         data class ChangeShowType(val type: State.Type) : Wish()
         object SendBasketToServer : Wish()
+
+        data class ShowDishDetails(val dish: DomainMenuItem) : Wish()
     }
 
     sealed class Result {
@@ -164,6 +164,9 @@ class MenuMachine @Inject constructor(
             )
         }
         is Wish.ChangeComment -> oldState.copy(comment = wish.comment)
+        is Wish.ShowDishDetails -> oldState.also {
+            router.navigateTo(Screens.DishDetailsScreen(wish.dish))
+        }
     }
 
     override fun onResult(res: Result, oldState: State): State = when (res) {

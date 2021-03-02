@@ -78,7 +78,7 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
     private val orderAdapter by lazy { createAdapter() }
 
     private fun onMenuItemClick(item: DomainMenuItem) {
-        item.alsoPrintDebug("onMenuItemClick")
+        performWish(Wish.ShowDishDetails(item))
     }
 
     private fun onFavouriteClick(item: DomainMenuItem) {

@@ -1,5 +1,7 @@
 package com.lacker.visitors.features.session.common
 
+import java.io.Serializable
+
 data class DomainPortion(
     val id: String,
     val menuItemId: String,
@@ -7,4 +9,4 @@ data class DomainPortion(
     val portionName: String,
     val basketNumber: Int,
     val orderedNumber: Int
-)
+): Serializable

@@ -7,6 +7,8 @@ import com.lacker.visitors.features.news.NewsFragment
 import com.lacker.visitors.features.profile.ProfileFragment
 import com.lacker.visitors.features.session.menu.MenuFragment
 import com.lacker.visitors.features.scan.ScanFragment
+import com.lacker.visitors.features.session.common.DomainMenuItem
+import com.lacker.visitors.features.session.dishdetails.DishDetailsFragment
 import com.lacker.visitors.features.settings.SettingsFragment
 import ru.terrakok.cicerone.android.support.SupportAppScreen
 
@@ -40,4 +42,7 @@ object Screens {
         override fun getFragment(): Fragment = AboutFragment.newInstance()
     }
 
+    data class DishDetailsScreen(val dish: DomainMenuItem) : SupportAppScreen() {
+        override fun getFragment(): Fragment = DishDetailsFragment.newInstance(dish)
+    }
 }
