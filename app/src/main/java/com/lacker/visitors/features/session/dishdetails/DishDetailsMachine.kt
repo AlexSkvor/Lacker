@@ -59,6 +59,7 @@ class DishDetailsMachine @Inject constructor(
     }
 
     data class State(
+        val loading: Boolean = false,
         val dish: DomainMenuItem? = null,
     )
 
@@ -85,7 +86,7 @@ class DishDetailsMachine @Inject constructor(
         is Wish.RemoveFromFavourite -> oldState.also {
             if (oldState.dish != null) pushResult { removeFromFavourite(oldState.dish.id) }
         }
-        is Wish.AddToOrder -> oldState.also {
+        is Wish.AddToOrder -> oldState.copy(loading = true).also {
             sendMessage(resourceProvider.getString(R.string.requestSent))
             pushResult { addToOrder(wish.comment, wish.portion) }
         }
@@ -106,9 +107,9 @@ class DishDetailsMachine @Inject constructor(
         is Result.OrderResult.OrderLoaded -> {
             val portions = oldState.dish?.portions.orEmpty()
                 .map { it.copy(orderedNumber = res.order.getOrDefault(it.id, 0)) }
-            oldState.copy(dish = oldState.dish?.copy(portions = portions))
+            oldState.copy(loading = false, dish = oldState.dish?.copy(portions = portions))
         }
-        is Result.OrderResult.Error -> oldState.also { sendMessage(res.text) }
+        is Result.OrderResult.Error -> oldState.copy(loading = false).also { sendMessage(res.text) }
     }
 
     private suspend fun addToBasket(portionId: String): Result.BasketResult {
@@ -179,6 +180,6 @@ class DishDetailsMachine @Inject constructor(
     }
 
     override fun onBackPressed() {
-        router.exit()
+        if (!states().value.loading) router.exit()
     }
 }

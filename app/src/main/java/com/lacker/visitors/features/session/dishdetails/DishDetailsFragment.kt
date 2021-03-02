@@ -1,6 +1,7 @@
 package com.lacker.visitors.features.session.dishdetails
 
 import com.lacker.utils.extensions.getArgument
+import com.lacker.utils.extensions.visible
 import com.lacker.utils.extensions.withArguments
 import com.lacker.visitors.R
 import com.lacker.visitors.features.auth.bottomdialog.withAuthCheck
@@ -77,5 +78,6 @@ class DishDetailsFragment : ToolbarFluxFragment<Wish, State>() {
 
     override fun render(state: State) {
         adapter.items = listOfNotNull(state.dish)
+        dishDetailsProgress.visible = state.loading
     }
 }
