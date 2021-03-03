@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">staff</string>
+    <!-- Orders Screen -->
+    <string name="ordersScreenTitle">Orders</string>
 </resources>
