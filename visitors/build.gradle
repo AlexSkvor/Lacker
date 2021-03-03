@@ -71,6 +71,7 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation project(':utils')
+    implementation project(':styles')
 
     //Basic dependencies
     implementation "androidx.core:core-ktx:$androidxCoreVersion"
