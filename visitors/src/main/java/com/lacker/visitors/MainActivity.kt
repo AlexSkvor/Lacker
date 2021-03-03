@@ -75,6 +75,12 @@ class MainActivity : AppCompatActivity(), ViewModelFactoryProvider, UserNotifier
                 nextFragment: Fragment?,
                 fragmentTransaction: FragmentTransaction
             ) {
+                fragmentTransaction.setCustomAnimations(
+                    R.animator.fadein,
+                    R.animator.fadeout,
+                    R.animator.fadein_long,
+                    R.animator.fadeout_long
+                )
                 fragmentTransaction.setReorderingAllowed(true)
             }
         }

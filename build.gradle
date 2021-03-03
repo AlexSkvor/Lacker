@@ -17,7 +17,7 @@ buildscript {
 
     ext.timberVersion = '4.7.1'
 
-    ext.ciceroneVersion = '5.1.0'
+    ext.ciceroneVersion = '5.1.0' // TODO update to 6.6
 
     ext.retrofitMoshiVersion = '2.9.0'
     ext.moshiVersion = '1.10.0'
