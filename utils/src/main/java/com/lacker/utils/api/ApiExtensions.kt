@@ -1,14 +1,13 @@
-package com.lacker.visitors.data.api
+package com.lacker.utils.api
 
+import retrofit2.HttpException
+import com.lacker.utils.extensions.formatJson
 import com.squareup.moshi.Moshi
 import okio.Buffer
-import retrofit2.HttpException
 import timber.log.Timber
-import com.lacker.visitors.data.dto.common.ApiException
-import com.lacker.visitors.data.dto.common.ErrorResponse
-import com.lacker.utils.extensions.formatJson
 import java.lang.Exception
 import java.nio.charset.StandardCharsets
+
 
 fun Exception.isTokenError(): Boolean = (this is HttpException && response()?.code() == 401)
 

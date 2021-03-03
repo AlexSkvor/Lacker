@@ -72,6 +72,11 @@ dependencies {
     // Recycler
     implementation "com.hannesdorfmann:adapterdelegates4-kotlin-dsl-layoutcontainer:$delegateRecyclerVersion"
 
+    // Networking
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+
     //Net images
     implementation("io.coil-kt:coil:0.13.0")
 

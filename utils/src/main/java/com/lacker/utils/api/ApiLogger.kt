@@ -1,10 +1,10 @@
-package com.lacker.visitors.data.api
+package com.lacker.utils.api
 
+import com.lacker.utils.BuildConfig
 import com.squareup.moshi.Moshi
 import okhttp3.Interceptor
 import okhttp3.logging.HttpLoggingInterceptor
 import timber.log.Timber
-import com.lacker.utils.BuildConfig
 
 private const val TAG = "API_LOG... %s"
 

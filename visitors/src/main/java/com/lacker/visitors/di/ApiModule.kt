@@ -2,6 +2,7 @@ package com.lacker.visitors.di
 
 import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.lacker.utils.api.ApiLogger
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -10,7 +11,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import com.lacker.visitors.BuildConfig
 import com.lacker.visitors.data.api.Api
-import com.lacker.visitors.data.api.ApiLogger
 import com.lacker.visitors.data.api.fake.FakeApi
 import com.lacker.visitors.data.storage.files.FilesManager
 import java.util.concurrent.TimeUnit

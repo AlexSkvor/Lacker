@@ -1,4 +1,4 @@
-package com.lacker.visitors.data.dto.common
+package com.lacker.utils.api
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
