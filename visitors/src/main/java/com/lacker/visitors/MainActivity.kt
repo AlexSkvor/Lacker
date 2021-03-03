@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.lacker.utils.extensions.loadDrawableRes
 import com.lacker.utils.extensions.loadFromNet
+import com.lacker.utils.navigation.BackToImplementedNavigator
 import com.lacker.visitors.data.storage.session.SessionStorage
 import com.lacker.visitors.data.storage.user.UserStorage
 import kotlinx.android.synthetic.main.activity_main.*
@@ -23,7 +24,6 @@ import com.lacker.visitors.di.DependencyProvider
 import com.lacker.visitors.features.base.ToolbarFluxFragment
 import com.lacker.visitors.features.base.ToolbarOwner
 import com.lacker.visitors.features.base.VolumeKeysPressListener
-import com.lacker.visitors.navigation.BackToImplementedNavigator
 import com.lacker.visitors.navigation.Screens
 import de.hdodenhof.circleimageview.CircleImageView
 import ru.terrakok.cicerone.Router

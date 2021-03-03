@@ -1,4 +1,4 @@
-package com.lacker.visitors.navigation
+package com.lacker.utils.navigation
 
 import ru.terrakok.cicerone.Router
 import ru.terrakok.cicerone.Screen

@@ -1,4 +1,4 @@
-package com.lacker.visitors.navigation
+package com.lacker.utils.navigation
 
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager

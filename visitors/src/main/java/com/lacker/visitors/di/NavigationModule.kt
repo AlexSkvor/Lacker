@@ -1,10 +1,10 @@
 package com.lacker.visitors.di
 
+import com.lacker.utils.navigation.FastClickSafeRouter
 import dagger.Module
 import dagger.Provides
 import ru.terrakok.cicerone.Cicerone
 import ru.terrakok.cicerone.NavigatorHolder
-import com.lacker.visitors.navigation.FastClickSafeRouter
 import ru.terrakok.cicerone.Router
 import javax.inject.Singleton
 
