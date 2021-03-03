@@ -1,4 +1,4 @@
 include ':staff'
 include ':utils'
-include ':app'
+include ':visitors'
 rootProject.name = "Lacker Visitors"
