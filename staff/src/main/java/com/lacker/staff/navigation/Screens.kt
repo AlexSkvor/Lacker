@@ -6,6 +6,10 @@ import ru.terrakok.cicerone.android.support.SupportAppScreen
 
 object Screens {
 
+    object SignInScreen : SupportAppScreen() {
+        override fun getFragment(): Fragment = TODO()
+    }
+
     object OrdersScreen : SupportAppScreen() {
         override fun getFragment(): Fragment = OrdersFragment.newInstance()
     }

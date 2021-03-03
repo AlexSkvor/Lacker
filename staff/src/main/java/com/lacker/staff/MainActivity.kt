@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
+import com.lacker.staff.data.storage.UserStorage
 import com.lacker.staff.di.DependencyProvider
 import com.lacker.staff.navigation.Screens
 import com.lacker.utils.base.ToolbarFluxFragment
@@ -51,8 +52,12 @@ class MainActivity : AppCompatActivity(), ViewModelFactoryProvider, UserNotifier
     @Inject
     lateinit var router: Router
 
+    @Inject
+    lateinit var userStorage: UserStorage
+
     private val defaultScreen
-        get() = Screens.OrdersScreen // TODO("After UserStorage")
+        get() = if (userStorage.user.isEmpty()) Screens.SignInScreen
+        else Screens.OrdersScreen // TODO("After UserStorage")
 
     private val navigator: Navigator =
         object : BackToImplementedNavigator(this, supportFragmentManager, R.id.fragmentContainer) {
