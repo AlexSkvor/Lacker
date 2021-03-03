@@ -5,4 +5,19 @@
     <string name="whyNeedPermission">Action you asked requires a special permission.\nOn previous permission ask you pressed forever deny.\nPlease navigate to app settings and grant us permission.</string>
     <string name="cancelCaps" tools:ignore="ButtonCase">CANCEL</string>
     <string name="settings">SETTINGS</string>
+
+    <!-- Common -->
+    <string name="clickAgainToCloseApp">Click \"Back\" again to close Läcker</string>
+    <string name="rurSymbolPrice">%s ₽</string>
+    <string name="openDrawer">Open navigation drawer</string>
+    <string name="closeDrawer">Close navigation drawer</string>
+
+    <string name="stub" translatable="false">TODO</string>
+
+    <string name="unknownErrorNotification">Unknown error happened</string>
+    <string name="tokenError">Authorization failed</string>
+    <string name="error">Error</string>
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

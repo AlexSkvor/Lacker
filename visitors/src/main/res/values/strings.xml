@@ -1,14 +1,5 @@
 <resources>
 
-    <!-- Common strings -->
-    <string name="stub" translatable="false">TODO</string>
-    <string name="unknownErrorNotification">Unknown error happened</string>
-    <string name="tokenError">Authorization failed</string>
-    <string name="error">Error</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
-
-
     <!-- Bottom Sheet Auth Screen -->
     <string name="authTitle">Let\'s get acquainted</string>
     <string name="authReason">Some features in our app require user to be authorized.\n%s is one of this features.\nPlease use one of the services below.</string>
@@ -78,11 +69,5 @@
     <!-- Empty Placeholder View -->
     <string name="emptyList">Looks like our %s is empty right now</string>
     <string name="defaultEmptyThing">list</string>
-
-    <!-- Common -->
-    <string name="clickAgainToCloseApp">Click \"Back\" again to close Läcker</string>
-    <string name="rurSymbolPrice">%s ₽</string>
-    <string name="openDrawer">Open navigation drawer</string>
-    <string name="closeDrawer">Close navigation drawer</string>
 
 </resources>
