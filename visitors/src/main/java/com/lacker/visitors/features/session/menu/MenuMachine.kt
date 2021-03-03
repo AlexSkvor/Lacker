@@ -1,5 +1,6 @@
 package com.lacker.visitors.features.session.menu
 
+import com.lacker.utils.exceptions.ImpossibleSituationException
 import com.lacker.utils.extensions.onNull
 import com.lacker.utils.resources.ResourceProvider
 import com.lacker.visitors.R
@@ -21,7 +22,6 @@ import com.lacker.visitors.features.session.menu.MenuMachine.Wish
 import com.lacker.visitors.features.session.menu.MenuMachine.State
 import com.lacker.visitors.features.session.menu.MenuMachine.Result
 import com.lacker.visitors.navigation.Screens
-import com.lacker.visitors.utils.ImpossibleSituationException
 import ru.terrakok.cicerone.Router
 import java.time.OffsetDateTime
 

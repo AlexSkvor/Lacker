@@ -1,11 +1,11 @@
 package com.lacker.visitors.features.auth.bottomdialog
 
+import com.lacker.utils.base.BaseMvpPresenter
 import com.lacker.visitors.data.api.ApiCallResult
 import com.lacker.visitors.data.api.NetworkManager
 import com.lacker.visitors.data.dto.auth.toDomainUser
 import com.lacker.visitors.data.storage.user.UserStorage
 import com.lacker.visitors.data.dto.auth.GoogleAuthData
-import com.lacker.visitors.utils.mvp.BaseMvpPresenter
 import javax.inject.Inject
 
 class AuthPresenter @Inject constructor(

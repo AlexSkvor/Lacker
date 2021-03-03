@@ -1,5 +1,6 @@
 package com.lacker.visitors.features.session.dishdetails
 
+import com.lacker.utils.exceptions.ImpossibleSituationException
 import com.lacker.utils.resources.ResourceProvider
 import com.lacker.visitors.R
 import com.lacker.visitors.data.api.ApiCallResult
@@ -15,7 +16,6 @@ import javax.inject.Inject
 import com.lacker.visitors.features.session.dishdetails.DishDetailsMachine.Wish
 import com.lacker.visitors.features.session.dishdetails.DishDetailsMachine.State
 import com.lacker.visitors.features.session.dishdetails.DishDetailsMachine.Result
-import com.lacker.visitors.utils.ImpossibleSituationException
 import ru.terrakok.cicerone.Router
 import voodoo.rocks.flux.Machine
 import java.time.OffsetDateTime

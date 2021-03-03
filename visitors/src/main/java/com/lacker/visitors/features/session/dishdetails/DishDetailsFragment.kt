@@ -7,13 +7,13 @@ import com.lacker.visitors.R
 import com.lacker.visitors.features.auth.bottomdialog.withAuthCheck
 import com.lacker.utils.base.ToolbarFluxFragment
 import com.lacker.utils.base.ToolbarFragmentSettings
+import com.lacker.utils.extensions.disableBlinking
 import com.lacker.visitors.features.session.comment.orderSingleItem
 import com.lacker.visitors.features.session.common.DomainMenuItem
 import com.lacker.visitors.features.session.common.DomainPortion
 import com.lacker.visitors.features.session.common.getOnlyDishDetailsAdapter
 import com.lacker.visitors.features.session.dishdetails.DishDetailsMachine.Wish
 import com.lacker.visitors.features.session.dishdetails.DishDetailsMachine.State
-import com.lacker.visitors.utils.disableBlinking
 import kotlinx.android.synthetic.main.fragment_dish_details.*
 
 class DishDetailsFragment : ToolbarFluxFragment<Wish, State>() {

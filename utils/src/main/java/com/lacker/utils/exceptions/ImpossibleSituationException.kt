@@ -1,4 +1,4 @@
-package com.lacker.visitors.utils
+package com.lacker.utils.exceptions
 
 open class ImpossibleSituationException(
     additionalMessage: String? = null

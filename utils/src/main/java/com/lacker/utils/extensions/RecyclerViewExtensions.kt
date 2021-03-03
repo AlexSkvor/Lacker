@@ -1,12 +1,9 @@
-package com.lacker.visitors.utils
+package com.lacker.utils.extensions
 
 import android.annotation.SuppressLint
 import android.view.MotionEvent
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
-import java.text.DecimalFormatSymbols
-import java.util.*
 
 /**
  * Calls listener with true param if scrolled up
@@ -48,13 +45,3 @@ fun List<RecyclerView>.disableBlinking() = forEach { it.disableBlinking() }
 fun RecyclerView.disableBlinking() {
     (itemAnimator as? SimpleItemAnimator?)?.supportsChangeAnimations = false
 }
-
-private val formatMoney by lazy {
-    val formatSymbols = DecimalFormatSymbols(Locale.ENGLISH).apply {
-        decimalSeparator = ' '
-        groupingSeparator = ' '
-    }
-    java.text.DecimalFormat("#,###", formatSymbols)
-}
-
-fun Int.asMoney(): String = formatMoney.format(this)

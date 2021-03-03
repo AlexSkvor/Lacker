@@ -1,12 +1,12 @@
 package com.lacker.visitors.features.session.callstaff
 
+import com.lacker.utils.base.BaseMvpPresenter
 import com.lacker.utils.resources.ResourceProvider
 import com.lacker.visitors.R
 import com.lacker.visitors.data.api.ApiCallResult
 import com.lacker.visitors.data.api.NetworkManager
 import com.lacker.visitors.data.storage.session.SessionStorage
 import com.lacker.visitors.data.storage.user.UserStorage
-import com.lacker.visitors.utils.mvp.BaseMvpPresenter
 import javax.inject.Inject
 
 class CallStaffPresenter @Inject constructor(

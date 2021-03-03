@@ -16,8 +16,6 @@ import com.lacker.visitors.features.session.common.MenuButtonItem
 import com.lacker.visitors.features.session.common.getMenuAdapter
 import com.lacker.visitors.features.session.menu.MenuMachine.Wish
 import com.lacker.visitors.features.session.menu.MenuMachine.State
-import com.lacker.visitors.utils.disableBlinking
-import com.lacker.visitors.utils.onScroll
 import com.lacker.visitors.views.asDomain
 import com.lacker.visitors.views.asUi
 import kotlinx.android.synthetic.main.fragment_menu.*

@@ -1,7 +1,8 @@
-package com.lacker.visitors.utils.mvp
+package com.lacker.utils.base
 
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
+
 
 abstract class BaseMvpPresenter<V : Any> {
     private lateinit var job: Job
