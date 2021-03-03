@@ -5,8 +5,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lacker.utils.extensions.*
 import com.lacker.visitors.R
 import com.lacker.visitors.features.auth.bottomdialog.withAuthCheck
-import com.lacker.visitors.features.base.ToolbarFluxFragment
-import com.lacker.visitors.features.base.ToolbarFragmentSettings
+import com.lacker.utils.base.ToolbarFluxFragment
+import com.lacker.utils.base.ToolbarFragmentSettings
 import com.lacker.visitors.features.session.callstaff.openCallStaffDialog
 import com.lacker.visitors.features.session.comment.CommentBeforeOrderBottomSheetDialogFragment
 import com.lacker.visitors.features.session.comment.orderSingleItem

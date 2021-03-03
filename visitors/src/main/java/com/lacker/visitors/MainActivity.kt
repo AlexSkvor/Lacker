@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
+import com.lacker.utils.base.ToolbarOwner
+import com.lacker.utils.base.VolumeKeysPressListener
 import com.lacker.utils.extensions.loadDrawableRes
 import com.lacker.utils.extensions.loadFromNet
 import com.lacker.utils.navigation.BackToImplementedNavigator
@@ -21,9 +23,7 @@ import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.commands.Command
 import com.lacker.visitors.di.DependencyProvider
-import com.lacker.visitors.features.base.ToolbarFluxFragment
-import com.lacker.visitors.features.base.ToolbarOwner
-import com.lacker.visitors.features.base.VolumeKeysPressListener
+import com.lacker.utils.base.ToolbarFluxFragment
 import com.lacker.visitors.navigation.Screens
 import de.hdodenhof.circleimageview.CircleImageView
 import ru.terrakok.cicerone.Router

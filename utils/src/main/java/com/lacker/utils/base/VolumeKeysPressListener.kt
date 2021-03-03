@@ -1,4 +1,4 @@
-package com.lacker.visitors.features.base
+package com.lacker.utils.base
 
 interface VolumeKeysPressListener {
 

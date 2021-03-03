@@ -1,8 +1,8 @@
 package com.lacker.visitors.features.news
 
 import com.lacker.visitors.R
-import com.lacker.visitors.features.base.ToolbarFluxFragment
-import com.lacker.visitors.features.base.ToolbarFragmentSettings
+import com.lacker.utils.base.ToolbarFluxFragment
+import com.lacker.utils.base.ToolbarFragmentSettings
 import com.lacker.visitors.features.news.NewsMachine.Wish
 import com.lacker.visitors.features.news.NewsMachine.State
 

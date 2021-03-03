@@ -5,8 +5,8 @@ import com.lacker.utils.extensions.visible
 import com.lacker.utils.extensions.withArguments
 import com.lacker.visitors.R
 import com.lacker.visitors.features.auth.bottomdialog.withAuthCheck
-import com.lacker.visitors.features.base.ToolbarFluxFragment
-import com.lacker.visitors.features.base.ToolbarFragmentSettings
+import com.lacker.utils.base.ToolbarFluxFragment
+import com.lacker.utils.base.ToolbarFragmentSettings
 import com.lacker.visitors.features.session.comment.orderSingleItem
 import com.lacker.visitors.features.session.common.DomainMenuItem
 import com.lacker.visitors.features.session.common.DomainPortion

@@ -7,8 +7,8 @@ import com.lacker.visitors.R
 import com.lacker.visitors.data.storage.user.User
 import com.lacker.visitors.di.DependencyProvider
 import com.lacker.visitors.features.auth.bottomdialog.withAuthCheck
-import com.lacker.visitors.features.base.ToolbarFluxFragment
-import com.lacker.visitors.features.base.ToolbarFragmentSettings
+import com.lacker.utils.base.ToolbarFluxFragment
+import com.lacker.utils.base.ToolbarFragmentSettings
 import com.lacker.visitors.features.profile.ProfileMachine.Wish
 import com.lacker.visitors.features.profile.ProfileMachine.State
 import kotlinx.android.synthetic.main.fragment_profile.*

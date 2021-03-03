@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import androidx.core.view.children
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView
 import com.github.florent37.runtimepermission.RuntimePermission
+import com.lacker.utils.base.VolumeKeysPressListener
 import com.lacker.utils.extensions.*
 import com.lacker.visitors.R
-import com.lacker.visitors.features.base.ToolbarFluxFragment
-import com.lacker.visitors.features.base.ToolbarFragmentSettings
-import com.lacker.visitors.features.base.VolumeKeysPressListener
+import com.lacker.utils.base.ToolbarFluxFragment
+import com.lacker.utils.base.ToolbarFragmentSettings
 import com.lacker.visitors.features.scan.ScanMachine.State
 import com.lacker.visitors.features.scan.ScanMachine.Wish
 import kotlinx.android.synthetic.main.fragment_scan.*

@@ -1,4 +1,4 @@
-package com.lacker.visitors.features.base
+package com.lacker.utils.base
 
 import android.view.View
 import com.lacker.utils.extensions.getImplementation

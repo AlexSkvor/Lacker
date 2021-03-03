@@ -1,8 +1,8 @@
 package com.lacker.visitors.features.history
 
 import com.lacker.visitors.R
-import com.lacker.visitors.features.base.ToolbarFluxFragment
-import com.lacker.visitors.features.base.ToolbarFragmentSettings
+import com.lacker.utils.base.ToolbarFluxFragment
+import com.lacker.utils.base.ToolbarFragmentSettings
 import com.lacker.visitors.features.history.HistoryMachine.Wish
 import com.lacker.visitors.features.history.HistoryMachine.State
 

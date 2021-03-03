@@ -63,6 +63,9 @@ dependencies {
     //Cicerone
     implementation "ru.terrakok.cicerone:cicerone:$ciceroneVersion"
 
+    //Flux
+    implementation "com.gitlab.voodoo-rocks:flux-android:$fluxVersion"
+
     //Net images
     implementation("io.coil-kt:coil:0.13.0")
 
