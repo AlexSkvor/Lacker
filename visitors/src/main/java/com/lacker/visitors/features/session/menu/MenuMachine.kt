@@ -220,7 +220,6 @@ class MenuMachine @Inject constructor(
     }
 
     private fun State.recountMenuWithOrdersAndBasketAndFavourites(): State {
-        if (orderLoading || menuLoading || basketLoading || favouritesLoading) return this
         if (subOrders == null || menuItems == null || basket == null || favourites == null) return copy(
             menuShowList = null,
             basketShowList = null,
