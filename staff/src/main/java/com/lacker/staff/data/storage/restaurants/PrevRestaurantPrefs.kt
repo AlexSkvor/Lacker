@@ -6,12 +6,12 @@ import com.ironz.binaryprefs.BinaryPreferencesBuilder
 import com.ironz.binaryprefs.Preferences
 import javax.inject.Inject
 
-class SignedBeforeRestaurantsPrefs @Inject constructor(
+class PrevRestaurantPrefs @Inject constructor(
     private val context: Context
-) : SignedBeforeRestaurantsStorage {
+) : PrevRestaurantStorage {
 
     private companion object {
-        const val IDS_SET_KEY = "IDS_SET_KEY"
+        const val RESTAURANT_CODE_KEY = "RESTAURANT_CODE_KEY"
     }
 
     private val prefs: Preferences by lazy {
@@ -22,9 +22,9 @@ class SignedBeforeRestaurantsPrefs @Inject constructor(
             .build()
     }
 
-    override var restaurantIds: Set<String>
-        get() = prefs.getStringSet(IDS_SET_KEY, emptySet()).orEmpty()
+    override var restaurantCode: String?
+        get() = prefs.getString(RESTAURANT_CODE_KEY, null)
         set(value) {
-            prefs.edit { putStringSet(IDS_SET_KEY, value) }
+            prefs.edit { putString(RESTAURANT_CODE_KEY, value) }
         }
 }
