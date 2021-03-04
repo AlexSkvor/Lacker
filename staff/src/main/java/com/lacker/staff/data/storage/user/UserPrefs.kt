@@ -24,7 +24,7 @@ class UserPrefs @Inject constructor(
 
     private val prefs: Preferences by lazy {
         BinaryPreferencesBuilder(context)
-            .name("Läcker_visitors_prefs_user")
+            .name("Läcker_staff_prefs_user")
             .allowBuildOnBackgroundThread()
             .supportInterProcess(true)
             .build()
