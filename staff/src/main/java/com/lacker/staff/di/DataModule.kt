@@ -1,7 +1,7 @@
 package com.lacker.staff.di
 
-import com.lacker.staff.data.storage.UserPrefs
-import com.lacker.staff.data.storage.UserStorage
+import com.lacker.staff.data.storage.user.UserPrefs
+import com.lacker.staff.data.storage.user.UserStorage
 import dagger.Binds
 import dagger.Module
 import javax.inject.Singleton

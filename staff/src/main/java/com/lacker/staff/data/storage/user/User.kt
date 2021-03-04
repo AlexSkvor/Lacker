@@ -1,4 +1,4 @@
-package com.lacker.staff.data.storage
+package com.lacker.staff.data.storage.user
 
 data class User(
     val id: String,
