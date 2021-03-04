@@ -178,7 +178,10 @@ class MainActivity : AppCompatActivity(), ViewModelFactoryProvider, UserNotifier
 
             toolbar?.menu?.clear()
             invalidateOptionsMenu()
-        } ?: supportActionBar?.hide()
+        } ?: run {
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+            supportActionBar?.hide()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
