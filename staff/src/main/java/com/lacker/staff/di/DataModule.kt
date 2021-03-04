@@ -1,7 +1,7 @@
 package com.lacker.staff.di
 
-import com.lacker.staff.data.storage.restaurants.PrevRestaurantPrefs
-import com.lacker.staff.data.storage.restaurants.PrevRestaurantStorage
+import com.lacker.staff.data.storage.restaurants.SignedBeforeRestaurantsPrefs
+import com.lacker.staff.data.storage.restaurants.SignedBeforeRestaurantsStorage
 import com.lacker.staff.data.storage.user.UserPrefs
 import com.lacker.staff.data.storage.user.UserStorage
 import dagger.Binds
@@ -17,6 +17,6 @@ interface DataModule {
 
     @Singleton
     @Binds
-    fun bindPrevRestaurantStorage(prevRestaurantPrefs: PrevRestaurantPrefs): PrevRestaurantStorage
+    fun bindSignedBeforeRestaurantsStorage(signedBeforeRestaurantsPrefs: SignedBeforeRestaurantsPrefs): SignedBeforeRestaurantsStorage
 
 }
