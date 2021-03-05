@@ -26,23 +26,34 @@ class SignedBeforeRestaurantsPrefs @Inject constructor(
             .build()
     }
 
-    override var restaurantIds: Set<String>
+    override var restaurantCodes: Set<String>
         get() = prefs.getStringSet(CODES_SET_KEY, emptySet()).orEmpty()
         set(value) {
             prefs.edit { putStringSet(CODES_SET_KEY, value) }
         }
 
-    override var restaurantIdToEmailMap: Map<String, String>
-        get() {
-            val str = prefs.getString(IDS_TO_EMAIL_MAP_KEY, "").orEmpty()
-            return str.split(ELEMENTS_DIVIDER)
-                .filterNot { it.isEmpty() }
-                .map { it.substringBefore(KEY_VALUE_DIVIDER) to it.substringAfter(KEY_VALUE_DIVIDER) }
-                .toMap()
-        }
+    override fun addEmail(restaurantId: String, email: String) {
+        val tmpMap = restaurantIdToEmailMap.orEmpty().toMutableMap()
+        tmpMap[restaurantId] = email
+        restaurantIdToEmailMap = tmpMap
+    }
+
+    override fun getEmail(restaurantId: String): String? =
+        restaurantIdToEmailMap?.get(restaurantId)
+
+    private var restaurantIdToEmailMap: Map<String, String>? = null
+        get() = if (field == null) prefs.getString(IDS_TO_EMAIL_MAP_KEY, "").orEmpty()
+            .split(ELEMENTS_DIVIDER)
+            .filterNot { it.isEmpty() }
+            .map { it.substringBefore(KEY_VALUE_DIVIDER) to it.substringAfter(KEY_VALUE_DIVIDER) }
+            .toMap()
+        else field
         set(value) {
-            val str = value.entries.toList()
-                .joinToString(ELEMENTS_DIVIDER) { it.key + KEY_VALUE_DIVIDER + it.value }
-            prefs.edit { putString(IDS_TO_EMAIL_MAP_KEY, str) }
+            field = value
+            if (value != null) {
+                val str = value.entries.toList()
+                    .joinToString(ELEMENTS_DIVIDER) { it.key + KEY_VALUE_DIVIDER + it.value }
+                prefs.edit { putString(IDS_TO_EMAIL_MAP_KEY, str) }
+            }
         }
 }

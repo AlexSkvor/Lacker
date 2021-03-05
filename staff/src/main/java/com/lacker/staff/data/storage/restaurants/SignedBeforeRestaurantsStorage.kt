@@ -2,8 +2,10 @@ package com.lacker.staff.data.storage.restaurants
 
 interface SignedBeforeRestaurantsStorage {
 
-    var restaurantIds: Set<String>
+    var restaurantCodes: Set<String>
 
-    var restaurantIdToEmailMap: Map<String, String>
+    fun addEmail(restaurantId: String, email: String)
+
+    fun getEmail(restaurantId: String): String?
 
 }
