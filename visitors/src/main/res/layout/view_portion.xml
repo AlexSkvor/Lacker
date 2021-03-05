@@ -16,6 +16,7 @@
         android:layout_marginHorizontal="@dimen/_8sdp"
         android:clickable="false"
         android:ellipsize="end"
+        android:textSize="@dimen/_11ssp"
         android:lines="1"
         android:maxLines="1"
         android:textColor="@color/brown"

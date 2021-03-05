@@ -27,6 +27,7 @@
         android:layout_marginTop="@dimen/_4sdp"
         android:gravity="start"
         android:textColor="@color/veryDarkGrey"
+        android:textSize="@dimen/_11ssp"
         tools:text="You left no comment" />
 
     <TextView
@@ -39,5 +40,6 @@
         android:layout_marginBottom="@dimen/_8sdp"
         android:gravity="start"
         android:textColor="@color/veryDarkGrey"
+        android:textSize="@dimen/_11ssp"
         tools:text="Drinks asap: Yes" />
 </LinearLayout>

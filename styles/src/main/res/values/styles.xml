@@ -83,7 +83,17 @@
     <style name="Text">
         <item name="android:textColor">@color/text_color_brown_with_press_reaction</item>
         <item name="android:gravity">center</item>
-        <item name="android:textSize">@dimen/_11ssp</item>
+    </style>
+
+    <style name="TextAutoSize">
+        <item name="android:textColor">@color/brown</item>
+        <item name="autoSizeTextType">uniform</item>
+        <item name="autoSizeMinTextSize">@dimen/_6ssp</item>
+        <item name="autoSizeMaxTextSize">@dimen/_16ssp</item>
+    </style>
+
+    <style name="TextAutoSize.Clickable" parent="TextAutoSize">
+        <item name="android:textColor">@color/text_color_brown_with_press_reaction</item>
     </style>
 
     <style name="Text.Regular" parent="Text">
