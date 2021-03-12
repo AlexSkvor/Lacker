@@ -67,17 +67,17 @@ class FakeApi : Api {
     private val users: Map<String, List<BackendUser>> by lazy {
         val map = mutableMapOf<String, List<BackendUser>>()
 
-        restaurants.forEach {
+        restaurants.forEachIndexed { restaurantIndex, it ->
             val usersNumber = Random.nextInt(3, 10)
             val usersList = List(usersNumber) { i ->
                 BackendUser(
                     id = UUID.randomUUID().toString(),
                     name = "Alex $i",
                     surname = "Skvortsov $i",
-                    email = "staff" + i + "@" + restaurantCodes[i].substringBefore(' ') + ".ru",
+                    email = "staff" + i + "@" + restaurantCodes[restaurantIndex].substringBefore(' ') + ".ru",
                     token = UUID.randomUUID().toString(),
                     fullPhotoUrl = "https://i.ytimg.com/vi/Yh5whB-37HY/hqdefault_live.jpg",
-                    password = restaurantCodes[i] + i
+                    password = restaurantCodes[restaurantIndex] + i
                 )
             }
             map[it.id] = usersList
