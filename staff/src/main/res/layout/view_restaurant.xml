@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/_8sdp"
-    android:background="@drawable/bg_white_rounded_corners"
-    android:elevation="8dp"
-    android:foreground="?attr/selectableItemBackground"
-    android:padding="@dimen/_8sdp">
+    tools:background="@drawable/bg_white_rounded_corners"
+    tools:elevation="@dimen/_8sdp"
+    tools:layout_margin="@dimen/_8sdp"
+    tools:padding="@dimen/_8sdp"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/restaurantPhoto"
         android:layout_width="@dimen/_64sdp"
         android:layout_height="@dimen/_64sdp"
         android:contentDescription="@string/stub"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_baseline_find_replace_24" />
 
     <TextView
         android:id="@+id/restaurantName"
@@ -25,7 +26,6 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/_6sdp"
-        android:gravity="center"
         android:lines="1"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/restaurantAddress"
@@ -41,24 +41,12 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center_vertical"
-        app:layout_constraintBottom_toBottomOf="@id/restaurantSearchCode"
+        app:autoSizeMaxTextSize="@dimen/_12ssp"
+        app:layout_constraintBottom_toBottomOf="@id/restaurantPhoto"
         app:layout_constraintEnd_toEndOf="@id/restaurantName"
         app:layout_constraintStart_toStartOf="@id/restaurantName"
         app:layout_constraintTop_toBottomOf="@id/restaurantName"
         app:layout_constraintVertical_weight="7"
         tools:text="Адрес: Поселок Подковерные войны, переулок Заулочкина дом 33 корпус А подъезд 13" />
 
-    <TextView
-        android:id="@+id/restaurantSearchCode"
-        style="@style/TextAutoSize"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:lines="1"
-        app:layout_constraintBottom_toBottomOf="@id/restaurantPhoto"
-        app:layout_constraintEnd_toEndOf="@id/restaurantName"
-        app:layout_constraintStart_toStartOf="@id/restaurantName"
-        app:layout_constraintTop_toBottomOf="@id/restaurantAddress"
-        app:layout_constraintVertical_weight="3"
-        tools:text="Поисковой код: rest-pizza" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</merge>

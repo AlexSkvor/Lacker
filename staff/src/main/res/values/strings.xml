@@ -6,5 +6,9 @@
     <string name="emailEmptyError">Email should not be empty</string>
     <string name="emailIsNotValid">Email is not valid</string>
     <string name="passwordEmptyError">Password should not be empty</string>
-    <string name="noSelectedRestaurant">Select restaurant please</string>
+    <string name="restaurant">Restaurant</string>
+    <string name="noSelectedRestaurant">No restaurant selected yet!\nSelect restaurant please</string>
+    <string name="password">Password</string>
+    <string name="enterEmail">Email</string>
+    <string name="signIn">Sign In</string>
 </resources>
