@@ -3,6 +3,7 @@ package com.lacker.staff
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.*
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -17,7 +18,9 @@ import com.lacker.staff.navigation.Screens
 import com.lacker.utils.base.ToolbarFluxFragment
 import com.lacker.utils.base.ToolbarOwner
 import com.lacker.utils.base.VolumeKeysPressListener
+import com.lacker.utils.extensions.loadFromNet
 import com.lacker.utils.navigation.BackToImplementedNavigator
+import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.NavigatorHolder
@@ -57,7 +60,7 @@ class MainActivity : AppCompatActivity(), ViewModelFactoryProvider, UserNotifier
 
     private val defaultScreen
         get() = if (userStorage.user.isEmpty()) Screens.SignInScreen
-        else Screens.OrdersScreen // TODO("After UserStorage")
+        else Screens.OrdersScreen
 
     private val navigator: Navigator =
         object : BackToImplementedNavigator(this, supportFragmentManager, R.id.fragmentContainer) {
@@ -105,7 +108,17 @@ class MainActivity : AppCompatActivity(), ViewModelFactoryProvider, UserNotifier
     }
 
     private fun renderUserInfo() {
-        //TODO("After UserStorage")
+        val user = userStorage.user
+        if (user.isEmpty()) return
+
+        val name = user.name + " " + user.surname
+
+        val header = leftNavigation.getHeaderView(0)
+
+        val avatarView = header.findViewById<CircleImageView>(R.id.avatarProfileNavHeader)
+        avatarView.loadFromNet(user.fullPhotoUrl, crossFade = false)
+
+        header.findViewById<TextView>(R.id.usernameNavHeader).text = name
     }
 
     override fun onResumeFragments() {
