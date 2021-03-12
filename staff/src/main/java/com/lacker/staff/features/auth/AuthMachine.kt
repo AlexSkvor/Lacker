@@ -82,7 +82,7 @@ class AuthMachine @Inject constructor(
         }
         is Result.Restaurants.Error -> oldState.copy(restaurantsLoading = false)
             .also { sendMessage(res.text) }
-        Result.SignIn.Success -> oldState.also { router.backTo(Screens.OrdersScreen) }
+        Result.SignIn.Success -> oldState.also { router.replaceScreen(Screens.OrdersScreen) }
         is Result.SignIn.Error -> oldState.copy(loading = false).also { sendMessage(res.text) }
     }
 

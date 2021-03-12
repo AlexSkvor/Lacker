@@ -24,7 +24,7 @@ class ViewRestaurant @JvmOverloads constructor(
     var restaurant: RestaurantDto? = null
         set(value) {
             field = value
-            if (isLaidOut) render(value)
+            if (restaurantPhoto != null) render(value)
         }
 
     init {
@@ -47,13 +47,13 @@ class ViewRestaurant @JvmOverloads constructor(
     }
 
     private fun renderEmpty() {
-        restaurantPhoto.loadDrawableRes(R.drawable.ic_baseline_find_replace_24)
+        restaurantPhoto.loadDrawableRes(R.drawable.ic_baseline_find_replace_24, crossFade = false)
         restaurantName.text = resources.getString(R.string.restaurant)
         restaurantAddress.text = resources.getString(R.string.noSelectedRestaurant)
     }
 
     private fun renderRestaurant(restaurant: RestaurantDto) {
-        restaurantPhoto.loadFromNet(restaurant.fullPhotoUrl)
+        restaurantPhoto.loadFromNet(restaurant.fullPhotoUrl, crossFade = false)
         restaurantName.text = restaurant.name
         restaurantAddress.text = restaurant.addressString
     }

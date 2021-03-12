@@ -7,6 +7,7 @@ import com.lacker.utils.base.ToolbarFluxFragment
 import com.lacker.utils.base.ToolbarFragmentSettings
 import com.lacker.staff.features.auth.AuthMachine.Wish
 import com.lacker.staff.features.auth.AuthMachine.State
+import com.lacker.utils.extensions.hideKeyboard
 import com.lacker.utils.extensions.setTextIfNotEquals
 import com.lacker.utils.extensions.visible
 import kotlinx.android.synthetic.main.fragment_auth.*
@@ -30,7 +31,8 @@ class AuthFragment : ToolbarFluxFragment<Wish, State>() {
             if (restaurants.isEmpty()) performWish(Wish.Start)
             else SelectRestaurantBottomFragment.show(requireActivity(),
                 restaurants = restaurants,
-                listener = { performWish(Wish.Restaurant(it)) }
+                listener = { performWish(Wish.Restaurant(it)) } // TODO prevent reselecting and input changes while progress!
+            //TODO investigate leaks
             )
         }
 
@@ -42,14 +44,19 @@ class AuthFragment : ToolbarFluxFragment<Wish, State>() {
             performWish(Wish.Password(it?.toString().orEmpty()))
         }
 
-        loginButton.setOnClickListener { performWish(Wish.SignIn) }
+        loginButton.setOnClickListener { signIn() }
 
         passwordField.setOnEditorActionListener { _, actionId, _ ->
             (actionId == EditorInfo.IME_ACTION_DONE).also {
-                if (it) performWish(Wish.SignIn)
+                if (it) signIn()
             }
         }
 
+    }
+
+    private fun signIn() {
+        hideKeyboard()
+        performWish(Wish.SignIn)
     }
 
     override fun render(state: State) {
