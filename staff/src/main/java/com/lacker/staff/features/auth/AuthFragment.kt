@@ -25,7 +25,14 @@ class AuthFragment : ToolbarFluxFragment<Wish, State>() {
 
     override fun onScreenInit() {
         performWish(Wish.Start)
-        restaurantView.setOnClickListener { /*TODO open select restaurant dialog*/ }
+        restaurantView.setOnClickListener {
+            val restaurants = machine.states().value.restaurants.orEmpty()
+            if (restaurants.isEmpty()) performWish(Wish.Start)
+            else SelectRestaurantBottomFragment.show(requireActivity(),
+                restaurants = restaurants,
+                listener = { performWish(Wish.Restaurant(it)) }
+            )
+        }
 
         emailField.doAfterTextChanged {
             performWish(Wish.Email(it?.toString().orEmpty()))
