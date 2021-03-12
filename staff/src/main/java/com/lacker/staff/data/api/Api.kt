@@ -3,10 +3,11 @@ package com.lacker.staff.data.api
 import com.lacker.staff.data.dto.auth.AuthRequest
 import com.lacker.staff.data.dto.auth.UserDto
 import com.lacker.staff.data.dto.restaurant.RestaurantDto
-import com.lacker.staff.data.dto.restaurant.RestaurantsInfoRequest
+import com.lacker.staff.data.dto.restaurant.RestaurantInfoResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface Api {
 
@@ -15,9 +16,12 @@ interface Api {
         @Body request: AuthRequest
     ): UserDto
 
-    @GET("restaurants/info/")
-    suspend fun getRestaurantsInfo(
-        @Body request: RestaurantsInfoRequest
-    ): List<RestaurantDto>
+    @GET("restaurants/{restaurantId}/info/")
+    suspend fun getRestaurantInfo(
+        @Path("restaurantId") restaurantId: String
+    ): RestaurantInfoResponse
+
+    @GET("restaurants/list")
+    suspend fun getRestaurants(): List<RestaurantDto>
 
 }

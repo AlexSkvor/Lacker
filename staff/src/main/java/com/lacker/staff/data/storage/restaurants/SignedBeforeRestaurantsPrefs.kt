@@ -11,7 +11,6 @@ class SignedBeforeRestaurantsPrefs @Inject constructor(
 ) : SignedBeforeRestaurantsStorage {
 
     private companion object {
-        const val CODES_SET_KEY = "CODES_SET_KEY"
         const val IDS_TO_EMAIL_MAP_KEY = "IDS_TO_EMAIL_MAP_KEY"
 
         const val KEY_VALUE_DIVIDER = "|||||"
@@ -25,12 +24,6 @@ class SignedBeforeRestaurantsPrefs @Inject constructor(
             .supportInterProcess(true)
             .build()
     }
-
-    override var restaurantCodes: Set<String>
-        get() = prefs.getStringSet(CODES_SET_KEY, emptySet()).orEmpty()
-        set(value) {
-            prefs.edit { putStringSet(CODES_SET_KEY, value) }
-        }
 
     override fun addEmail(restaurantId: String, email: String) {
         val tmpMap = restaurantIdToEmailMap.orEmpty().toMutableMap()

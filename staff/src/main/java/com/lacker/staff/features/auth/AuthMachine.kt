@@ -6,13 +6,12 @@ import com.lacker.staff.data.api.NetworkManager
 import com.lacker.staff.data.dto.auth.AuthRequest
 import com.lacker.staff.data.dto.auth.toDomain
 import com.lacker.staff.data.dto.restaurant.RestaurantDto
-import com.lacker.staff.data.dto.restaurant.RestaurantsInfoRequest
 import com.lacker.staff.data.storage.restaurants.SignedBeforeRestaurantsStorage
 import com.lacker.staff.data.storage.user.UserStorage
 import javax.inject.Inject
-import com.lacker.staff.features.auth.SignInMachine.Wish
-import com.lacker.staff.features.auth.SignInMachine.State
-import com.lacker.staff.features.auth.SignInMachine.Result
+import com.lacker.staff.features.auth.AuthMachine.Wish
+import com.lacker.staff.features.auth.AuthMachine.State
+import com.lacker.staff.features.auth.AuthMachine.Result
 import com.lacker.staff.navigation.Screens
 import com.lacker.utils.extensions.isValidEmail
 import com.lacker.utils.extensions.onNull
@@ -20,7 +19,7 @@ import com.lacker.utils.resources.ResourceProvider
 import ru.terrakok.cicerone.Router
 import voodoo.rocks.flux.Machine
 
-class SignInMachine @Inject constructor(
+class AuthMachine @Inject constructor(
     private val oldStorage: SignedBeforeRestaurantsStorage,
     private val net: NetworkManager,
     private val router: Router,
@@ -28,7 +27,7 @@ class SignInMachine @Inject constructor(
     private val userStorage: UserStorage
 ) : Machine<Wish, Result, State>() {
 
-    sealed class Wish { // TODO autoselect last restaurant!
+    sealed class Wish {
         object SignIn : Wish()
         object Start : Wish()
 
@@ -43,21 +42,21 @@ class SignInMachine @Inject constructor(
             data class Error(val text: String) : Result.SignIn()
         }
 
-        sealed class RestaurantsInfo : Result() {
-            data class Success(val info: List<RestaurantDto>) : Result.RestaurantsInfo()
-            data class Error(val text: String) : Result.RestaurantsInfo()
+        sealed class Restaurants : Result() {
+            data class Success(val restaurants: List<RestaurantDto>) : Result.Restaurants()
+            data class Error(val text: String) : Result.Restaurants()
         }
     }
 
     data class State(
         val loading: Boolean = false,
+        val restaurantsLoading: Boolean = false,
         val email: String = "",
         val password: String = "",
         val restaurants: List<RestaurantDto>? = null,
         val selectedRestaurant: RestaurantDto? = null,
         val errorTextEmail: String? = null,
-        val errorTextPassword: String? = null,
-        val errorTextRestaurant: String? = null
+        val errorTextPassword: String? = null
     )
 
     override val initialState: State = State()
@@ -70,26 +69,19 @@ class SignInMachine @Inject constructor(
             password = wish.text, errorTextPassword = null
         )
         Wish.SignIn -> checkStateAndSignInIfPossible(oldState)
-        Wish.Start -> oldState.also {
-            pushResult { loadRestaurantInfo(*oldStorage.restaurantCodes.toTypedArray()) }
-        }
-        is Wish.Restaurant -> oldState.copy(
-            selectedRestaurant = wish.restaurant,
-            errorTextRestaurant = null,
-            email = if (oldState.email.isNotBlank() || wish.restaurant == null) oldState.email
-            else oldStorage.getEmail(wish.restaurant.id).orEmpty()
-        )
+        Wish.Start -> oldState.copy(restaurantsLoading = true)
+            .also { pushResult { loadRestaurants() } }
+        is Wish.Restaurant -> oldState.setRestaurant(wish.restaurant)
     }
 
     override fun onResult(res: Result, oldState: State): State = when (res) {
-        is Result.RestaurantsInfo.Success -> {
-            val newState = oldState.copy(
-                restaurants = res.info + oldState.restaurants.orEmpty()
-            )
-            if (newState.email != oldState.email) newState.copy(errorTextEmail = null)
-            else newState
+        is Result.Restaurants.Success -> {
+            val newState = oldState.copy(restaurants = res.restaurants, restaurantsLoading = false)
+            if (res.restaurants.size != 1) newState // TODO autoselect last restaurant!
+            else newState.setRestaurant(res.restaurants.first())
         }
-        is Result.RestaurantsInfo.Error -> oldState.also { sendMessage(res.text) }
+        is Result.Restaurants.Error -> oldState.copy(restaurantsLoading = false)
+            .also { sendMessage(res.text) }
         Result.SignIn.Success -> oldState.also { router.backTo(Screens.OrdersScreen) }
         is Result.SignIn.Error -> oldState.copy(loading = false).also { sendMessage(res.text) }
     }
@@ -109,11 +101,12 @@ class SignInMachine @Inject constructor(
         val restaurantError = if (oldState.selectedRestaurant != null) null
         else resourceProvider.getString(R.string.noSelectedRestaurant)
 
+        restaurantError?.let { sendMessage(restaurantError) }
+
         if (emailError != null || passwordError != null || restaurantError != null)
             return oldState.copy(
                 errorTextEmail = emailError,
-                errorTextPassword = passwordError,
-                errorTextRestaurant = restaurantError
+                errorTextPassword = passwordError
             )
 
         requireNotNull(oldState.selectedRestaurant)
@@ -121,14 +114,18 @@ class SignInMachine @Inject constructor(
         return oldState.copy(loading = true)
     }
 
-    private suspend fun loadRestaurantInfo(vararg code: String): Result.RestaurantsInfo {
-        val codesList = code.asList()
-        if (codesList.isEmpty()) return Result.RestaurantsInfo.Success(emptyList())
+    private fun State.setRestaurant(restaurant: RestaurantDto?): State {
+        return copy(
+            selectedRestaurant = restaurant,
+            email = if (email.isNotBlank() || restaurant == null) email
+            else oldStorage.getEmail(restaurant.id).orEmpty()
+        )
+    }
 
-        val request = RestaurantsInfoRequest(codesList)
-        return when (val res = net.callResult { getRestaurantsInfo(request) }) {
-            is ApiCallResult.Result -> Result.RestaurantsInfo.Success(res.value)
-            is ApiCallResult.ErrorOccurred -> Result.RestaurantsInfo.Error(res.text)
+    private suspend fun loadRestaurants(): Result.Restaurants {
+        return when (val res = net.callResult { getRestaurants() }) {
+            is ApiCallResult.Result -> Result.Restaurants.Success(res.value)
+            is ApiCallResult.ErrorOccurred -> Result.Restaurants.Error(res.text)
         }
     }
 
@@ -141,7 +138,6 @@ class SignInMachine @Inject constructor(
 
         return when (val res = net.callResult { signIn(request) }) {
             is ApiCallResult.Result -> {
-                oldStorage.restaurantCodes = oldStorage.restaurantCodes + restaurant.code // TODO in bottom dialog, not here
                 oldStorage.addEmail(restaurant.id, email)
                 userStorage.user = res.value.toDomain()
                 Result.SignIn.Success

@@ -3,7 +3,7 @@ package com.lacker.staff.data.api
 import com.lacker.staff.data.dto.auth.AuthRequest
 import com.lacker.staff.data.dto.auth.UserDto
 import com.lacker.staff.data.dto.restaurant.RestaurantDto
-import com.lacker.staff.data.dto.restaurant.RestaurantsInfoRequest
+import com.lacker.staff.data.dto.restaurant.RestaurantInfoResponse
 import kotlinx.coroutines.delay
 import java.util.*
 import kotlin.random.Random
@@ -57,7 +57,6 @@ class FakeApi : Api {
         List(restaurantCodes.size) { i ->
             RestaurantDto(
                 id = ids[i],
-                code = restaurantCodes[i],
                 name = restaurantCodes[i].toUpperCase(Locale.getDefault()),
                 fullPhotoUrl = photos[i],
                 addressString = "Code name ${restaurantCodes[i]}; Поселок Подковерные войны, переулок Заулочкина дом 33 корпус А подъезд 13"
@@ -75,10 +74,10 @@ class FakeApi : Api {
                     id = UUID.randomUUID().toString(),
                     name = "Alex $i",
                     surname = "Skvortsov $i",
-                    email = it.code + i + "@" + it.code.substringBefore(' ') + ".ru",
+                    email = "staff" + i + "@" + restaurantCodes[i].substringBefore(' ') + ".ru",
                     token = UUID.randomUUID().toString(),
                     fullPhotoUrl = "https://i.ytimg.com/vi/Yh5whB-37HY/hqdefault_live.jpg",
-                    password = it.code + i
+                    password = restaurantCodes[i] + i
                 )
             }
             map[it.id] = usersList
@@ -96,11 +95,18 @@ class FakeApi : Api {
         return user?.toDto() ?: throw Exception("Wrong email or restaurantId or password")
     }
 
-    override suspend fun getRestaurantsInfo(request: RestaurantsInfoRequest): List<RestaurantDto> {
+    override suspend fun getRestaurantInfo(restaurantId: String): RestaurantInfoResponse {
         delay(Random.nextLong(300, 2000))
         possiblyThrow()
 
-        return restaurants.filter { it.code in request.codes }
+        val restaurant = restaurants.find { it.id == restaurantId }
+        return RestaurantInfoResponse(restaurant)
+    }
+
+    override suspend fun getRestaurants(): List<RestaurantDto> {
+        delay(Random.nextLong(300, 2000))
+        possiblyThrow()
+        return restaurants
     }
 
     private fun possiblyThrow(always: Boolean = false) {
