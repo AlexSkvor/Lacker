@@ -136,7 +136,7 @@ class AuthMachine @Inject constructor(
     ): Result.SignIn {
         val request = AuthRequest(restaurant.id, email, password)
 
-        return when (val res = net.callResult { signIn(request) }) {
+        return when (val res = net.authCallResult { signIn(request) }) {
             is ApiCallResult.Result -> {
                 oldStorage.addEmail(restaurant.id, email)
                 userStorage.user = res.value.toDomain()

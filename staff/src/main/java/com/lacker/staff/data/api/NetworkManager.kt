@@ -16,21 +16,22 @@ class NetworkManager @Inject constructor(
     private val resourceProvider: ResourceProvider
 ) {
 
-    suspend fun <T> callResult(apiCall: suspend Api.() -> T) = try {
-        ApiCallResult.Result(api.apiCall())
+    suspend fun <T> callResult(apiCall: suspend Api.() -> T) = callResult(false, apiCall)
+
+    suspend fun <T> authCallResult(apiCall: suspend Api.() -> T) = callResult(true, apiCall)
+
+    private suspend fun <T> callResult(authCall: Boolean, call: suspend Api.() -> T) = try {
+        ApiCallResult.Result(api.call())
     } catch (e: Exception) {
         if (e is CancellationException) throw e
 
         val apiMessage = e.logError(json)
-        if (e.isTokenError() && !loginCall()) ApiCallResult.ErrorOccurred<T>(
+        if (e.isTokenError() && !authCall) ApiCallResult.ErrorOccurred<T>(
             resourceProvider.getString(R.string.tokenError)
-        )//.also { onTokenExpired() }
-        else ApiCallResult.ErrorOccurred(
+        ) else ApiCallResult.ErrorOccurred(
             apiMessage?.message.onNull(resourceProvider.getString(R.string.unknownErrorNotification))
         )
     }
-
-    private fun loginCall(): Boolean = TODO("rework this logic maximum priority!")
 }
 
 sealed class ApiCallResult<T> {

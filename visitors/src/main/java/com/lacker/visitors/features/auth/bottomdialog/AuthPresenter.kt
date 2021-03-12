@@ -21,7 +21,7 @@ class AuthPresenter @Inject constructor(
 
         view.showProgress()
         launchIo {
-            val res = net.callResult { signInWithGoogle(data) }
+            val res = net.authCallResult { signInWithGoogle(data) }
 
             launchUi {
                 when (res) {
