@@ -115,10 +115,18 @@ class AuthMachine @Inject constructor(
     }
 
     private fun State.setRestaurant(restaurant: RestaurantDto?): State {
+
+        val oldRest = this.selectedRestaurant
+
+        val oldEmail = oldRest?.let { oldStorage.getEmail(it.id) }
+        val newEmail = restaurant?.id?.let { oldStorage.getEmail(it) }
+
+        val emailToSet = if (oldEmail == this.email || email.isBlank()) newEmail
+        else email
+
         return copy(
             selectedRestaurant = restaurant,
-            email = if (email.isNotBlank() || restaurant == null) email
-            else oldStorage.getEmail(restaurant.id).orEmpty()
+            email = emailToSet.orEmpty()
         )
     }
 
