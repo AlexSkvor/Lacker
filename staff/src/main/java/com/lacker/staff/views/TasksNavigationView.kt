@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.lacker.staff.R
+import com.lacker.staff.features.orders.TasksMachine
 import com.lacker.utils.extensions.getColor
 import com.lacker.utils.extensions.setTextSizeRes
 import com.lacker.utils.extensions.setTintColor
@@ -73,6 +74,19 @@ class TasksNavigationView @JvmOverloads constructor(
     }
 
 }
+
+private val mapStates = mapOf(
+    TasksNavigationView.State.NEW_ORDERS to TasksMachine.State.Type.NEW_ORDERS,
+    TasksNavigationView.State.NEW_CALLS to TasksMachine.State.Type.NEW_CALLS,
+    TasksNavigationView.State.OLD_ORDERS to TasksMachine.State.Type.OLD_ORDERS,
+    TasksNavigationView.State.OLD_CALLS to TasksMachine.State.Type.OLD_CALLS,
+)
+
+fun TasksNavigationView.State.asDomain() = mapStates[this]!!
+
+fun TasksMachine.State.Type.asUi() = mapStates.entries.firstOrNull {
+    it.value == this
+}?.key!!
 
 private fun TextView.select() {
     setTintColor(R.color.brownExtraLight)
