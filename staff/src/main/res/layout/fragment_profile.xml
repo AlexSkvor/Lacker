@@ -28,7 +28,7 @@
             tools:text="Aleksey Skvortsov" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/signButton"
+            android:id="@+id/signOutButton"
             style="@style/App.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

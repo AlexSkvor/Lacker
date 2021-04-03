@@ -3,6 +3,7 @@
     <string name="ordersScreenTitle">Orders</string>
 
     <!-- Profile Screen -->
+    <string name="profileScreenTitle">Profile</string>
     <string name="signOut">Sign Out</string>
 
     <!-- Auth Screen -->
