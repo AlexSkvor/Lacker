@@ -1,6 +1,10 @@
 <resources>
     <!-- Tasks Screen -->
     <string name="tasksScreenTitle">Tasks</string>
+    <string name="newOrdersScreenTitle">Orders</string>
+    <string name="newCallsScreenTitle">Calls</string>
+    <string name="oldOrdersScreenTitle">Old Orders</string>
+    <string name="oldCallsScreenTitle">Old Calls</string>
 
     <!-- Profile Screen -->
     <string name="profileScreenTitle">Profile</string>
