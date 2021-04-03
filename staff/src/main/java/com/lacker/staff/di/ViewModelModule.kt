@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.lacker.staff.features.auth.AuthMachine
 import com.lacker.staff.features.orders.OrdersMachine
+import com.lacker.staff.features.profile.ProfileMachine
 import dagger.Binds
 import dagger.MapKey
 import dagger.Module
@@ -35,4 +36,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(OrdersMachine::class)
     internal abstract fun bindOrdersMachine(viewModel: OrdersMachine): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ProfileMachine::class)
+    internal abstract fun bindProfileMachine(viewModel: ProfileMachine): ViewModel
 }
