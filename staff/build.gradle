@@ -58,6 +58,9 @@ dependencies {
 
     implementation "com.google.android.material:material:$materialVersion"
 
+    // Pagination
+    implementation "com.gitlab.voodoo-rocks:PaginationView:$paginationVersion"
+
     //Dimens
     implementation "com.intuit.sdp:sdp-android:$dimensHelperVersion"
     implementation "com.intuit.ssp:ssp-android:$dimensHelperVersion"
