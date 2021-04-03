@@ -1,6 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <voodoo.rocks.paginator.PaginationView
+        android:id="@+id/newOrdersPaginationview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <voodoo.rocks.paginator.PaginationView
+        android:id="@+id/newCallsPaginationview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <voodoo.rocks.paginator.PaginationView
+        android:id="@+id/oldOrdersPaginationview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <voodoo.rocks.paginator.PaginationView
+        android:id="@+id/oldCallsPaginationview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+
+    <com.lacker.staff.views.TasksNavigationView
+        android:id="@+id/tasksNavigationBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginHorizontal="@dimen/_32sdp"
+        android:layout_marginBottom="@dimen/_16sdp" />
+
+</FrameLayout>
