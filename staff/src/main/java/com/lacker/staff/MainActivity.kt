@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity(), ViewModelFactoryProvider, UserNotifier
 
     private val defaultScreen
         get() = if (userStorage.user.isEmpty()) Screens.SignInScreen
-        else Screens.OrdersScreen
+        else Screens.TasksScreen
 
     private val navigator: Navigator =
         object : BackToImplementedNavigator(this, supportFragmentManager, R.id.fragmentContainer) {

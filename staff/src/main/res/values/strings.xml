@@ -1,6 +1,6 @@
 <resources>
-    <!-- Orders Screen -->
-    <string name="ordersScreenTitle">Orders</string>
+    <!-- Tasks Screen -->
+    <string name="tasksScreenTitle">Tasks</string>
 
     <!-- Profile Screen -->
     <string name="profileScreenTitle">Profile</string>

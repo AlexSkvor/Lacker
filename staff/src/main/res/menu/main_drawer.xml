@@ -6,6 +6,6 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/navigateOrders"
-            android:title="@string/ordersScreenTitle" />
+            android:title="@string/tasksScreenTitle" />
     </group>
 </menu>

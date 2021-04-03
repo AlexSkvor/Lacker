@@ -3,22 +3,21 @@ package com.lacker.staff.features.orders
 import com.lacker.staff.R
 import com.lacker.utils.base.ToolbarFluxFragment
 import com.lacker.utils.base.ToolbarFragmentSettings
-import com.lacker.staff.features.orders.OrdersMachine.Wish
-import com.lacker.staff.features.orders.OrdersMachine.State
+import com.lacker.staff.features.orders.TasksMachine.Wish
+import com.lacker.staff.features.orders.TasksMachine.State
 
-class OrdersFragment : ToolbarFluxFragment<Wish, State>() {
-
+class TasksFragment : ToolbarFluxFragment<Wish, State>() {
     companion object {
-        fun newInstance() = OrdersFragment()
+        fun newInstance() = TasksFragment()
     }
 
-    override fun layoutRes(): Int = R.layout.fragment_orders
+    override fun layoutRes(): Int = R.layout.fragment_tasks
 
-    override val machine by lazy { getMachineFromFactory(OrdersMachine::class.java) }
+    override val machine by lazy { getMachineFromFactory(TasksMachine::class.java) }
 
     override val toolbarSettings: ToolbarFragmentSettings by lazy {
         ToolbarFragmentSettings(
-            title = getString(R.string.ordersScreenTitle),
+            title = getString(R.string.tasksScreenTitle),
             subtitle = null,
             showBackIcon = false,
             menuResId = null
