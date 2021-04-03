@@ -3,6 +3,7 @@ package com.lacker.staff.navigation
 import androidx.fragment.app.Fragment
 import com.lacker.staff.features.auth.AuthFragment
 import com.lacker.staff.features.orders.OrdersFragment
+import com.lacker.staff.features.profile.ProfileFragment
 import ru.terrakok.cicerone.android.support.SupportAppScreen
 
 object Screens {
@@ -16,7 +17,7 @@ object Screens {
     }
 
     object ProfileScreen : SupportAppScreen() {
-        override fun getFragment(): Fragment = TODO("After UserStorage")
+        override fun getFragment(): Fragment = ProfileFragment.newInstance()
     }
 
 }
