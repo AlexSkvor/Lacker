@@ -2,6 +2,7 @@ package com.lacker.utils.extensions
 
 import android.annotation.SuppressLint
 import android.view.MotionEvent
+import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 
@@ -9,7 +10,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator
  * Calls listener with true param if scrolled up
  */
 @SuppressLint("ClickableViewAccessibility")
-fun RecyclerView.onScroll(listener: (Boolean) -> Unit) {
+fun View.onScroll(listener: (Boolean) -> Unit) {
     var yStart: Float? = null
 
     setOnTouchListener { _, event ->

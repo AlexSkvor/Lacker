@@ -111,11 +111,28 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
         }
     }
 
+    private val recyclers: List<RecyclerView>
+        get() = listOf(menuRecycler, favouriteRecycler, basketRecycler, orderRecycler)
+
+    private val allViews
+        get() = listOf(
+            menuErrorPlaceholder,
+            menuProgressPlaceholder,
+            menuEmptyPlaceholder
+        ) + recyclers
+
     override fun onScreenInit() {
         menuRecycler.adapter = menuAdapter
         favouriteRecycler.adapter = favouriteAdapter
         basketRecycler.adapter = basketAdapter
         orderRecycler.adapter = orderAdapter
+
+        allViews.forEach {
+            it.onScroll { upper ->
+                if (upper) menuNavigationBar.appearFromBottom(200)
+                else menuNavigationBar.hideBelowBottom(200)
+            }
+        }
 
         menuErrorPlaceholder.onRetry { performWish(Wish.Refresh) }
         menuSwipeRefresh.setOnRefreshListener { performWish(Wish.Refresh) }
@@ -130,9 +147,6 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
         recyclers.forEach { it.adapter = null }
         super.onDestroyView()
     }
-
-    private val recyclers: List<RecyclerView>
-        get() = listOf(menuRecycler, favouriteRecycler, basketRecycler, orderRecycler)
 
     private var prevStateType: State.Type? = null
 
@@ -149,13 +163,6 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
         state.empty && !state.showLoading && state.errorText.isNull() -> menuEmptyPlaceholder
         else -> recyclerForStateType(state.type)
     }
-
-    private val allViews
-        get() = listOf(
-            menuErrorPlaceholder,
-            menuProgressPlaceholder,
-            menuEmptyPlaceholder
-        ) + recyclers
 
     private val currentVisibleView
         get() = allViews.firstOrNull { it.visible }
@@ -191,6 +198,8 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
     }
 
     override fun render(state: State) {
+        if (state.empty || state.errorText.isNotNull())
+            menuNavigationBar.appearFromBottom(0)
         menuNavigationBar.setState(state.type.asUi())
 
         menuNavigationBar.setFavouriteBadge(state.favourites.orEmpty().size)
