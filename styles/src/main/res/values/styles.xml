@@ -81,7 +81,7 @@
     </style>
 
     <style name="Text">
-        <item name="android:textColor">@color/text_color_brown_with_press_reaction</item>
+        <item name="android:textColor">@color/brown</item>
         <item name="android:gravity">center</item>
     </style>
 
