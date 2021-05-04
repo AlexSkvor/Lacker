@@ -21,7 +21,7 @@
     <string name="leaveYourCommentHere">Leave your comment here</string>
     <string name="youHaveChosenDishes">You have chosen %d dishes</string>
     <string name="confirm">Confirm</string>
-    <string name="dateTimeTitleText">Created at %s</string>
+    <string name="dateTimeTitleText">Ordered at %s</string>
     <string name="failedToParseDateTime">Failed to parse date and time</string>
     <string name="noComment">You left no comment</string>
     <string name="yourComment">Your comment: %s</string>
