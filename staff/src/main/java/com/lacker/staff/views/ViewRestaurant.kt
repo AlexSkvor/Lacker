@@ -2,24 +2,17 @@ package com.lacker.staff.views
 
 import android.content.Context
 import android.util.AttributeSet
-import androidx.constraintlayout.widget.ConstraintLayout
+import com.google.android.material.card.MaterialCardView
 import com.lacker.staff.R
 import com.lacker.staff.data.dto.restaurant.RestaurantDto
 import com.lacker.utils.extensions.*
 import kotlinx.android.synthetic.main.view_restaurant.view.*
 
-/**
- * Be careful, this view does not
- * accept respect parameters:
- * Paddings;
- * Background;
- * Foreground!
- */
 class ViewRestaurant @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : ConstraintLayout(context, attrs, defStyleAttr) {
+) : MaterialCardView(context, attrs, defStyleAttr) {
 
     var restaurant: RestaurantDto? = null
         set(value) {
@@ -30,12 +23,8 @@ class ViewRestaurant @JvmOverloads constructor(
     init {
         inflate(context, R.layout.view_restaurant, this)
 
-        background = drawableCompat(R.drawable.bg_white_rounded_corners)
-        elevation = resources.getDimension(R.dimen._8sdp)
-        setAllPaddings(R.dimen._8sdp)
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M)
-            addDefaultSelectableAnimation()
+        cardElevation = resources.getDimension(R.dimen._8sdp)
+        radius = resources.getDimension(R.dimen._8sdp)
 
         if (!isInEditMode)
             render(restaurant)
