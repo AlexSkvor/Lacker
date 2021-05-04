@@ -116,12 +116,7 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
         favouriteRecycler.adapter = favouriteAdapter
         basketRecycler.adapter = basketAdapter
         orderRecycler.adapter = orderAdapter
-        listOf(menuRecycler, favouriteRecycler, basketRecycler, orderRecycler).forEach {
-            it.onScroll { upper ->
-                if (upper) menuNavigationBar.appearFromBottom(200)
-                else menuNavigationBar.hideBelowBottom(200)
-            }
-        }
+
         menuErrorPlaceholder.onRetry { performWish(Wish.Refresh) }
         menuSwipeRefresh.setOnRefreshListener { performWish(Wish.Refresh) }
         menuNavigationBar.onStateChange {
@@ -196,8 +191,6 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
     }
 
     override fun render(state: State) {
-        if (state.empty || state.errorText.isNotNull())
-            menuNavigationBar.appearFromBottom(0)
         menuNavigationBar.setState(state.type.asUi())
 
         menuNavigationBar.setFavouriteBadge(state.favourites.orEmpty().size)
