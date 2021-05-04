@@ -1,6 +1,5 @@
 package com.lacker.visitors.features.session.menu
 
-import android.graphics.Color
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.lacker.utils.extensions.*
