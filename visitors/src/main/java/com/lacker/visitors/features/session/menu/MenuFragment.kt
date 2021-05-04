@@ -51,6 +51,8 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
 
     override fun layoutRes(): Int = R.layout.fragment_menu
 
+    private var commentFragment: CommentBeforeOrderBottomSheetDialogFragment? = null
+
     private fun createCommentFragment() {
         if (commentFragment == null)
             commentFragment = CommentBeforeOrderBottomSheetDialogFragment()
@@ -67,8 +69,6 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
                     )
                 }
     }
-
-    private var commentFragment: CommentBeforeOrderBottomSheetDialogFragment? = null
 
     private val menuAdapter by lazy { createAdapter() }
     private val favouriteAdapter by lazy { createAdapter() }
@@ -105,7 +105,7 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
             if (it is Wish.SendBasketToServer) {
                 withAuthCheck(reasonRes = R.string.orderCreationAuthReason) {
                     createCommentFragment()
-                    commentFragment?.show(requireActivity().supportFragmentManager)
+                    commentFragment?.show(childFragmentManager)
                 }
             }
         }

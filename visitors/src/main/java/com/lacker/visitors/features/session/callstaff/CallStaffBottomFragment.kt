@@ -77,6 +77,6 @@ class CallStaffBottomFragment : BottomSheetDialogFragment(), CallStaffView {
 
 fun Fragment.openCallStaffDialog() {
     withAuthCheck(false, R.string.staffCalling) {
-        CallStaffBottomFragment.show(requireActivity().supportFragmentManager)
+        CallStaffBottomFragment.show(childFragmentManager)
     }
 }
