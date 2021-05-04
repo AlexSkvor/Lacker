@@ -15,7 +15,7 @@
         android:layout_marginTop="@dimen/_12sdp"
         android:layout_marginEnd="@dimen/_6sdp"
         android:contentDescription="@string/stub"
-        android:foreground="?attr/selectableItemBackground"
+        android:background="?attr/actionBarItemBackground"
         app:tint="@color/brown"
         tools:src="@drawable/ic_baseline_favorite_border_24" />
 
