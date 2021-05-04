@@ -1,5 +1,6 @@
 package com.lacker.visitors.features.session.menu
 
+import android.graphics.Color
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.lacker.utils.extensions.*
@@ -126,6 +127,8 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
         favouriteRecycler.adapter = favouriteAdapter
         basketRecycler.adapter = basketAdapter
         orderRecycler.adapter = orderAdapter
+
+        menuSwipeRefresh.setColorSchemeColors(colorCompat(R.color.brown))
 
         allViews.forEach {
             it.onScroll { upper ->

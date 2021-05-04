@@ -11,6 +11,9 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.widget.TextViewCompat
+import androidx.fragment.app.Fragment
+
+fun Fragment.colorCompat(@ColorRes res: Int) = ContextCompat.getColor(requireContext(), res)
 
 fun View.getColor(@ColorRes res: Int) = ContextCompat.getColor(context, res)
 
