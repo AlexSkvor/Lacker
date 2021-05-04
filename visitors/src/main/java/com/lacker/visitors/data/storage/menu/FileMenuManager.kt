@@ -6,6 +6,8 @@ import com.lacker.visitors.data.dto.menu.Menu
 import com.lacker.visitors.data.dto.menu.MenuItem
 import com.lacker.visitors.data.storage.files.FilesManager
 import com.squareup.moshi.Moshi
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
 import java.time.OffsetDateTime
 import javax.inject.Inject
@@ -16,13 +18,26 @@ class FileMenuManager @Inject constructor(
     private val json: Moshi
 ) : MenuManager {
 
+    companion object {
+        private const val SECONDS_IN_MINUTE = 60
+    }
+
+    private val mutex = Mutex()
+
     override suspend fun getMenu(restaurantId: String): ApiCallResult<List<MenuItem>> {
 
         try {
-            val savedMenu = getStoredMenu(restaurantId)
-                ?: return getMenuFromServerWithCashing(restaurantId)
+            val savedMenu = mutex.withLock {
+                getStoredMenu(restaurantId)
+                    ?: return getMenuFromServerWithCashing(restaurantId)
+            }
 
             val savedMenuTimestamp = savedMenu.timeStamp
+
+            val now = OffsetDateTime.now()
+            if (now.toEpochSecond() - savedMenuTimestamp.toEpochSecond() < SECONDS_IN_MINUTE)
+                return ApiCallResult.Result(savedMenu.items)
+
             val serverMenuTimestamp = when (val res = getServerMenuTimestamp(restaurantId)) {
                 is ApiCallResult.Result -> res.value
                 is ApiCallResult.ErrorOccurred -> return ApiCallResult.ErrorOccurred(res.text)
