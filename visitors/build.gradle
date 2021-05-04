@@ -80,6 +80,9 @@ dependencies {
 
     implementation "com.google.android.material:material:$materialVersion"
 
+    // Pagination
+    implementation "com.gitlab.voodoo-rocks:PaginationView:$paginationVersion"
+
     //QR
     implementation("com.gitlab.voodoo-rocks:QRCodeReaderView:$customQRVersion")
     implementation("com.google.zxing:core:$zxingVersion") // do not update, later version causes errors
