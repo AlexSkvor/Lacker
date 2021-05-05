@@ -13,8 +13,10 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppThemeNoActionBar.Launcher" parent="AppThemeNoActionBar">
+    <style name="AppThemeNoActionBar.Launcher" parent="Theme.MaterialComponents.NoActionBar.Bridge">
+        <item name="colorPrimaryDark">@color/absoluteTransparent</item>
         <item name="android:windowBackground">@drawable/launch_screen</item>
+        <item name="android:windowContentOverlay">@null</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />
