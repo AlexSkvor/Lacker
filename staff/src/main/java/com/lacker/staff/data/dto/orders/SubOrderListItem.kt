@@ -11,5 +11,5 @@ data class SubOrderListItem(
     @Json(name = "tableName") val tableName: String,
     @Json(name = "createdDateTime") val createdDateTime: OffsetDateTime,
     @Json(name = "comment") val comment: String,
-    @Json(name = "portionsNumber") val portionsNumber: Int
+    @Json(name = "orderList") val orderList: List<OrderedDish>,
 )
