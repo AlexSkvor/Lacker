@@ -53,9 +53,9 @@ class TasksNavigationView @JvmOverloads constructor(
     }
 
     private fun setupButtonsForState(state: State) {
-        views.forEach {
+        views.forEachIndexed { i, it ->
             if (it.second == state) it.first.select()
-            else it.first.unSelect()
+            else it.first.unSelect(i > 1)
         }
     }
 
@@ -94,8 +94,10 @@ private fun TextView.select() {
     setTextSizeRes(R.dimen._8ssp)
 }
 
-private fun TextView.unSelect() {
-    setTintColor(R.color.white)
-    setTextColor(getColor(R.color.white))
+private fun TextView.unSelect(old: Boolean) {
+    val colorRes = if (old) R.color.brownExtraLightWithGrey
+    else R.color.white
+    setTintColor(colorRes)
+    setTextColor(getColor(colorRes))
     setTextSizeRes(R.dimen._7ssp)
 }
