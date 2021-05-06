@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/brownExtraLight"
+    android:layout_marginTop="@dimen/_8sdp"
     android:orientation="vertical">
 
     <TextView
@@ -11,35 +11,43 @@
         style="@style/Text.Bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/brown"
+        android:background="@drawable/bg_brown_top_rounded_corners"
         android:ellipsize="end"
         android:paddingVertical="@dimen/_12sdp"
         android:textColor="@color/white"
         android:textSize="@dimen/_14ssp"
         tools:text="Created at 23:55 14 Nov 2020" />
 
-    <TextView
-        android:id="@+id/commentText"
-        style="@style/Text.Medium"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_8sdp"
-        android:layout_marginTop="@dimen/_4sdp"
-        android:gravity="start"
-        android:textColor="@color/veryDarkGrey"
-        android:textSize="@dimen/_11ssp"
-        tools:text="You left no comment" />
+        android:background="@color/brownExtraLight"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/drinksFlagText"
-        style="@style/Text.Medium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_8sdp"
-        android:layout_marginTop="@dimen/_4sdp"
-        android:layout_marginBottom="@dimen/_8sdp"
-        android:gravity="start"
-        android:textColor="@color/veryDarkGrey"
-        android:textSize="@dimen/_11ssp"
-        tools:text="Drinks asap: Yes" />
+        <TextView
+            android:id="@+id/commentText"
+            style="@style/Text.Medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:gravity="start"
+            android:textColor="@color/veryDarkGrey"
+            android:textSize="@dimen/_11ssp"
+            tools:text="You left no comment" />
+
+        <TextView
+            android:id="@+id/drinksFlagText"
+            style="@style/Text.Medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:gravity="start"
+            android:textColor="@color/veryDarkGrey"
+            android:textSize="@dimen/_11ssp"
+            tools:text="Drinks asap: Yes" />
+
+    </LinearLayout>
 </LinearLayout>

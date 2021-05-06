@@ -1,7 +1,9 @@
 package com.lacker.visitors.features.session.common
 
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateLayoutContainer
+import com.lacker.utils.extensions.isToday
 import com.lacker.utils.extensions.userFormatterSpacesWithoutSecs
+import com.lacker.utils.extensions.userFormatterTimeWithoutSecs
 import com.lacker.visitors.R
 import kotlinx.android.synthetic.main.item_date_time_title.*
 
@@ -18,7 +20,8 @@ fun getSubOrderTitleAdapter(
         drinksFlagText.text = getString(R.string.drinksImmediately, drinksText)
 
         val timeText = try {
-            item.dateTime?.format(userFormatterSpacesWithoutSecs)
+            if (item.dateTime.isToday()) item.dateTime?.format(userFormatterTimeWithoutSecs)
+            else item.dateTime?.format(userFormatterSpacesWithoutSecs)
         } catch (t: Throwable) {
             null
         }

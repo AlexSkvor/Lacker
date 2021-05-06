@@ -35,6 +35,11 @@ val userFormatterSpacesWithoutSecs: DateTimeFormatter by lazy {
     DateTimeFormatter.ofPattern(USER_FORMAT_SPACES_WITHOUT_SECS)
 }
 
+private const val USER_FORMAT_TIME_WITHOUT_SECS = "HH:mm"
+val userFormatterTimeWithoutSecs: DateTimeFormatter by lazy {
+    DateTimeFormatter.ofPattern(USER_FORMAT_TIME_WITHOUT_SECS)
+}
+
 private const val USER_TIME_FORMAT = "HH:mm:ss"
 val userTimeFormatter: DateTimeFormatter by lazy { DateTimeFormatter.ofPattern(USER_TIME_FORMAT) }
 
@@ -91,4 +96,10 @@ fun View.selectDateOnClick(
         calendar.get(Calendar.DAY_OF_MONTH)
     ).show()
 
+}
+
+fun OffsetDateTime?.isToday(): Boolean {
+    return this?.let {
+        OffsetDateTime.now().toLocalDate().equals(it.toLocalDate())
+    } ?: false
 }
