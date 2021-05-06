@@ -67,7 +67,7 @@
     <string name="defaultProgressThing">this</string>
 
     <!-- Empty Placeholder View -->
-    <string name="emptyList">Looks like our %s is empty right now</string>
+    <string name="emptyList">Looks like \"%s\" screen is empty right now</string>
     <string name="defaultEmptyThing">list</string>
 
 </resources>

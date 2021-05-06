@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Permission dialogs -->
+    <string name="permissionRequired">Необходимо разрешение</string>
+    <string name="whyNeedPermission">Запрошенное действие требует разрешения.\nПри предыдущем запросе Вы отметили \"Больше не спрашивать\".\nПожалуйста, откройте настройки и включитие разрешение.</string>
+    <string name="cancelCaps" tools:ignore="ButtonCase">ЗАКРЫТЬ</string>
+    <string name="settings">НАСТРОЙКИ</string>
+
+    <!-- Common -->
+    <string name="clickAgainToCloseApp">Нажмите \"Назад\" еще раз, чтобы закрыть Läcker</string>
+    <string name="rurSymbolPrice">%s ₽</string>
+    <string name="openDrawer">Открыть навигационную панель</string>
+    <string name="closeDrawer">Закрыть навигационную панель</string>
+
+    <string name="unknownErrorNotification">Неизвестная ошибка</string>
+    <string name="tokenError">Ошибка авторизации</string>
+    <string name="error">Ошибка</string>
+
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+</resources>

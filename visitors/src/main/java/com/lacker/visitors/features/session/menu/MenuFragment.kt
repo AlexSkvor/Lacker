@@ -222,7 +222,7 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
         menuSwipeRefresh.isEnabled = !state.empty
         menuSwipeRefresh.isRefreshing = state.showLoading
 
-        menuEmptyPlaceholder.emptyThingText = currentTitle.toLowerCase(Locale.getDefault())
+        menuEmptyPlaceholder.emptyThingText = currentTitle
 
         renderVisibleView(state)
 

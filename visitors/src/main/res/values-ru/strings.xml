@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Bottom Sheet Auth Screen -->
+    <string name="authTitle">Давайте знакомиться</string>
+    <string name="authReason">Есть функционал, который требует авторизации\n%s как раз такой случай.\nПожалуйста, воспользуйтесь одним из сервисов.</string>
+    <string name="authReasonFromProfile">Вы можете авторизоваться через любой из сервисов указанных ниже</string>
+
+    <!-- Scan Screen -->
+    <string name="qrCodeInvalidFormat">QR код невалиден.\nПроверьте, точно ли Вы используете последнюю версию Läcker</string>
+    <string name="screenTitleScan">Считывание QR</string>
+    <string name="scanHelpHint">Вы можете включать и выключать вспышку\nгромоксть вверх - включить\nи\nгромкость вниз - выключить</string>
+
+    <!-- Menu Screen -->
+    <string name="menuScreenTitle">Меню</string>
+    <string name="orderCreationAuthReason">Создание заказа</string>
+    <string name="basketScreenTitle">Корзина</string>
+    <string name="startCooking">Отправить заказ</string>
+    <string name="favouriteScreenTitle">Избранное</string>
+    <string name="orderScreenTitle">Заказ</string>
+    <string name="staffCalling">Вызов официанта</string>
+    <string name="leaveYourCommentHere">Оставьте здесь Ваш комментарий</string>
+    <string name="youHaveChosenDishes">Вы выбрали %d блюд</string>
+    <string name="confirm">Подтвердить</string>
+    <string name="dateTimeTitleText">Заказано в %s</string>
+    <string name="failedToParseDateTime">Не удалось распознать дату и время</string>
+    <string name="noComment">Вы не оставили комментарий</string>
+    <string name="yourComment">Ваш комментарий: %s</string>
+    <string name="drinksImmediately">Напитки сразу: %s</string>
+    <string name="requestSent">Запрос отправлен</string>
+    <string name="orderImmediately">Быстрый заказ</string>
+
+    <!-- Call Staff Screen -->
+    <string name="weWillNotifyStaff">Ваш запрос отправлен, ожидайте</string>
+    <string name="callStaff">Для чего Вам нужен официант?</string>
+    <string name="bankCardPayment">Оплата картой</string>
+    <string name="cashPayment">Оплата наличными</string>
+    <string name="consultation">Консультация</string>
+    <string name="shouldSelectRestaurantBeforeCallStaff">Перед вызвовом официанта нужно выбрать ресторан!</string>
+
+    <!-- Profile Screen -->
+    <string name="profileScreenTitle">Профиль</string>
+    <string name="guest">Гость</string>
+    <string name="signOut">Выйти</string>
+    <string name="signIn">Войти</string>
+
+    <!--My Order Screen -->
+    <string name="myOrderScreenTitle">Мой заказ</string>
+
+    <!-- History Screen -->
+    <string name="historyScreenTitle">История заказов</string>
+
+    <!-- News Screen -->
+    <string name="newsScreenTitle">Новости</string>
+
+    <!-- Settings Screen -->
+    <string name="settingsScreenTitle">Настройки</string>
+
+    <!-- About Screen -->
+    <string name="aboutScreenTitle">О приложении</string>
+
+    <!-- Error Placeholder View -->
+    <string name="defaultButtonRetry">Попробовать снова</string>
+    <string name="defaultErrorStarter">Случилась ошибка</string>
+
+    <!-- Progress Placeholder View -->
+    <string name="cookingThingForYou">Мы уже готовим %s для Вас</string>
+    <string name="defaultProgressThing">this</string>
+
+    <!-- Empty Placeholder View -->
+    <string name="emptyList">Кажется, на экране \"%s\" ничего нет</string>
+    <string name="defaultEmptyThing" />
+
+</resources>

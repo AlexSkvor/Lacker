@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Tasks Screen -->
+    <string name="tasksScreenTitle">Задачи</string>
+    <string name="newOrdersScreenTitle">Заказы</string>
+    <string name="newCallsScreenTitle">Вызовы</string>
+    <string name="oldOrdersScreenTitle">Старые заказы</string>
+    <string name="oldCallsScreenTitle">Старые вызовы</string>
+
+    <!-- Profile Screen -->
+    <string name="profileScreenTitle">Профиль</string>
+    <string name="signOut">Выйти</string>
+
+    <!-- Auth Screen -->
+    <string name="emailEmptyError">Email не может быть пуст</string>
+    <string name="emailIsNotValid">Email не валиден</string>
+    <string name="passwordEmptyError">Пароль не должен быть пуст</string>
+    <string name="restaurant">Ресторан</string>
+    <string name="noSelectedRestaurant">Ресторан не выбран!\nВыберите ресторан, пожалуйста!</string>
+    <string name="selectRestaurantHeader">Выберите Ваш ресторан</string>
+    <string name="password">Пароль</string>
+    <string name="enterEmail">Email</string>
+    <string name="signIn">Войти</string>
+</resources>

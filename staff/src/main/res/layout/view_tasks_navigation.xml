@@ -24,7 +24,7 @@
         app:drawableTopCompat="@drawable/ic_orders"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/newCallsTab"
-        app:layout_constraintHorizontal_weight="5"
+        app:layout_constraintHorizontal_weight="4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -42,7 +42,7 @@
         app:drawableTopCompat="@drawable/ic_notifications_outline"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/oldOrdersTab"
-        app:layout_constraintHorizontal_weight="5"
+        app:layout_constraintHorizontal_weight="4"
         app:layout_constraintStart_toEndOf="@id/newOrdersTab"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -60,7 +60,7 @@
         app:drawableTopCompat="@drawable/ic_orders"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/oldCallsTab"
-        app:layout_constraintHorizontal_weight="5"
+        app:layout_constraintHorizontal_weight="6"
         app:layout_constraintStart_toEndOf="@id/newCallsTab"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -78,7 +78,7 @@
         app:drawableTopCompat="@drawable/ic_notifications_outline"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_weight="5"
+        app:layout_constraintHorizontal_weight="6"
         app:layout_constraintStart_toEndOf="@id/oldOrdersTab"
         app:layout_constraintTop_toTopOf="parent" />
 
