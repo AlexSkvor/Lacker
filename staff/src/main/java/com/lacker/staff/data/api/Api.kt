@@ -2,12 +2,10 @@ package com.lacker.staff.data.api
 
 import com.lacker.staff.data.dto.auth.AuthRequest
 import com.lacker.staff.data.dto.auth.UserDto
+import com.lacker.staff.data.dto.orders.NewOrdersPageResponse
 import com.lacker.staff.data.dto.restaurant.RestaurantDto
 import com.lacker.staff.data.dto.restaurant.RestaurantInfoResponse
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface Api {
 
@@ -24,4 +22,9 @@ interface Api {
     @GET("restaurants/list")
     suspend fun getRestaurants(): List<RestaurantDto>
 
+    @GET("restaurants/{restaurantId}/newOrders")
+    suspend fun getNewOrders(
+        @Path("restaurantId") restaurantId: String,
+        @Query("lastReceivedSuborderId") lastReceivedSuborderId: String?,
+    ): NewOrdersPageResponse
 }

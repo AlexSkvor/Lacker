@@ -2,9 +2,15 @@ package com.lacker.staff.data.api
 
 import com.lacker.staff.data.dto.auth.AuthRequest
 import com.lacker.staff.data.dto.auth.UserDto
+import com.lacker.staff.data.dto.orders.NewOrdersPageResponse
+import com.lacker.staff.data.dto.orders.OrderedDish
+import com.lacker.staff.data.dto.orders.Portion
+import com.lacker.staff.data.dto.orders.SubOrderListItem
 import com.lacker.staff.data.dto.restaurant.RestaurantDto
 import com.lacker.staff.data.dto.restaurant.RestaurantInfoResponse
 import kotlinx.coroutines.delay
+import java.lang.Integer.min
+import java.time.OffsetDateTime
 import java.util.*
 import kotlin.random.Random
 
@@ -107,6 +113,45 @@ class FakeApi : Api {
         delay(Random.nextLong(300, 2000))
         possiblyThrow()
         return restaurants
+    }
+
+    private var lastOrdersListSize = 0
+    override suspend fun getNewOrders(
+        restaurantId: String,
+        lastReceivedSuborderId: String?
+    ): NewOrdersPageResponse {
+        delay(Random.nextLong(300, 2000))
+        possiblyThrow()
+
+        if (lastReceivedSuborderId != null && lastOrdersListSize < 20)
+            return NewOrdersPageResponse(emptyList())
+
+        val size = min(20, Random.nextInt(0, 100))
+        lastOrdersListSize = size
+        val subOrders = List(size) { i ->
+            SubOrderListItem(
+                id = UUID.randomUUID().toString(),
+                clientName = "Client Name $i",
+                tableName = "Table name $i",
+                createdDateTime = OffsetDateTime.now().minusMinutes(Random.nextLong(0, 10)),
+                comment = "Comment $i",
+                orderList = List(Random.nextInt(1, 7)) { j ->
+                    OrderedDish(
+                        dishId = UUID.randomUUID().toString(),
+                        dishName = "Dish name $j",
+                        portions = List(Random.nextInt(3)) { k ->
+                            Portion(
+                                id = UUID.randomUUID().toString(),
+                                price = Random.nextInt(10, 10000),
+                                portionName = "Portion name $k",
+                                count = Random.nextInt(1, 3)
+                            )
+                        }
+                    )
+                }
+            )
+        }
+        return NewOrdersPageResponse(subOrders)
     }
 
     private fun possiblyThrow(always: Boolean = false) {
