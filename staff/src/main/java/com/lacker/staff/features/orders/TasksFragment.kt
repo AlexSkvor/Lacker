@@ -2,11 +2,13 @@ package com.lacker.staff.features.orders
 
 import androidx.recyclerview.widget.RecyclerView
 import com.lacker.staff.R
+import com.lacker.staff.data.dto.orders.SubOrderListItem
 import com.lacker.utils.base.ToolbarFluxFragment
 import com.lacker.utils.base.ToolbarFragmentSettings
 import com.lacker.staff.features.orders.TasksMachine.Wish
 import com.lacker.staff.features.orders.TasksMachine.State
-import com.lacker.staff.features.orders.adapters.orderAdapter
+import com.lacker.staff.features.orders.adapters.getNewOrdersAdaptersList
+import com.lacker.staff.utils.addOrReplaceExistingAdapters
 import com.lacker.staff.views.asDomain
 import com.lacker.staff.views.asUi
 import com.lacker.utils.extensions.*
@@ -66,7 +68,20 @@ class TasksFragment : ToolbarFluxFragment<Wish, State>() {
             oldCallsPaginationview
         )
 
-    private val newOrdersAdapter by lazy { orderAdapter() }
+    private val newOrdersAdapter by lazy {
+        getNewOrdersAdaptersList(
+            onViewClick = { onViewSuborderClicked(it) },
+            onAcceptClick = { onAcceptSuborderClicked(it) }
+        )
+    }
+
+    private fun onViewSuborderClicked(subOrder: SubOrderListItem) {
+        subOrder.alsoPrintDebug("View suborder not implemented!")
+    }
+
+    private fun onAcceptSuborderClicked(subOrder: SubOrderListItem) {
+        subOrder.alsoPrintDebug("Accept suborder not implemented!")
+    }
 
     override fun onScreenInit() {
         setupPaginationViews()
@@ -80,25 +95,25 @@ class TasksFragment : ToolbarFluxFragment<Wish, State>() {
         newOrdersPaginationview.apply {
             swipeRefresh?.setColorSchemeColors(colorCompat(R.color.brown))
             onAsk { performWish(Wish.PaginationAsk(State.Type.NEW_ORDERS, it)) }
-            addOrReplaceExistingAdapter(newOrdersAdapter)
+            addOrReplaceExistingAdapters(newOrdersAdapter)
             startRefresh()
         }
         newCallsPaginationview.apply {
             swipeRefresh?.setColorSchemeColors(colorCompat(R.color.brown))
             onAsk { performWish(Wish.PaginationAsk(State.Type.NEW_CALLS, it)) }
-            addOrReplaceExistingAdapter(newOrdersAdapter) // TODO different adapter
+            addOrReplaceExistingAdapters(newOrdersAdapter) // TODO different adapter
             startRefresh()
         }
         oldOrdersPaginationview.apply {
             swipeRefresh?.setColorSchemeColors(colorCompat(R.color.brown))
             onAsk { performWish(Wish.PaginationAsk(State.Type.OLD_ORDERS, it)) }
-            addOrReplaceExistingAdapter(newOrdersAdapter) // TODO different adapter
+            addOrReplaceExistingAdapters(newOrdersAdapter) // TODO different adapter
             startRefresh()
         }
         oldCallsPaginationview.apply {
             swipeRefresh?.setColorSchemeColors(colorCompat(R.color.brown))
             onAsk { performWish(Wish.PaginationAsk(State.Type.OLD_CALLS, it)) }
-            addOrReplaceExistingAdapter(newOrdersAdapter) // TODO different adapter
+            addOrReplaceExistingAdapters(newOrdersAdapter) // TODO different adapter
             startRefresh()
         }
     }
