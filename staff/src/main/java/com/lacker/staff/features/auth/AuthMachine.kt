@@ -6,6 +6,8 @@ import com.lacker.staff.data.api.NetworkManager
 import com.lacker.staff.data.dto.auth.AuthRequest
 import com.lacker.staff.data.dto.auth.toDomain
 import com.lacker.staff.data.dto.restaurant.RestaurantDto
+import com.lacker.staff.data.storage.restaurants.DomainRestaurant
+import com.lacker.staff.data.storage.restaurants.RestaurantStorage
 import com.lacker.staff.data.storage.restaurants.SignedBeforeRestaurantsStorage
 import com.lacker.staff.data.storage.user.UserStorage
 import javax.inject.Inject
@@ -24,7 +26,8 @@ class AuthMachine @Inject constructor(
     private val net: NetworkManager,
     private val router: Router,
     private val resourceProvider: ResourceProvider,
-    private val userStorage: UserStorage
+    private val userStorage: UserStorage,
+    private val restaurantStorage: RestaurantStorage,
 ) : Machine<Wish, Result, State>() {
 
     sealed class Wish {
@@ -147,6 +150,7 @@ class AuthMachine @Inject constructor(
         return when (val res = net.authCallResult { signIn(request) }) {
             is ApiCallResult.Result -> {
                 oldStorage.addEmail(restaurant.id, email)
+                restaurantStorage.restaurant = DomainRestaurant(restaurant.id)
                 userStorage.user = res.value.toDomain()
                 Result.SignIn.Success
             }
