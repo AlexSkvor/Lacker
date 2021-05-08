@@ -13,6 +13,7 @@ import com.lacker.staff.views.asDomain
 import com.lacker.staff.views.asUi
 import com.lacker.utils.extensions.*
 import kotlinx.android.synthetic.main.fragment_tasks.*
+import voodoo.rocks.paginator.reduce.Ask
 
 class TasksFragment : ToolbarFluxFragment<Wish, State>() {
 
@@ -71,7 +72,8 @@ class TasksFragment : ToolbarFluxFragment<Wish, State>() {
     private val newOrdersAdapter by lazy {
         getNewOrdersAdaptersList(
             onViewClick = { onViewSuborderClicked(it) },
-            onAcceptClick = { onAcceptSuborderClicked(it) }
+            onAcceptClick = { onAcceptSuborderClicked(it) },
+            onRefresh = { performWish(Wish.PaginationAsk(State.Type.NEW_ORDERS, Ask.Refresh)) },
         )
     }
 
@@ -93,6 +95,7 @@ class TasksFragment : ToolbarFluxFragment<Wish, State>() {
 
     private fun setupPaginationViews() {
         newOrdersPaginationview.apply {
+            setCustomScrollController { true }
             swipeRefresh?.setColorSchemeColors(colorCompat(R.color.brown))
             onAsk { performWish(Wish.PaginationAsk(State.Type.NEW_ORDERS, it)) }
             addOrReplaceExistingAdapters(newOrdersAdapter)

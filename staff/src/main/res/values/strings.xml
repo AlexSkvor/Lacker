@@ -21,6 +21,10 @@
     <string name="enterEmail">Email</string>
     <string name="signIn">Sign In</string>
 
+    <!-- Custom pagination adapters -->
+    <string name="refreshButton">Refresh</string>
+    <string name="emptyText">Great work!\nNo tasks in list!</string>
+
     <!-- Orders List -->
     <string name="ordered">Ordered at %s</string>
     <string name="failedToParseDateTime">Failed to parse date and time</string>

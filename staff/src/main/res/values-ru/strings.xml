@@ -22,6 +22,10 @@
     <string name="enterEmail">Email</string>
     <string name="signIn">Войти</string>
 
+    <!-- Custom pagination adapters -->
+    <string name="refreshButton">Обновить</string>
+    <string name="emptyText">Отличная работа!\nСписок задач пуст!</string>
+
     <!-- Orders List -->
     <string name="ordered">Заказано в %s</string>
     <string name="failedToParseDateTime">Не удалось распознать дату и время</string>
