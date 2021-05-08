@@ -11,7 +11,6 @@ import com.lacker.staff.views.asDomain
 import com.lacker.staff.views.asUi
 import com.lacker.utils.extensions.*
 import kotlinx.android.synthetic.main.fragment_tasks.*
-import voodoo.rocks.paginator.reduce.Ask
 
 class TasksFragment : ToolbarFluxFragment<Wish, State>() {
 
@@ -79,24 +78,28 @@ class TasksFragment : ToolbarFluxFragment<Wish, State>() {
 
     private fun setupPaginationViews() {
         newOrdersPaginationview.apply {
+            swipeRefresh?.setColorSchemeColors(colorCompat(R.color.brown))
             onAsk { performWish(Wish.PaginationAsk(State.Type.NEW_ORDERS, it)) }
             addOrReplaceExistingAdapter(newOrdersAdapter)
+            startRefresh()
         }
         newCallsPaginationview.apply {
+            swipeRefresh?.setColorSchemeColors(colorCompat(R.color.brown))
             onAsk { performWish(Wish.PaginationAsk(State.Type.NEW_CALLS, it)) }
             addOrReplaceExistingAdapter(newOrdersAdapter) // TODO different adapter
+            startRefresh()
         }
         oldOrdersPaginationview.apply {
+            swipeRefresh?.setColorSchemeColors(colorCompat(R.color.brown))
             onAsk { performWish(Wish.PaginationAsk(State.Type.OLD_ORDERS, it)) }
             addOrReplaceExistingAdapter(newOrdersAdapter) // TODO different adapter
+            startRefresh()
         }
         oldCallsPaginationview.apply {
+            swipeRefresh?.setColorSchemeColors(colorCompat(R.color.brown))
             onAsk { performWish(Wish.PaginationAsk(State.Type.OLD_CALLS, it)) }
             addOrReplaceExistingAdapter(newOrdersAdapter) // TODO different adapter
-        }
-
-        State.Type.values().forEach {
-            performWish(Wish.PaginationAsk(it, Ask.Refresh))
+            startRefresh()
         }
     }
 
