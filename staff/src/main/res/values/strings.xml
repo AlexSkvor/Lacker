@@ -20,4 +20,15 @@
     <string name="password">Password</string>
     <string name="enterEmail">Email</string>
     <string name="signIn">Sign In</string>
+
+    <!-- Orders List -->
+    <string name="ordered">Ordered at %s</string>
+    <string name="failedToParseDateTime">Failed to parse date and time</string>
+    <string name="client">Client: %s</string>
+    <string name="table">Table: %s</string>
+    <string name="orderComment">Comment: %s</string>
+    <string name="dishNumber">Dish number: %d</string>
+    <string name="view">View</string>
+    <string name="accept">Accept</string>
+
 </resources>
