@@ -29,4 +29,6 @@
     <color name="veryLightGrey">#33000000</color>
     <color name="greyNotTransparent">#555</color>
 
+    <color name="windowBackground">@color/white</color>
+
 </resources>
