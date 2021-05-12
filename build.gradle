@@ -63,6 +63,10 @@ buildscript {
     }
 }
 
+plugins {
+    id "com.starter.easylauncher" version "3.10.2" apply false
+}
+
 allprojects {
     repositories {
         google()
