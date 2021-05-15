@@ -33,14 +33,14 @@ class ApiModule {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.SERVER_URL)
             .addConverterFactory(MoshiConverterFactory.create(json))
-            .client(getClient(context, json))
+            .client(getClient(context))
             .build()
             .create(Api::class.java)
     }
 
-    private fun getClient(context: Context, json: Moshi): OkHttpClient {
+    private fun getClient(context: Context): OkHttpClient {
         return OkHttpClient.Builder()
-            .addInterceptor(ApiLogger.get(json))
+            .addInterceptor(ApiLogger.get())
             .addInterceptor(ChuckerInterceptor(context))
             .retryOnConnectionFailure(true)
             .connectTimeout(CONNECT_TIMEOUT_SECONDS.toLong(), TimeUnit.SECONDS)

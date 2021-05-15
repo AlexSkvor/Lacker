@@ -1,19 +1,19 @@
 package com.lacker.utils.api
 
 import com.lacker.utils.BuildConfig
-import com.squareup.moshi.Moshi
+import com.lacker.utils.extensions.formatJson
 import okhttp3.Interceptor
 import okhttp3.logging.HttpLoggingInterceptor
 import timber.log.Timber
 
 private const val TAG = "API_LOG... %s"
 
-class ApiLogger(private val json: Moshi) : HttpLoggingInterceptor.Logger {
+class ApiLogger : HttpLoggingInterceptor.Logger {
 
     override fun log(message: String) {
         val log = if (message.isEmpty() || message.first() !in "{[") message
         else try {
-            "\n" + message.format(json)
+            "\n" + message.formatJson()
         } catch (t: Throwable) {
             message
         }
@@ -22,7 +22,7 @@ class ApiLogger(private val json: Moshi) : HttpLoggingInterceptor.Logger {
     }
 
     companion object {
-        fun get(json: Moshi): Interceptor = HttpLoggingInterceptor(ApiLogger(json)).apply {
+        fun get(): Interceptor = HttpLoggingInterceptor(ApiLogger()).apply {
             level = if (BuildConfig.DEBUG_MODE) HttpLoggingInterceptor.Level.BODY
             else HttpLoggingInterceptor.Level.NONE
         }
