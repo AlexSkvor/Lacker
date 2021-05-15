@@ -55,8 +55,8 @@ class ViewRestaurant @JvmOverloads constructor(
 
     private fun recolorToActive() {
         isClickable = true
-        restaurantName.setTextColor(getColor(R.color.brown))
-        restaurantAddress.setTextColor(getColor(R.color.brown))
+        restaurantName.setTextColor(getColor(R.color.blueSuperDark))
+        restaurantAddress.setTextColor(getColor(R.color.blueSuperDark))
     }
 
     private fun recolorToInactive() {

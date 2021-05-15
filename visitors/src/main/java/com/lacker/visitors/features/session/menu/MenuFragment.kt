@@ -127,7 +127,7 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
         basketRecycler.adapter = basketAdapter
         orderRecycler.adapter = orderAdapter
 
-        menuSwipeRefresh.setColorSchemeColors(colorCompat(R.color.brown))
+        menuSwipeRefresh.setColorSchemeColors(colorCompat(R.color.blue))
 
         allViews.forEach {
             it.onScroll { upper ->

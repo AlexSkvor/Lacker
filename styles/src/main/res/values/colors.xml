@@ -10,7 +10,6 @@
 
     <color name="absoluteTransparent">#00000000</color>
 
-    <color name="brown">#5C2715</color>
     <color name="darkBrown">#210B03</color>
     <color name="brownLight">#964B00</color>
     <color name="brownExtraLight">#CD7F32</color>
@@ -19,9 +18,10 @@
 
     <color name="hintTextColor">#444</color>
     <color name="errorColor">#F00</color>
-    <color name="textColor">@color/brown</color>
+    <color name="textColor">@color/black</color>
     <color name="textColorError">#555555</color>
 
+    <color name="black">#000</color>
     <color name="veryDarkGrey">#CC000000</color>
     <color name="darkGrey">#88000000</color>
     <color name="grey">#55000000</color>

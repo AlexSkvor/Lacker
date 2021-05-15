@@ -17,7 +17,6 @@
         android:layout_marginTop="@dimen/_8sdp"
         android:clickable="false"
         android:text="@string/orderImmediately"
-        android:textColor="@color/brown"
         android:textSize="@dimen/_14ssp" />
 
     <com.lacker.visitors.views.SmallMenuItemView

@@ -17,7 +17,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_8sdp"
         android:clickable="false"
-        android:textColor="@color/brown"
         android:textSize="@dimen/_14ssp"
         tools:text="You have chosen 3 dishes" />
 

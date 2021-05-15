@@ -19,7 +19,6 @@
             android:layout_marginVertical="@dimen/_8sdp"
             android:clickable="false"
             android:text="@string/authTitle"
-            android:textColor="@color/brown"
             android:textSize="@dimen/_14ssp" />
 
         <TextView
@@ -29,7 +28,6 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_16sdp"
             android:clickable="false"
-            android:textColor="@color/brown"
             android:textSize="@dimen/_12ssp"
             tools:text="@string/authReason" />
 

@@ -30,19 +30,16 @@ fun orderAdapter(
         val itemSuborderClientText = getString(R.string.client, item.clientName)
         val itemSuborderClientRecolorPart = itemSuborderClientText.substringBefore(item.clientName)
         itemSuborderClient.text = itemSuborderClientText
-            .withTextColorSpan(itemSuborderClientRecolorPart, getColor(R.color.brown))
             .withBold(itemSuborderClientRecolorPart)
 
         val itemSuborderTableText = getString(R.string.table, item.tableName)
         val itemSuborderTableRecolorPart = itemSuborderTableText.substringBefore(item.tableName)
         itemSuborderTable.text = itemSuborderTableText
-            .withTextColorSpan(itemSuborderTableRecolorPart, getColor(R.color.brown))
             .withBold(itemSuborderTableRecolorPart)
 
         val itemSuborderCommentText = getString(R.string.orderComment, item.comment)
         val itemSuborderCommentRecolorPart = itemSuborderCommentText.substringBefore(item.comment)
         itemSuborderComment.text = itemSuborderCommentText
-            .withTextColorSpan(itemSuborderCommentRecolorPart, getColor(R.color.brown))
             .withBold(itemSuborderCommentRecolorPart)
 
         val dishNumber = item.orderList.sumBy { it.portions.sumBy { p -> p.count } }
@@ -50,7 +47,6 @@ fun orderAdapter(
         val itemSuborderDishNumberRecolorPart = itemSuborderDishNumberText
             .substringBefore(dishNumber.toString())
         itemSuborderDishNumber.text = itemSuborderDishNumberText
-            .withTextColorSpan(itemSuborderDishNumberRecolorPart, getColor(R.color.brown))
             .withBold(itemSuborderDishNumberRecolorPart)
     }
 

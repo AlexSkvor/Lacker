@@ -84,12 +84,12 @@
     </style>
 
     <style name="Text">
-        <item name="android:textColor">@color/brown</item>
+        <item name="android:textColor">@color/textColor</item>
         <item name="android:gravity">center</item>
     </style>
 
     <style name="TextAutoSize">
-        <item name="android:textColor">@color/brown</item>
+        <item name="android:textColor">@color/textColor</item>
         <item name="autoSizeTextType">uniform</item>
         <item name="autoSizeMinTextSize">@dimen/_6ssp</item>
         <item name="autoSizeMaxTextSize">@dimen/_16ssp</item>
