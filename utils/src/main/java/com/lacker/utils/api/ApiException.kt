@@ -5,7 +5,7 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class ApiException(
-    @Json(name = "name") val name: String,
+    @Json(name = "trace") val stackTrace: String?,
     @Json(name = "message") val message: String,
-    @Json(name = "code") val code: Int
+    @Json(name = "code") val code: Int,
 )

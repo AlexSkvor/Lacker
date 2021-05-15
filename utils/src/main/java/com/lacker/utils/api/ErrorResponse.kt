@@ -5,5 +5,5 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class ErrorResponse(
-    @Json(name = "exception") val exception: ApiException? = null
+    @Json(name = "error") val exception: ApiException? = null
 )
