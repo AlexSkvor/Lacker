@@ -11,7 +11,7 @@
         style="@style/Text.Bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_brown_top_rounded_corners"
+        android:background="@drawable/bg_colored_top_rounded_corners"
         android:ellipsize="end"
         android:paddingVertical="@dimen/_12sdp"
         android:textColor="@color/white"

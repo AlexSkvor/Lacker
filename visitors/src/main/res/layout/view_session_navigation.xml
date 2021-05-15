@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_brown_rounded_corners"
+    android:background="@drawable/bg_colored_rounded_corners"
     android:orientation="horizontal"
     android:paddingHorizontal="@dimen/_8sdp"
     android:weightSum="22"
