@@ -10,7 +10,7 @@ import retrofit2.http.*
 
 interface Api {
 
-    @POST("account/sign-in/google")
+    @POST("public/auth/google")
     suspend fun signInWithGoogle(
         @Body request: GoogleAuthData
     ): LoginResponse
