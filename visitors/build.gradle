@@ -37,14 +37,14 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField "String", "SERVER_URL", "\"http://lacker.backend.debug/fulladdress/\""
+            buildConfigField "String", "SERVER_URL", "\"http://lacker.ru/\""
             debuggable true
             signingConfig signingConfigs.signing
         }
 
         //only release version allows google sign in
         release {
-            buildConfigField "String", "SERVER_URL", "\"http://lacker.backend.prod/fulladdress/\""
+            buildConfigField "String", "SERVER_URL", "\"http://lacker.ru/\""
             debuggable false
             minifyEnabled false
             signingConfig signingConfigs.signing
