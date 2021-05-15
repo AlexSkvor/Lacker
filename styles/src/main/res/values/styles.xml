@@ -96,7 +96,7 @@
     </style>
 
     <style name="TextAutoSize.Clickable" parent="TextAutoSize">
-        <item name="android:textColor">@color/text_color_brown_with_press_reaction</item>
+        <item name="android:textColor">@color/text_color_with_press_reaction</item>
     </style>
 
     <style name="Text.Regular" parent="Text">
