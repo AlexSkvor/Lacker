@@ -15,7 +15,7 @@
         android:layout_height="@dimen/_80sdp"
         android:layout_gravity="start|top"
         android:layout_marginTop="@dimen/_16sdp"
-        app:civ_border_color="@color/brownExtraLight"
+        app:civ_border_color="@color/blueExtraLight"
         app:civ_border_width="2dp"
         tools:src="@drawable/ic_baseline_person_24" />
 
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_16sdp"
         android:gravity="start"
-        android:textColor="@color/brownExtraLight"
+        android:textColor="@color/blueExtraLight"
         android:textSize="@dimen/_14ssp"
         tools:text="Aleksey Skvortsov" />
 

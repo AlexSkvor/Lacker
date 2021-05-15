@@ -31,7 +31,6 @@
         android:lines="1"
         android:maxLength="9"
         android:maxLines="1"
-        android:textColor="@color/blueLight"
         android:textSize="@dimen/_14ssp"
         tools:text="999 999 ₽" />
 
@@ -51,7 +50,6 @@
         android:clickable="false"
         android:maxLength="7"
         android:minWidth="@dimen/_24sdp"
-        android:textColor="@color/blueDark"
         android:textSize="@dimen/_14ssp"
         tools:text="99 + 99" />
 

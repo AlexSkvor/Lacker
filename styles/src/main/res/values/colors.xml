@@ -10,10 +10,6 @@
 
     <color name="absoluteTransparent">#00000000</color>
 
-    <color name="brownExtraLight">#CD7F32</color>
-    <color name="brownExtraLightWithGrey">#887157</color>
-    <color name="rippleColor">#405C2715</color>
-
     <color name="hintTextColor">#444</color>
     <color name="errorColor">#F00</color>
     <color name="textColor">@color/black</color>

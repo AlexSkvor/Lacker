@@ -89,14 +89,14 @@ fun TasksMachine.State.Type.asUi() = mapStates.entries.firstOrNull {
 }?.key!!
 
 private fun TextView.select() {
-    setTintColor(R.color.brownExtraLight)
-    setTextColor(getColor(R.color.brownExtraLight))
+    setTintColor(R.color.white)
+    setTextColor(getColor(R.color.white))
     setTextSizeRes(R.dimen._8ssp)
 }
 
 private fun TextView.unSelect(old: Boolean) {
-    val colorRes = if (old) R.color.brownExtraLightWithGrey
-    else R.color.white
+    val colorRes = if (old) R.color.blueMoreLight
+    else R.color.blueVeryLight
     setTintColor(colorRes)
     setTextColor(getColor(colorRes))
     setTextSizeRes(R.dimen._7ssp)

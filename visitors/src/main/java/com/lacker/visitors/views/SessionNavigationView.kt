@@ -92,13 +92,13 @@ fun MenuMachine.State.Type.asUi() = when (this) {
 }
 
 private fun TextView.select() {
-    setTintColor(R.color.brownExtraLight)
-    setTextColor(getColor(R.color.brownExtraLight))
+    setTintColor(R.color.white)
+    setTextColor(getColor(R.color.white))
     setTextSizeRes(R.dimen._8ssp)
 }
 
 private fun TextView.unSelect() {
-    setTintColor(R.color.white)
-    setTextColor(getColor(R.color.white))
+    setTintColor(R.color.blueVeryLight)
+    setTextColor(getColor(R.color.blueVeryLight))
     setTextSizeRes(R.dimen._7ssp)
 }
