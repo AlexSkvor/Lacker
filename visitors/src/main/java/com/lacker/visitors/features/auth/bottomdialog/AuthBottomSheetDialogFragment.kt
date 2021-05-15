@@ -16,9 +16,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.lacker.utils.extensions.alsoPrintDebug
 import com.lacker.utils.extensions.gone
-import com.lacker.utils.extensions.putToClipboard
 import com.lacker.utils.extensions.visible
 import com.lacker.visitors.R
 import com.lacker.visitors.di.DependencyProvider
@@ -87,15 +85,8 @@ class AuthBottomSheetDialogFragment : BottomSheetDialogFragment(), AuthView {
         try {
             val account = requireNotNull(completedTask.getResult(ApiException::class.java))
 
-            //TODO remove logs
-            account.idToken.alsoPrintDebug("AAAAAAAAAAAA")
-            account.idToken?.let { putToClipboard(it) }
-            Toast.makeText(requireContext(), "Токен скопирован!", Toast.LENGTH_LONG).show()
             val data = GoogleAuthData(
-                googleId = requireNotNull(account.id),
-                name = requireNotNull(account.givenName),
-                surname = requireNotNull(account.familyName),
-                email = requireNotNull(account.email)
+                googleToken = requireNotNull(account.idToken),
             )
 
             presenter.authWithGoogle(data)

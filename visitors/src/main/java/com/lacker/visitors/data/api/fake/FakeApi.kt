@@ -29,9 +29,9 @@ class FakeApi(
         return LoginResponse(
             user = UserFromServer(
                 id = UUID.randomUUID().toString(),
-                email = request.email,
-                name = request.name,
-                surname = request.surname,
+                email = "Email",
+                name = "Name",
+                surname = "Surname",
                 token = "Fake Token hahaha",
                 fullPhotoUrl = "https://i.ytimg.com/vi/Yh5whB-37HY/hqdefault_live.jpg"
             )
