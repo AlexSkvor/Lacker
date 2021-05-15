@@ -36,7 +36,6 @@
             android:layout_marginEnd="@dimen/_16sdp"
             android:ellipsize="end"
             android:gravity="start"
-            android:textColor="@color/brownLight"
             android:textSize="@dimen/_14ssp"
             tools:text="Client: Aleksey Skvortsov" />
 
@@ -50,7 +49,6 @@
             android:layout_marginEnd="@dimen/_16sdp"
             android:ellipsize="end"
             android:gravity="start"
-            android:textColor="@color/brownLight"
             android:textSize="@dimen/_14ssp"
             tools:text="Table: 1" />
 
@@ -63,7 +61,6 @@
             android:layout_marginTop="@dimen/_3sdp"
             android:layout_marginEnd="@dimen/_16sdp"
             android:gravity="start"
-            android:textColor="@color/brownLight"
             android:textSize="@dimen/_14ssp"
             tools:text="Comment: comment from user" />
 
@@ -76,7 +73,6 @@
             android:layout_marginTop="@dimen/_3sdp"
             android:layout_marginEnd="@dimen/_16sdp"
             android:gravity="start"
-            android:textColor="@color/brownLight"
             android:textSize="@dimen/_14ssp"
             tools:text="Dish number: 7" />
 
