@@ -1,5 +1,6 @@
 package com.lacker.visitors.data.api
 
+import com.lacker.utils.api.auth.AuthHeaderInterceptor
 import com.lacker.visitors.data.dto.auth.LoginResponse
 import com.lacker.visitors.data.dto.common.DateTimeResponse
 import com.lacker.visitors.data.dto.menu.Menu
@@ -25,11 +26,11 @@ interface Api {
         @Path("restaurantId") restaurantId: String
     ): DateTimeResponse
 
-    @GET("restaurants/{restaurantId}/hasTable")
-    suspend fun checkRestaurantExistsAndHasTable(
+    @Headers(AuthHeaderInterceptor.REQUIRES_AUTH)
+    @GET("api/{restaurantId}/tables")
+    suspend fun getTablesOfRestaurant(
         @Path("restaurantId") restaurantId: String,
-        @Query("tableId") tableId: String
-    )
+    ): List<String>
 
     // TODO also use auth token later
     @POST("restaurants/{restaurantId}/callStaff/{type}")

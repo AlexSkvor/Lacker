@@ -63,12 +63,9 @@ class FakeApi(
         return DateTimeResponse(getMenu(restaurantId).timeStamp)
     }
 
-    override suspend fun checkRestaurantExistsAndHasTable(
-        restaurantId: String,
-        tableId: String
-    ) {
+    override suspend fun getTablesOfRestaurant(restaurantId: String): List<String> {
         if (restaurantId !in restaurantIds) throw Exception()
-        if (tableId.length != 36) throw Exception()
+        return emptyList()
     }
 
     override suspend fun callStaff(restaurantId: String, type: String, tableId: String) {

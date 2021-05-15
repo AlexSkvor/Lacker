@@ -79,10 +79,13 @@ class ScanMachine @Inject constructor(
             return Result.Error(resourceProvider.getString(R.string.qrCodeInvalidFormat))
 
         return when (
-            val res = net.callResult { checkRestaurantExistsAndHasTable(restaurantId, tableId) }
+            val res = net.callResult { getTablesOfRestaurant(restaurantId) }
         ) {
-            is ApiCallResult.Result -> Result.CorrectRestaurantCode.also {
-                sessionStorage.session = Session(restaurantId, tableId)
+            is ApiCallResult.Result -> {
+                val hasTable = res.value.contains(tableId)
+                if (hasTable) Result.CorrectRestaurantCode.also {
+                    sessionStorage.session = Session(restaurantId, tableId)
+                } else Result.Error("Unrecognized table!")
             }
             is ApiCallResult.ErrorOccurred -> Result.Error(res.text)
         }
