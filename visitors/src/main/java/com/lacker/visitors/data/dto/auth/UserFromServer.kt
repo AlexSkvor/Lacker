@@ -9,16 +9,16 @@ data class UserFromServer(
     @Json(name = "id") val id: String,
     @Json(name = "email") val email: String,
     @Json(name = "name") val name: String,
-    @Json(name = "surname") val surname: String,
-    @Json(name = "accessToken") val token: String,
-    @Json(name = "fullPhotoUrl") val fullPhotoUrl: String
+    @Json(name = "surname") val surname: String?,
+    @Json(name = "access_token") val token: String,
+    @Json(name = "fullPhotoUrl") val fullPhotoUrl: String?
 )
 
 fun UserFromServer.toDomainUser(): User = User(
     id = id,
     name = name,
-    surname = surname,
+    surname = surname.orEmpty(),
     email = email,
     token = token,
-    fullPhotoUrl = fullPhotoUrl
+    fullPhotoUrl = fullPhotoUrl ?: "https://i.ytimg.com/vi/Yh5whB-37HY/hqdefault_live.jpg",
 )
