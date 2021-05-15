@@ -9,7 +9,9 @@ import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
 import com.lacker.staff.BuildConfig
+import com.lacker.staff.data.storage.user.UserStorage
 import com.lacker.utils.api.ApiLogger
+import com.lacker.utils.api.auth.AuthHeaderInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
@@ -26,19 +28,20 @@ class ApiModule {
 
     @Provides
     @Singleton
-    fun provideApi(context: Context, json: Moshi): Api {
+    fun provideApi(context: Context, json: Moshi, userStorage: UserStorage): Api {
         return FakeApi()
         //TODO return real api when it is ready
         return Retrofit.Builder()
             .baseUrl(BuildConfig.SERVER_URL)
             .addConverterFactory(MoshiConverterFactory.create(json))
-            .client(getClient(context))
+            .client(getClient(context, userStorage))
             .build()
             .create(Api::class.java)
     }
 
-    private fun getClient(context: Context): OkHttpClient {
+    private fun getClient(context: Context, userStorage: UserStorage): OkHttpClient {
         return OkHttpClient.Builder()
+            .addInterceptor(AuthHeaderInterceptor(userStorage))
             .addInterceptor(ApiLogger.get())
             .addInterceptor(ChuckerInterceptor(context))
             .retryOnConnectionFailure(true)
