@@ -12,6 +12,7 @@ import com.lacker.visitors.data.dto.auth.GoogleAuthData
 import com.lacker.visitors.data.dto.order.CurrentOrderResponse
 import com.lacker.visitors.data.dto.order.Order
 import com.lacker.visitors.data.dto.order.SubOrder
+import com.lacker.visitors.data.dto.restaurants.TablesOfRestaurantResponse
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.delay
 import java.time.OffsetDateTime
@@ -63,9 +64,9 @@ class FakeApi(
         return DateTimeResponse(getMenu(restaurantId).timeStamp)
     }
 
-    override suspend fun getTablesOfRestaurant(restaurantId: String): List<String> {
+    override suspend fun getTablesOfRestaurant(restaurantId: String): TablesOfRestaurantResponse {
         if (restaurantId !in restaurantIds) throw Exception()
-        return emptyList()
+        return TablesOfRestaurantResponse(emptyList())
     }
 
     override suspend fun callStaff(restaurantId: String, type: String, tableId: String) {

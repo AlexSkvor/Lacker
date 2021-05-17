@@ -82,7 +82,7 @@ class ScanMachine @Inject constructor(
             val res = net.callResult { getTablesOfRestaurant(restaurantId) }
         ) {
             is ApiCallResult.Result -> {
-                val hasTable = res.value.contains(tableId)
+                val hasTable = res.value.data.map { it.id }.contains(tableId)
                 if (hasTable) Result.CorrectRestaurantCode.also {
                     sessionStorage.session = Session(restaurantId, tableId)
                 } else Result.Error("Unrecognized table!")

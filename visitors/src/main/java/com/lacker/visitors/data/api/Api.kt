@@ -7,6 +7,7 @@ import com.lacker.visitors.data.dto.menu.Menu
 import com.lacker.visitors.data.dto.auth.GoogleAuthData
 import com.lacker.visitors.data.dto.order.CurrentOrderResponse
 import com.lacker.visitors.data.dto.order.SubOrder
+import com.lacker.visitors.data.dto.restaurants.TablesOfRestaurantResponse
 import retrofit2.http.*
 
 interface Api {
@@ -30,7 +31,7 @@ interface Api {
     @GET("api/{restaurantId}/tables")
     suspend fun getTablesOfRestaurant(
         @Path("restaurantId") restaurantId: String,
-    ): List<String>
+    ): TablesOfRestaurantResponse
 
     // TODO also use auth token later
     @POST("restaurants/{restaurantId}/callStaff/{type}")
