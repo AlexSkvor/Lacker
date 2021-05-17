@@ -5,7 +5,12 @@ import com.squareup.moshi.JsonClass
 import java.time.OffsetDateTime
 
 @JsonClass(generateAdapter = true)
+data class MenuResponse(
+    @Json(name = "data") val menu: Menu,
+)
+
+@JsonClass(generateAdapter = true)
 data class Menu(
-    @Json(name = "timeStamp") val timeStamp: OffsetDateTime,
-    @Json(name = "items") val items: List<MenuItem>
+    @Json(name = "update_date") val timeStamp: OffsetDateTime,
+    @Json(name = "dishes") val items: List<MenuItem>
 )

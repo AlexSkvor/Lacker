@@ -4,11 +4,10 @@ import com.lacker.visitors.data.api.Api
 import com.lacker.visitors.data.dto.auth.LoginResponse
 import com.lacker.visitors.data.dto.auth.UserFromServer
 import com.lacker.visitors.data.dto.common.DateTimeResponse
-import com.lacker.visitors.data.dto.menu.Menu
-import com.lacker.visitors.data.dto.menu.MenuItem
-import com.lacker.visitors.data.dto.menu.Portion
 import com.lacker.visitors.data.storage.files.FilesManager
 import com.lacker.visitors.data.dto.auth.GoogleAuthData
+import com.lacker.visitors.data.dto.common.DateTimeDto
+import com.lacker.visitors.data.dto.menu.*
 import com.lacker.visitors.data.dto.order.CurrentOrderResponse
 import com.lacker.visitors.data.dto.order.Order
 import com.lacker.visitors.data.dto.order.SubOrder
@@ -39,29 +38,29 @@ class FakeApi(
         )
     }
 
-    override suspend fun getRestaurantMenu(restaurantId: String): Menu {
+    override suspend fun getRestaurantMenu(restaurantId: String): MenuResponse {
         delay(Random.nextLong(200, 5000))
         possiblyThrow()
         return getMenu(restaurantId)
     }
 
-    private suspend fun getMenu(restaurantId: String): Menu {
+    private suspend fun getMenu(restaurantId: String): MenuResponse {
         if (restaurantId !in restaurantIds) throw Exception()
 
-        val menu = menus[restaurantId] ?: readOrGenerateMenu(restaurantId)
+        val menu = menus[restaurantId] ?: readOrGenerateMenu(restaurantId).menu
         val updated = possiblyUpdateMenu(menu)
 
         if (updated.timeStamp != menus[restaurantId]?.timeStamp) {
             menus[restaurantId] = updated
         }
 
-        return updated
+        return MenuResponse(updated)
     }
 
     override suspend fun getRestaurantMenuTimestamp(restaurantId: String): DateTimeResponse {
         delay(Random.nextLong(100, 200))
         possiblyThrow()
-        return DateTimeResponse(getMenu(restaurantId).timeStamp)
+        return DateTimeResponse(DateTimeDto(getMenu(restaurantId).menu.timeStamp))
     }
 
     override suspend fun getTablesOfRestaurant(restaurantId: String): TablesOfRestaurantResponse {
@@ -89,7 +88,7 @@ class FakeApi(
         restaurantId: String,
         tableId: String,
         subOrder: SubOrder
-    ) : CurrentOrderResponse{
+    ): CurrentOrderResponse {
         delay(Random.nextLong(100, 5000))
         possiblyThrow()
         currentOrder = currentOrder.copy(subOrders = listOf(subOrder) + currentOrder.subOrders)
@@ -128,16 +127,16 @@ class FakeApi(
         "Описание 4. В сущности, такое же, как и первое, но чуточку по длиннее: Прекрасное блюдо для компании.",
     )
 
-    private suspend fun readOrGenerateMenu(restaurantId: String): Menu {
+    private suspend fun readOrGenerateMenu(restaurantId: String): MenuResponse {
 
         val saved = filesManager.getFileTextOrNull(restaurantId, FilesManager.FileType.Menu)
 
         val menu = if (saved != null) json.adapter(Menu::class.java).fromJson(saved) else null
 
-        return menu ?: generateMenu()
+        return menu?.let { MenuResponse(it) } ?: generateMenu()
     }
 
-    private fun generateMenu(): Menu {
+    private fun generateMenu(): MenuResponse {
         val timeStamp = OffsetDateTime.now()
         val itemsSize = Random.nextInt(5, 100)
 
@@ -150,13 +149,13 @@ class FakeApi(
                 portions = List(Random.nextInt(1, 3)) { n ->
                     Portion(
                         id = UUID.randomUUID().toString(),
-                        price = Random.nextInt(10, 10000),
-                        portionName = "Порция $n"
+                        priceTmp = PriceTmp(Random.nextInt(10, 10000).toDouble()),
+                        weight = n
                     )
                 })
         }
 
-        return Menu(timeStamp, items)
+        return MenuResponse(Menu(timeStamp, items))
     }
 
     private fun possiblyUpdateMenu(menu: Menu): Menu {

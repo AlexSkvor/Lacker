@@ -8,8 +8,17 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class Portion(
     @Json(name = "id") val id: String,
-    @Json(name = "price") val price: Int,
-    @Json(name = "portionName") val portionName: String
+    @Json(name = "price") val priceTmp: PriceTmp,
+    @Json(name = "weight") val weight: Int
+) {
+    val price get() = priceTmp.rub.toInt()
+    val portionName get() = "Portion weight $weight"
+}
+
+@Deprecated(message = "Tmp while server not fixed, replace later with Int")
+@JsonClass(generateAdapter = true)
+data class PriceTmp(
+    @Json(name = "RUB") val rub: Double,
 )
 
 fun Portion.toDomain(

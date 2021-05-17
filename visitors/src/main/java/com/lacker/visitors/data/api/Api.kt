@@ -3,8 +3,8 @@ package com.lacker.visitors.data.api
 import com.lacker.utils.api.auth.AuthHeaderInterceptor
 import com.lacker.visitors.data.dto.auth.LoginResponse
 import com.lacker.visitors.data.dto.common.DateTimeResponse
-import com.lacker.visitors.data.dto.menu.Menu
 import com.lacker.visitors.data.dto.auth.GoogleAuthData
+import com.lacker.visitors.data.dto.menu.MenuResponse
 import com.lacker.visitors.data.dto.order.CurrentOrderResponse
 import com.lacker.visitors.data.dto.order.SubOrder
 import com.lacker.visitors.data.dto.restaurants.TablesOfRestaurantResponse
@@ -20,7 +20,7 @@ interface Api {
     @GET("api/{restaurantId}")
     suspend fun getRestaurantMenu(
         @Path("restaurantId") restaurantId: String
-    ): Menu
+    ): MenuResponse
 
     @GET("api/{restaurantId}")
     suspend fun getRestaurantMenuTimestamp(

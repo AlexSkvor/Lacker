@@ -26,6 +26,9 @@ class FileMenuManager @Inject constructor(
 
     override suspend fun getMenu(restaurantId: String): ApiCallResult<List<MenuItem>> {
 
+        //TODO remove and use from parameters
+        val restaurantId = "83cea05f-2c88-4f1a-8ce9-7644d0fbf6f8"
+
         try {
             val savedMenu = mutex.withLock {
                 getStoredMenu(restaurantId)
@@ -75,7 +78,7 @@ class FileMenuManager @Inject constructor(
 
     private suspend fun getMenuFromServerWithCashing(restaurantId: String): ApiCallResult<List<MenuItem>> {
         val menu = when (val res = net.callResult { getRestaurantMenu(restaurantId) }) {
-            is ApiCallResult.Result -> res.value
+            is ApiCallResult.Result -> res.value.menu
             is ApiCallResult.ErrorOccurred -> return ApiCallResult.ErrorOccurred(res.text)
         }
 
@@ -88,7 +91,7 @@ class FileMenuManager @Inject constructor(
 
     private suspend fun getServerMenuTimestamp(restaurantId: String): ApiCallResult<OffsetDateTime> {
         return when (val res = net.callResult { getRestaurantMenuTimestamp(restaurantId) }) {
-            is ApiCallResult.Result -> ApiCallResult.Result(res.value.dateTime)
+            is ApiCallResult.Result -> ApiCallResult.Result(res.value.data.dateTime)
             is ApiCallResult.ErrorOccurred -> ApiCallResult.ErrorOccurred(res.text)
         }
     }
