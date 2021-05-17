@@ -96,7 +96,7 @@
         android:textStyle="bold"
         app:autoSizeMinTextSize="@dimen/_3ssp"
         app:autoSizeTextType="uniform"
-        app:backgroundTint="@color/blueDark"
+        app:backgroundTint="@color/green"
         app:layout_constraintEnd_toEndOf="@id/basketTab"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="99" />
@@ -115,7 +115,7 @@
         android:textStyle="bold"
         app:autoSizeMinTextSize="@dimen/_3ssp"
         app:autoSizeTextType="uniform"
-        app:backgroundTint="@color/blueDark"
+        app:backgroundTint="@color/blueMoreDark"
         app:layout_constraintEnd_toEndOf="@id/favouriteTab"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="99" />

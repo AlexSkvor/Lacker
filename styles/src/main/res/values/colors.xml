@@ -25,6 +25,8 @@
 
     <color name="windowBackground">@color/white</color>
 
+    <color name="green">#09af00</color>
+
     <color name="blueExtraLight">#EFF6FF</color>
     <color name="blueSuperLight">#DBEAFE</color>
     <color name="blueVeryLight">#BFDBFE</color>
