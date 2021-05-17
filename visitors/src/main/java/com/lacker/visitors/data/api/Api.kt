@@ -17,12 +17,12 @@ interface Api {
         @Body request: GoogleAuthData
     ): LoginResponse
 
-    @GET("restaurants/{restaurantId}/menu")
+    @GET("api/{restaurantId}")
     suspend fun getRestaurantMenu(
         @Path("restaurantId") restaurantId: String
     ): Menu
 
-    @GET("restaurants/{restaurantId}/menu-timestamp")
+    @GET("api/{restaurantId}")
     suspend fun getRestaurantMenuTimestamp(
         @Path("restaurantId") restaurantId: String
     ): DateTimeResponse
