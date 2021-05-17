@@ -4,10 +4,8 @@ import android.app.DatePickerDialog
 import android.view.View
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.ToJson
-import java.time.LocalDate
+import java.time.*
 import java.time.LocalDateTime.ofInstant
-import java.time.OffsetDateTime
-import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.*
 
@@ -46,20 +44,26 @@ val userTimeFormatter: DateTimeFormatter by lazy { DateTimeFormatter.ofPattern(U
 class DateTimeAdapter {
 
     @ToJson
-    fun toJson(value: OffsetDateTime): String = serverFormatter.format(value)
+    fun toJson(value: OffsetDateTime): Long = value.toInstant().toEpochMilli()
 
     @FromJson
-    fun fromJson(value: String): OffsetDateTime = OffsetDateTime.from(serverFormatter.parse(value))
+    fun fromJson(value: Long): OffsetDateTime {
+        return Instant.ofEpochMilli(value).atZone(ZoneId.systemDefault()).toOffsetDateTime()
+    }
 
 }
 
 class DateAdapter {
 
     @ToJson
-    fun toJson(value: LocalDate): String = serverDateFormatter.format(value)
+    fun toJson(value: LocalDate): Long {
+        return value.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
+    }
 
     @FromJson
-    fun fromJson(value: String): LocalDate = LocalDate.from(serverDateFormatter.parse(value))
+    fun fromJson(value: Long): LocalDate {
+        return Instant.ofEpochMilli(value).atZone(ZoneId.systemDefault()).toLocalDate()
+    }
 
 }
 
