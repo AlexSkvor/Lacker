@@ -320,6 +320,8 @@ class MenuMachine @Inject constructor(
     }
 
     private suspend fun loadOrder(): Result.OrderResult {
+        //TODO call api!
+        return Result.OrderResult.OrderLoaded(Order("", emptyList()))
         return when (val res = net.callResult { getCurrentOrder(restaurantId, tableId) }) {
             is ApiCallResult.Result -> Result.OrderResult.OrderLoaded(res.value.order)
             is ApiCallResult.ErrorOccurred -> Result.OrderResult.Error(null, null, null, res.text)
