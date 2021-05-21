@@ -4,16 +4,17 @@ import android.app.DatePickerDialog
 import android.view.View
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.ToJson
-import java.time.*
+import java.time.LocalDate
 import java.time.LocalDateTime.ofInstant
+import java.time.OffsetDateTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.*
 
 private const val SERVER_DATE_FORMAT = "yyyy-MM-dd"
 val serverDateFormatter: DateTimeFormatter by lazy { DateTimeFormatter.ofPattern(SERVER_DATE_FORMAT) }
 
-private const val SERVER_FORMAT = "$SERVER_DATE_FORMAT HH:mm:ssX"
-val serverFormatter: DateTimeFormatter by lazy { DateTimeFormatter.ofPattern(SERVER_FORMAT) }
+val serverFormatter: DateTimeFormatter by lazy { DateTimeFormatter.ISO_OFFSET_DATE_TIME }
 
 private const val USER_DATE_FORMAT = "dd/MM/yyyy"
 val userDateFormatter: DateTimeFormatter by lazy { DateTimeFormatter.ofPattern(USER_DATE_FORMAT) }
@@ -44,26 +45,20 @@ val userTimeFormatter: DateTimeFormatter by lazy { DateTimeFormatter.ofPattern(U
 class DateTimeAdapter {
 
     @ToJson
-    fun toJson(value: OffsetDateTime): Long = value.toInstant().toEpochMilli()
+    fun toJson(value: OffsetDateTime): String = serverFormatter.format(value)
 
     @FromJson
-    fun fromJson(value: Long): OffsetDateTime {
-        return Instant.ofEpochMilli(value).atZone(ZoneId.systemDefault()).toOffsetDateTime()
-    }
+    fun fromJson(value: String): OffsetDateTime = OffsetDateTime.from(serverFormatter.parse(value))
 
 }
 
 class DateAdapter {
 
     @ToJson
-    fun toJson(value: LocalDate): Long {
-        return value.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
-    }
+    fun toJson(value: LocalDate): String = serverDateFormatter.format(value)
 
     @FromJson
-    fun fromJson(value: Long): LocalDate {
-        return Instant.ofEpochMilli(value).atZone(ZoneId.systemDefault()).toLocalDate()
-    }
+    fun fromJson(value: String): LocalDate = LocalDate.from(serverDateFormatter.parse(value))
 
 }
 
