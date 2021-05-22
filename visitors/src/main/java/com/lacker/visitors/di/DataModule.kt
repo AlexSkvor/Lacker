@@ -10,6 +10,8 @@ import com.lacker.visitors.data.storage.user.UserPrefs
 import com.lacker.visitors.data.storage.user.UserStorage
 import com.lacker.visitors.data.storage.menu.FileMenuManager
 import com.lacker.visitors.data.storage.menu.MenuManager
+import com.lacker.visitors.data.storage.order.OrderPrefs
+import com.lacker.visitors.data.storage.order.OrderStorage
 import com.lacker.visitors.data.storage.session.SessionPrefs
 import com.lacker.visitors.data.storage.session.SessionStorage
 import javax.inject.Singleton
@@ -36,4 +38,8 @@ interface DataModule {
     @Singleton
     @Binds
     fun bindFavouriteManager(manager: FileFavouritesManager): FavouritesManager
+
+    @Singleton
+    @Binds
+    fun bindOrderStorage(orderPrefs: OrderPrefs): OrderStorage
 }
