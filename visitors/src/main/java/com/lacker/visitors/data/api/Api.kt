@@ -27,7 +27,6 @@ interface Api {
         @Path("restaurantId") restaurantId: String
     ): DateTimeResponse
 
-    @Headers(AuthHeaderInterceptor.REQUIRES_AUTH) // TODO remove, unneeded
     @GET("api/{restaurantId}/tables")
     suspend fun getTablesOfRestaurant(
         @Path("restaurantId") restaurantId: String,
