@@ -17,7 +17,7 @@ interface Api {
         @Body request: GoogleAuthData
     ): LoginResponse
 
-    @GET("api/{restaurantId}")
+    @GET("api/{restaurantId}/main_menu")
     suspend fun getRestaurantMenu(
         @Path("restaurantId") restaurantId: String
     ): MenuResponse

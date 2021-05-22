@@ -26,9 +26,6 @@ class FileMenuManager @Inject constructor(
 
     override suspend fun getMenu(restaurantId: String): ApiCallResult<List<MenuItem>> {
 
-        //TODO remove and use from parameters
-        val restaurantId = "83cea05f-2c88-4f1a-8ce9-7644d0fbf6f8"
-
         try {
             val savedMenu = mutex.withLock {
                 getStoredMenu(restaurantId)
