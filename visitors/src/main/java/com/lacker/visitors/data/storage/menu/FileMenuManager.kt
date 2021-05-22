@@ -67,10 +67,14 @@ class FileMenuManager @Inject constructor(
     }
 
     private suspend fun getMenuStoredInFile(restaurantId: String): Menu? {
-        val text = filesManager.getFileTextOrNull(restaurantId, FilesManager.FileType.Menu)
-            ?: return null
+        try {
+            val text = filesManager.getFileTextOrNull(restaurantId, FilesManager.FileType.Menu)
+                ?: return null
 
-        return json.adapter(Menu::class.java).fromJson(text)
+            return json.adapter(Menu::class.java).fromJson(text)
+        } catch (t: Throwable) {
+            return null
+        }
     }
 
     private suspend fun getMenuFromServerWithCashing(restaurantId: String): ApiCallResult<List<MenuItem>> {
