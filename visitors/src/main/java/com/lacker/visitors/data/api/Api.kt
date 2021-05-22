@@ -40,11 +40,10 @@ interface Api {
         @Query("tableId") tableId: String
     )
 
-    // TODO also use auth token later
-    @GET("restaurants/{restaurantId}/orders/current")
-    suspend fun getCurrentOrder(
-        @Path("restaurantId") restaurantId: String,
-        @Query("tableId") tableId: String
+    @Headers(AuthHeaderInterceptor.REQUIRES_AUTH)
+    @GET("api/{orderId}")
+    suspend fun getOrderById(
+        @Path("orderId") orderId: String,
     ): CurrentOrderResponse
 
     // TODO also use auth token later

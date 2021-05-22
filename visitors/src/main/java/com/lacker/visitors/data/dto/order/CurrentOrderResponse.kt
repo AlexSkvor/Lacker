@@ -5,5 +5,5 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class CurrentOrderResponse(
-    @Json(name = "order") val order: Order?
+    @Json(name = "data") val order: Order?
 )

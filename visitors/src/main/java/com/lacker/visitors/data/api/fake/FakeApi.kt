@@ -73,11 +73,10 @@ class FakeApi(
         possiblyThrow()
     }
 
-    private var currentOrder = Order(status = "", subOrders = listOf())
+    private var currentOrder = Order(status = "", subOrders = listOf(), id = "")
 
-    override suspend fun getCurrentOrder(
-        restaurantId: String,
-        tableId: String
+    override suspend fun getOrderById(
+        orderId: String,
     ): CurrentOrderResponse {
         delay(Random.nextLong(100, 5000))
         possiblyThrow()

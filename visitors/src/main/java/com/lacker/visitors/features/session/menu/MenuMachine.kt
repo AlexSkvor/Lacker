@@ -56,6 +56,7 @@ class MenuMachine @Inject constructor(
 
         sealed class OrderResult : Result() {
             data class OrderLoaded(val order: Order?) : OrderResult()
+            object OrderNotCreated : OrderResult()
             data class Error(
                 val restoreBasket: List<OrderInfo>?,
                 val restoreComment: String?,
@@ -135,7 +136,7 @@ class MenuMachine @Inject constructor(
             errorText = null
         ).also {
             pushResult { loadMenu() }
-            pushResult { loadOrder() }
+            pushResult { loadOrder(oldState.order?.id) }
             pushResult { loadBasket() }
             pushResult { loadFavourites() }
         }
@@ -170,6 +171,11 @@ class MenuMachine @Inject constructor(
     }
 
     override fun onResult(res: Result, oldState: State): State = when (res) {
+        is Result.OrderResult.OrderNotCreated -> oldState.copy(
+            orderLoading = false,
+            subOrders = emptyList(),
+            order = null,
+        ).recountMenuWithOrdersAndBasketAndFavourites()
         is Result.OrderResult.OrderLoaded -> oldState.copy(
             orderLoading = false,
             subOrders = res.order?.subOrders.orEmpty(),
@@ -319,10 +325,10 @@ class MenuMachine @Inject constructor(
         }
     }
 
-    private suspend fun loadOrder(): Result.OrderResult {
-        //TODO call api!
-        return Result.OrderResult.OrderLoaded(Order("", emptyList()))
-        return when (val res = net.callResult { getCurrentOrder(restaurantId, tableId) }) {
+    private suspend fun loadOrder(orderId: String?): Result.OrderResult {
+        if (orderId == null) return Result.OrderResult.OrderNotCreated
+
+        return when (val res = net.callResult { getOrderById(orderId) }) {
             is ApiCallResult.Result -> Result.OrderResult.OrderLoaded(res.value.order)
             is ApiCallResult.ErrorOccurred -> Result.OrderResult.Error(null, null, null, res.text)
         }
