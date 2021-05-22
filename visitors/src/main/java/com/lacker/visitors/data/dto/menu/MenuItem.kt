@@ -23,6 +23,6 @@ fun MenuItem.toDomain(
     name = name,
     photoFullUrl = photoFullUrl,
     shortDescription = shortDescription,
-    portions = portions.map { it.toDomain(id, orders, basket) },
+    portions = portions.sortedBy { it.sort }.map { it.toDomain(id, orders, basket) },
     inFavourites = id in favourites
 )

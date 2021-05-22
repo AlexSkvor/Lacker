@@ -10,7 +10,7 @@ data class Portion(
     @Json(name = "id") val id: String,
     @Json(name = "price") val price: Int,
     @Json(name = "title") val portionName: String,
-    @Json(name = "weight") val weight: Int
+    @Json(name = "sort") val sort: Int,
 )
 
 @Deprecated(message = "Tmp while server not fixed, replace later with Int")

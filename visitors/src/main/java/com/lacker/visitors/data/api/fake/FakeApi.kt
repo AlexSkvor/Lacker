@@ -150,7 +150,7 @@ class FakeApi(
                         id = UUID.randomUUID().toString(),
                         price = Random.nextInt(10, 10000),
                         portionName = "Portion $n",
-                        weight = n
+                        sort = n,
                     )
                 })
         }
