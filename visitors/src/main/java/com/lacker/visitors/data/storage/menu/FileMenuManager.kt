@@ -1,5 +1,7 @@
 package com.lacker.visitors.data.storage.menu
 
+import com.lacker.utils.resources.ResourceProvider
+import com.lacker.visitors.R
 import com.lacker.visitors.data.api.ApiCallResult
 import com.lacker.visitors.data.api.NetworkManager
 import com.lacker.visitors.data.dto.menu.Menu
@@ -15,7 +17,8 @@ import javax.inject.Inject
 class FileMenuManager @Inject constructor(
     private val net: NetworkManager,
     private val filesManager: FilesManager,
-    private val json: Moshi
+    private val json: Moshi,
+    private val resourceProvider: ResourceProvider,
 ) : MenuManager {
 
     companion object {
@@ -49,7 +52,7 @@ class FileMenuManager @Inject constructor(
             return ApiCallResult.Result(savedMenu.items)
         } catch (t: Throwable) {
             Timber.e(t)
-            return ApiCallResult.ErrorOccurred("Unknown error: ${t.message}") // TODO to resources
+            return ApiCallResult.ErrorOccurred(resourceProvider.getString(R.string.unknownErrorNotification))
         }
     }
 
@@ -71,6 +74,7 @@ class FileMenuManager @Inject constructor(
             val text = filesManager.getFileTextOrNull(restaurantId, FilesManager.FileType.Menu)
                 ?: return null
 
+            @Suppress("BlockingMethodInNonBlockingContext")
             return json.adapter(Menu::class.java).fromJson(text)
         } catch (t: Throwable) {
             return null
