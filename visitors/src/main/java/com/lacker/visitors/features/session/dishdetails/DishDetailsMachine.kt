@@ -157,7 +157,7 @@ class DishDetailsMachine @Inject constructor(
     }
 
     private suspend fun addToOrder(comment: String, info: OrderInfo): Result.OrderResult {
-        val subOrder = SubOrder(
+        /*val subOrder = SubOrder(
             comment = comment,
             drinksImmediately = true,
             orderList = listOf(info),
@@ -178,7 +178,8 @@ class DishDetailsMachine @Inject constructor(
                 Result.OrderResult.OrderLoaded(map)
             }
             is ApiCallResult.ErrorOccurred -> Result.OrderResult.Error(res.text)
-        }
+        }*/
+        TODO("Pass orderId with screen args!")
     }
 
     override fun onBackPressed() {

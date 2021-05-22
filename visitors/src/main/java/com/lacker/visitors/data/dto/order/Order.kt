@@ -7,5 +7,5 @@ import com.squareup.moshi.JsonClass
 data class Order(
     @Json(name = "id") val id: String,
     @Json(name = "status") val status: String,
-    @Json(name = "subOrders") val subOrders: List<SubOrder>
+    @Json(name = "sub_orders") val subOrders: List<SubOrder>
 )

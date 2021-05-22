@@ -18,7 +18,7 @@ import java.time.OffsetDateTime
 import java.util.*
 import kotlin.random.Random
 
-class FakeApi(
+/*class FakeApi(
     private val filesManager: FilesManager,
     private val json: Moshi
 ) : Api {
@@ -168,4 +168,4 @@ class FakeApi(
             items = menu.items.map { if (it.id == updatedItem.id) updatedItem else it }
         )
     }
-}
+}*/

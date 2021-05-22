@@ -5,8 +5,9 @@ import com.lacker.visitors.data.dto.auth.LoginResponse
 import com.lacker.visitors.data.dto.common.DateTimeResponse
 import com.lacker.visitors.data.dto.auth.GoogleAuthData
 import com.lacker.visitors.data.dto.menu.MenuResponse
+import com.lacker.visitors.data.dto.order.AddSuborderRequest
+import com.lacker.visitors.data.dto.order.CreateOrderRequest
 import com.lacker.visitors.data.dto.order.CurrentOrderResponse
-import com.lacker.visitors.data.dto.order.SubOrder
 import com.lacker.visitors.data.dto.restaurants.TablesOfRestaurantResponse
 import retrofit2.http.*
 
@@ -47,11 +48,16 @@ interface Api {
         @Path("orderId") orderId: String,
     ): CurrentOrderResponse
 
-    // TODO also use auth token later
-    @POST("restaurants/{restaurantId}/orders/current")
+    @Headers(AuthHeaderInterceptor.REQUIRES_AUTH)
+    @POST("api/me/make_order")
+    suspend fun createOrder(
+        @Body request: CreateOrderRequest
+    ): CurrentOrderResponse
+
+    @Headers(AuthHeaderInterceptor.REQUIRES_AUTH)
+    @POST("api/{orderId}/add_suborder")
     suspend fun addToCurrentOrder(
-        @Path("restaurantId") restaurantId: String,
-        @Query("tableId") tableId: String,
-        @Body subOrder: SubOrder
+        @Path("orderId") orderId: String,
+        @Body request: AddSuborderRequest,
     ): CurrentOrderResponse
 }

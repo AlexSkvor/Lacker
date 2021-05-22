@@ -9,6 +9,8 @@ import com.lacker.visitors.data.api.NetworkManager
 import com.lacker.visitors.data.dto.menu.MenuItem
 import com.lacker.visitors.data.dto.menu.OrderInfo
 import com.lacker.visitors.data.dto.menu.toDomain
+import com.lacker.visitors.data.dto.order.AddSuborderRequest
+import com.lacker.visitors.data.dto.order.CreateOrderRequest
 import com.lacker.visitors.data.dto.order.Order
 import com.lacker.visitors.data.dto.order.SubOrder
 import com.lacker.visitors.data.storage.basket.BasketManager
@@ -24,7 +26,6 @@ import com.lacker.visitors.features.session.menu.MenuMachine.State
 import com.lacker.visitors.features.session.menu.MenuMachine.Result
 import com.lacker.visitors.navigation.Screens
 import ru.terrakok.cicerone.Router
-import java.time.OffsetDateTime
 
 class MenuMachine @Inject constructor(
     private val sessionStorage: SessionStorage,
@@ -144,7 +145,13 @@ class MenuMachine @Inject constructor(
         }
         is Wish.AddToOrder -> oldState.also {
             sendMessage(resourceProvider.getString(R.string.requestSent))
-            pushResult { sendSinglePortionOrderToServer(wish.comment, wish.portion) }
+            pushResult {
+                sendSinglePortionOrderToServer(
+                    wish.comment,
+                    wish.portion,
+                    oldState.order?.id,
+                )
+            }
         }
         is Wish.AddToBasket -> oldState.also { pushResult { addToBasket(wish.portion) } }
         is Wish.AddToFavourite -> oldState.also { pushResult { addToFavourites(wish.menuItemId) } }
@@ -157,7 +164,8 @@ class MenuMachine @Inject constructor(
                 sendBasketToServer(
                     oldState.comment,
                     oldState.drinksImmediately,
-                    oldState.basket.orEmpty()
+                    oldState.basket.orEmpty(),
+                    oldState.order?.id,
                 )
             }
             sendMessage(resourceProvider.getString(R.string.requestSent))
@@ -340,41 +348,51 @@ class MenuMachine @Inject constructor(
     private suspend fun sendBasketToServer(
         comment: String,
         drinksImmediately: Boolean,
-        basket: List<OrderInfo>
+        basket: List<OrderInfo>,
+        orderId: String?,
     ): Result.OrderResult {
-        val subOrder = SubOrder(
+        val error by lazy { Result.OrderResult.Error(basket, comment, drinksImmediately, "") }
+
+        val request = AddSuborderRequest(
             comment = comment,
             drinksImmediately = drinksImmediately,
-            orderList = basket,
-            createdTimeStamp = OffsetDateTime.now()
+            portions = basket.map { dish -> List(dish.ordered) { dish.portionId } }.flatten()
         )
 
-        val res = net.callResult { addToCurrentOrder(restaurantId, tableId, subOrder) }
-        return when (res) {
+        val checkedOrderId = orderId
+            ?: when (val res = net.callResult { createOrder(CreateOrderRequest(restaurantId)) }) {
+                is ApiCallResult.Result -> res.value.order.id
+                is ApiCallResult.ErrorOccurred -> return error.copy(text = res.text)
+            }
+
+        return when (val res = net.callResult { addToCurrentOrder(checkedOrderId, request) }) {
             is ApiCallResult.Result -> Result.OrderResult.OrderLoaded(res.value.order)
-            is ApiCallResult.ErrorOccurred -> Result.OrderResult.Error(
-                basket,
-                comment,
-                drinksImmediately,
-                res.text
-            )
+            is ApiCallResult.ErrorOccurred -> error.copy(text = res.text)
         }
     }
 
     private suspend fun sendSinglePortionOrderToServer(
         comment: String,
-        order: OrderInfo
+        order: OrderInfo,
+        orderId: String?,
     ): Result.OrderResult {
-        val subOrder = SubOrder(
+        val error by lazy { Result.OrderResult.Error(null, null, null, "") }
+
+        val request = AddSuborderRequest(
             comment = comment,
             drinksImmediately = true,
-            orderList = listOf(order),
-            createdTimeStamp = OffsetDateTime.now()
+            portions = List(order.ordered) { order.portionId }
         )
-        val res = net.callResult { addToCurrentOrder(restaurantId, tableId, subOrder) }
-        return when (res) {
+
+        val checkedOrderId = orderId
+            ?: when (val res = net.callResult { createOrder(CreateOrderRequest(restaurantId)) }) {
+                is ApiCallResult.Result -> res.value.order.id
+                is ApiCallResult.ErrorOccurred -> return error.copy(text = res.text)
+            }
+
+        return when (val res = net.callResult { addToCurrentOrder(checkedOrderId, request) }) {
             is ApiCallResult.Result -> Result.OrderResult.OrderLoaded(res.value.order)
-            is ApiCallResult.ErrorOccurred -> Result.OrderResult.Error(null, null, null, res.text)
+            is ApiCallResult.ErrorOccurred -> error.copy(text = res.text)
         }
     }
 

@@ -12,7 +12,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import com.lacker.visitors.BuildConfig
 import com.lacker.visitors.data.api.Api
-import com.lacker.visitors.data.api.fake.FakeApi
 import com.lacker.visitors.data.storage.files.FilesManager
 import com.lacker.visitors.data.storage.user.UserStorage
 import java.util.concurrent.TimeUnit
