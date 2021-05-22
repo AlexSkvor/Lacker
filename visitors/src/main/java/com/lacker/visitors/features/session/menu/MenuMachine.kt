@@ -14,6 +14,7 @@ import com.lacker.visitors.data.dto.order.SubOrder
 import com.lacker.visitors.data.storage.basket.BasketManager
 import com.lacker.visitors.data.storage.favourite.FavouritesManager
 import com.lacker.visitors.data.storage.menu.MenuManager
+import com.lacker.visitors.data.storage.order.OrderStorage
 import com.lacker.visitors.data.storage.session.SessionStorage
 import com.lacker.visitors.features.session.common.*
 import voodoo.rocks.flux.Machine
@@ -32,7 +33,8 @@ class MenuMachine @Inject constructor(
     private val favouritesManager: FavouritesManager,
     private val resourceProvider: ResourceProvider,
     private val router: Router,
-    private val net: NetworkManager
+    private val net: NetworkManager,
+    private val orderStorage: OrderStorage,
 ) : Machine<Wish, Result, State>() {
 
     sealed class Wish {
@@ -136,7 +138,7 @@ class MenuMachine @Inject constructor(
             errorText = null
         ).also {
             pushResult { loadMenu() }
-            pushResult { loadOrder(oldState.order?.id) }
+            pushResult { loadOrder(orderStorage.orderId ?: oldState.order?.id) }
             pushResult { loadBasket() }
             pushResult { loadFavourites() }
         }
@@ -181,6 +183,7 @@ class MenuMachine @Inject constructor(
             subOrders = res.order?.subOrders.orEmpty(),
             order = res.order
         ).recountMenuWithOrdersAndBasketAndFavourites()
+            .also { orderStorage.orderId = res.order?.id }
         is Result.OrderResult.Error -> {
             val tmpState = if (res.restoreDrinksFlag != null) oldState.copy(
                 drinksImmediately = res.restoreDrinksFlag, comment = res.restoreComment.orEmpty()
