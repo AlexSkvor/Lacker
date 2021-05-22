@@ -149,7 +149,8 @@ class FakeApi(
                 portions = List(Random.nextInt(1, 3)) { n ->
                     Portion(
                         id = UUID.randomUUID().toString(),
-                        priceTmp = PriceTmp(Random.nextInt(10, 10000).toDouble()),
+                        price = Random.nextInt(10, 10000),
+                        portionName = "Portion $n",
                         weight = n
                     )
                 })
