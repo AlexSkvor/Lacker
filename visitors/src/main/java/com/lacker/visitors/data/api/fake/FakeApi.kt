@@ -57,7 +57,7 @@ class FakeApi(
         return MenuResponse(updated)
     }
 
-    override suspend fun getRestaurantMenuTimestamp(restaurantId: String): DateTimeResponse {
+    override suspend fun getRestaurantMenuTimestamp(restaurantId: String, fields: String): DateTimeResponse {
         delay(Random.nextLong(100, 200))
         possiblyThrow()
         return DateTimeResponse(DateTimeDto(getMenu(restaurantId).menu.timeStamp))

@@ -22,9 +22,10 @@ interface Api {
         @Path("restaurantId") restaurantId: String
     ): MenuResponse
 
-    @GET("api/{restaurantId}")
+    @GET("api/{restaurantId}/main_menu")
     suspend fun getRestaurantMenuTimestamp(
-        @Path("restaurantId") restaurantId: String
+        @Path("restaurantId") restaurantId: String,
+        @Query("fields") fields: String = "update_date"
     ): DateTimeResponse
 
     @GET("api/{restaurantId}/tables")
