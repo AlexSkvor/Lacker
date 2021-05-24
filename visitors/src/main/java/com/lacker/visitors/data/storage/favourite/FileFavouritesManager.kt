@@ -1,11 +1,14 @@
 package com.lacker.visitors.data.storage.favourite
 
+import com.lacker.utils.resources.ResourceProvider
+import com.lacker.visitors.R
 import com.lacker.visitors.data.api.ApiCallResult
 import com.lacker.visitors.data.storage.files.FilesManager
 import javax.inject.Inject
 
 class FileFavouritesManager @Inject constructor(
-    private val filesManager: FilesManager
+    private val filesManager: FilesManager,
+    private val resourceProvider: ResourceProvider,
 ) : FavouritesManager {
 
     override suspend fun getFavourites(restaurantId: String): ApiCallResult<Set<String>> {
@@ -17,7 +20,7 @@ class FileFavouritesManager @Inject constructor(
             val list = text.orEmpty().split('|').filterNot { it.isEmpty() }.toSet()
             ApiCallResult.Result(list)
         } catch (t: Throwable) {
-            ApiCallResult.ErrorOccurred("Unknown error: ${t.message}") // TODO to resources
+            ApiCallResult.ErrorOccurred(resourceProvider.getString(R.string.unknownErrorNotification))
         }
     }
 
@@ -35,7 +38,7 @@ class FileFavouritesManager @Inject constructor(
             val list = newText.split('|').filterNot { it.isEmpty() }.toSet()
             ApiCallResult.Result(list)
         } catch (t: Throwable) {
-            ApiCallResult.ErrorOccurred("Unknown error: ${t.message}") // TODO to resources
+            ApiCallResult.ErrorOccurred(resourceProvider.getString(R.string.unknownErrorNotification))
         }
     }
 
@@ -53,7 +56,7 @@ class FileFavouritesManager @Inject constructor(
             filesManager.saveToFile(restaurantId, FilesManager.FileType.FavouriteMenu, newText)
             ApiCallResult.Result(list.toSet())
         } catch (t: Throwable) {
-            ApiCallResult.ErrorOccurred("Unknown error: ${t.message}") // TODO to resources
+            ApiCallResult.ErrorOccurred(resourceProvider.getString(R.string.unknownErrorNotification))
         }
     }
 }
