@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="tagAlcohol">Alcohol</string>
+    <string name="tagDish">Dish</string>
+    <string name="tagDrinks">Drinks</string>
+    <string name="tagBird">Bird</string>
+    <string name="tagSea">Sea</string>
+    <string name="tagMeat">Meat</string>
+    <string name="tagGarnish">Garnish</string>
+    <string name="tagAsianDish">AsianDish</string>
+    <string name="tagDessert">Dessert</string>
+    <string name="tagSalad">Salad</string>
+    <string name="tagSandwich">Sandwich</string>
+    <string name="tagSoup">Soup</string>
+    <string name="tagOther">Other</string>
+    
+</resources>

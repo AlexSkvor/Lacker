@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="tagAlcohol">Алкоголь</string>
+    <string name="tagDish">Dish</string>
+    <string name="tagDrinks">Напитки</string>
+    <string name="tagBird">С птицей</string>
+    <string name="tagSea">Морепродукты</string>
+    <string name="tagMeat">Мясное</string>
+    <string name="tagGarnish">Гарнир</string>
+    <string name="tagAsianDish">Азаитская кухня</string>
+    <string name="tagDessert">Десерт</string>
+    <string name="tagSalad">Салат</string>
+    <string name="tagSandwich">Сэндвич</string>
+    <string name="tagSoup">Суп</string>
+    <string name="tagOther">Прочее</string>
+
+</resources>
