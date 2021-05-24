@@ -1,5 +1,6 @@
 package com.lacker.visitors.features.session.common
 
+import com.google.android.material.chip.Chip
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateLayoutContainer
 import com.lacker.utils.extensions.gone
 import com.lacker.utils.extensions.loadDrawableRes
@@ -43,6 +44,24 @@ fun getDomainMenuItemAdapter(
 
         for (i in item.portions.size until portionsContainer.childCount)
             portionsContainer.getChildAt(i).gone()
+
+
+        item.tags.forEachIndexed { i, tag ->
+                if (menuItemTags.childCount <= i)
+                    menuItemTags.addView(Chip(context).apply {
+                        setTextColor(getColor(R.color.white))
+                        setChipBackgroundColorResource(R.color.blue)
+                    })
+
+                val chipView = menuItemTags.getChildAt(i) as? Chip
+                chipView?.apply {
+                    setText(tag.stringResource)
+                    visible()
+                }
+            }
+
+        for (i in item.tags.size until menuItemTags.childCount)
+            menuItemTags.getChildAt(i).gone()
     }
 
 }
