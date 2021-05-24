@@ -11,7 +11,9 @@ data class MenuItem(
     @Json(name = "title") val name: String,
     @Json(name = "image") val photoFullUrl: String,
     @Json(name = "description") val shortDescription: String,
-    @Json(name = "portions") val portions: List<Portion>
+    @Json(name = "portions") val portions: List<Portion>,
+    @Json(name = "tags") val tags: List<DishTag>,
+    @Json(name = "stopped") val stopped: Boolean,
 )
 
 fun MenuItem.toDomain(
@@ -24,5 +26,7 @@ fun MenuItem.toDomain(
     photoFullUrl = photoFullUrl,
     shortDescription = shortDescription,
     portions = portions.sortedBy { it.sort }.map { it.toDomain(id, orders, basket) },
-    inFavourites = id in favourites
+    inFavourites = id in favourites,
+    tags = tags.toSet(),
+    stopped = stopped,
 )
