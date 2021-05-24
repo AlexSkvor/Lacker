@@ -15,7 +15,7 @@ class ProfileMachine @Inject constructor(
 ) : Machine<Wish, Result, State>() {
 
     sealed class Wish {
-        object SignedOut : Wish() // TODO send request to server!
+        object SignedOut : Wish()
         object SignedIn : Wish()
     }
 

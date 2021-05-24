@@ -12,23 +12,19 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         initLogging()
-        initAnalytics()
         initDi()
         registerActivityLifecycleCallbacks(ActivityLifecycleLogger)
     }
 
     private fun initLogging() {
-        Timber.plant(Timber.DebugTree()) // TODO condition for only debug mode
+        if (BuildConfig.DEBUG)
+            Timber.plant(Timber.DebugTree())
     }
 
     private fun initDi() {
         DependencyProvider.get().component = DaggerAppComponent.builder()
             .appModule(AppModule(this))
             .build()
-    }
-
-    private fun initAnalytics() {
-        //TODO
     }
 
 }
