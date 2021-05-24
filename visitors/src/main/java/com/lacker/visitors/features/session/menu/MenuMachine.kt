@@ -1,6 +1,7 @@
 package com.lacker.visitors.features.session.menu
 
 import com.lacker.dto.menu.MenuItem
+import com.lacker.dto.menu.MenuSearchFilter
 import com.lacker.dto.order.Order
 import com.lacker.dto.order.OrderInfo
 import com.lacker.dto.order.SubOrder
@@ -53,6 +54,8 @@ class MenuMachine @Inject constructor(
         object SendBasketToServer : Wish()
 
         data class ShowDishDetails(val dish: DomainMenuItem) : Wish()
+
+        data class AddFilter(val filter: MenuSearchFilter) : Wish()
     }
 
     sealed class Result {
@@ -102,7 +105,8 @@ class MenuMachine @Inject constructor(
         val errorText: String? = null,
         val type: Type = Type.MENU,
         val comment: String = "",
-        val drinksImmediately: Boolean = false // TODO use it on order dialog
+        val drinksImmediately: Boolean = false, // TODO use it on order dialog
+        val filter: MenuSearchFilter? = null,
     ) {
 
         val showList = when (type) {
@@ -178,6 +182,8 @@ class MenuMachine @Inject constructor(
         is Wish.ShowDishDetails -> oldState.also {
             router.navigateTo(Screens.DishDetailsScreen(wish.dish))
         }
+        is Wish.AddFilter -> oldState.copy(filter = wish.filter)
+            .recountMenuWithOrdersAndBasketAndFavouritesAndFilter()
     }
 
     override fun onResult(res: Result, oldState: State): State = when (res) {
@@ -185,12 +191,12 @@ class MenuMachine @Inject constructor(
             orderLoading = false,
             subOrders = emptyList(),
             order = null,
-        ).recountMenuWithOrdersAndBasketAndFavourites()
+        ).recountMenuWithOrdersAndBasketAndFavouritesAndFilter()
         is Result.OrderResult.OrderLoaded -> oldState.copy(
             orderLoading = false,
             subOrders = res.order?.subOrders.orEmpty(),
             order = res.order
-        ).recountMenuWithOrdersAndBasketAndFavourites()
+        ).recountMenuWithOrdersAndBasketAndFavouritesAndFilter()
             .also { orderStorage.orderId = res.order?.id }
         is Result.OrderResult.Error -> {
             val tmpState = if (res.restoreDrinksFlag != null) oldState.copy(
@@ -205,7 +211,7 @@ class MenuMachine @Inject constructor(
             }
         }
         is Result.MenuResult.Menu -> oldState.copy(menuLoading = false, menuItems = res.items)
-            .recountMenuWithOrdersAndBasketAndFavourites()
+            .recountMenuWithOrdersAndBasketAndFavouritesAndFilter()
         is Result.MenuResult.Error -> oldState.copy(
             menuLoading = false,
             errorText = if (oldState.menuItems == null) res.text else oldState.errorText
@@ -213,7 +219,7 @@ class MenuMachine @Inject constructor(
             sendMessage(res.text)
         }
         is Result.BasketResult.Basket -> oldState.copy(basketLoading = false, basket = res.basket)
-            .recountMenuWithOrdersAndBasketAndFavourites()
+            .recountMenuWithOrdersAndBasketAndFavouritesAndFilter()
         is Result.BasketResult.Error -> oldState.copy(
             basketLoading = false,
             errorText = if (oldState.basket == null) res.text else oldState.errorText
@@ -223,7 +229,7 @@ class MenuMachine @Inject constructor(
         is Result.FavouriteResult.Favourites -> oldState.copy(
             favouritesLoading = false,
             favourites = res.items
-        ).recountMenuWithOrdersAndBasketAndFavourites()
+        ).recountMenuWithOrdersAndBasketAndFavouritesAndFilter()
         is Result.FavouriteResult.Error -> oldState.copy(
             favouritesLoading = false,
             errorText = if (oldState.favourites == null) res.text else oldState.errorText
@@ -236,7 +242,7 @@ class MenuMachine @Inject constructor(
         MenuButtonItem(resourceProvider.getString(R.string.startCooking), Wish.SendBasketToServer)
     }
 
-    private fun State.recountMenuWithOrdersAndBasketAndFavourites(): State {
+    private fun State.recountMenuWithOrdersAndBasketAndFavouritesAndFilter(): State {
         if (subOrders == null || menuItems == null || basket == null || favourites == null) return copy(
             menuShowList = null,
             basketShowList = null,
@@ -262,9 +268,21 @@ class MenuMachine @Inject constructor(
             ) + items
         }.flatten()
 
+        val menuFilteredToShow = when {
+            filter == null -> menuTmp
+            filter.tags.isEmpty() -> {
+                if (filter.text.isEmpty()) menuTmp
+                else menuTmp.filter { it.name.contains(filter.text, ignoreCase = true) }
+            }
+            else -> menuTmp.filter {
+                (filter.text.isEmpty() || it.name.contains(filter.text, ignoreCase = true))
+                        && it.tags.intersect(filter.tags).isNotEmpty()
+            }
+        }
+
         return copy(
             errorText = null,
-            menuShowList = menuTmp,
+            menuShowList = menuFilteredToShow,
             basketShowList = basketTmp,
             orderShowList = orderTmp,
             favouriteShowList = menuTmp.filter { it.inFavourites }
