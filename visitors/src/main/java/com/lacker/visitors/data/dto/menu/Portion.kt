@@ -13,12 +13,6 @@ data class Portion(
     @Json(name = "sort") val sort: Int,
 )
 
-@Deprecated(message = "Tmp while server not fixed, replace later with Int")
-@JsonClass(generateAdapter = true)
-data class PriceTmp(
-    @Json(name = "RUB") val rub: Double,
-)
-
 fun Portion.toDomain(
     menuItemId: String,
     orders: List<SubOrder>,
