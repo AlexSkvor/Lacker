@@ -1,6 +1,5 @@
-package com.lacker.visitors.data.dto.order
+package com.lacker.dto.order
 
-import com.lacker.visitors.data.dto.menu.OrderInfo
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import java.time.OffsetDateTime

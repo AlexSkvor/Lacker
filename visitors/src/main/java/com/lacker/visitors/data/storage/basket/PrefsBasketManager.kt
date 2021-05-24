@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.core.content.edit
 import com.ironz.binaryprefs.BinaryPreferencesBuilder
 import com.ironz.binaryprefs.Preferences
+import com.lacker.dto.order.OrderInfo
 import com.lacker.visitors.data.api.ApiCallResult
 import com.lacker.visitors.data.storage.basket.BasketManager.Companion.MAX_BASKET_SIZE_FOR_ONE_MENU_ITEM
-import com.lacker.visitors.data.dto.menu.OrderInfo
 import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.min

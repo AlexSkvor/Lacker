@@ -1,7 +1,8 @@
 package com.lacker.visitors.data.dto.menu
 
 import com.lacker.dto.menu.MenuItem
-import com.lacker.visitors.data.dto.order.SubOrder
+import com.lacker.dto.order.OrderInfo
+import com.lacker.dto.order.SubOrder
 import com.lacker.visitors.features.session.common.DomainMenuItem
 
 fun MenuItem.toDomain(

@@ -1,7 +1,7 @@
 package com.lacker.visitors.data.storage.basket
 
+import com.lacker.dto.order.OrderInfo
 import com.lacker.visitors.data.api.ApiCallResult
-import com.lacker.visitors.data.dto.menu.OrderInfo
 
 interface BasketManager {
 

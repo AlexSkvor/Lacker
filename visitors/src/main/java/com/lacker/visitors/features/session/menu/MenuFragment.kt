@@ -210,7 +210,7 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
             state.subOrders.orEmpty()
                 .map { it.orderList }
                 .flatten()
-                .sumBy { it.ordered }
+                .sumOf { it.ordered }
         )
 
         refreshToolbar()

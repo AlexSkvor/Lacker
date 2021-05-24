@@ -1,18 +1,18 @@
 package com.lacker.visitors.features.session.menu
 
 import com.lacker.dto.menu.MenuItem
+import com.lacker.dto.order.Order
+import com.lacker.dto.order.OrderInfo
+import com.lacker.dto.order.SubOrder
 import com.lacker.utils.exceptions.ImpossibleSituationException
 import com.lacker.utils.extensions.onNull
 import com.lacker.utils.resources.ResourceProvider
 import com.lacker.visitors.R
 import com.lacker.visitors.data.api.ApiCallResult
 import com.lacker.visitors.data.api.NetworkManager
-import com.lacker.visitors.data.dto.menu.OrderInfo
 import com.lacker.visitors.data.dto.menu.toDomain
 import com.lacker.visitors.data.dto.order.AddSuborderRequest
 import com.lacker.visitors.data.dto.order.CreateOrderRequest
-import com.lacker.visitors.data.dto.order.Order
-import com.lacker.visitors.data.dto.order.SubOrder
 import com.lacker.visitors.data.storage.basket.BasketManager
 import com.lacker.visitors.data.storage.favourite.FavouritesManager
 import com.lacker.visitors.data.storage.menu.MenuManager

@@ -1,12 +1,11 @@
 package com.lacker.visitors.features.session.dishdetails
 
+import com.lacker.dto.order.OrderInfo
 import com.lacker.utils.exceptions.ImpossibleSituationException
 import com.lacker.utils.resources.ResourceProvider
 import com.lacker.visitors.R
 import com.lacker.visitors.data.api.ApiCallResult
 import com.lacker.visitors.data.api.NetworkManager
-import com.lacker.visitors.data.dto.menu.OrderInfo
-import com.lacker.visitors.data.dto.order.SubOrder
 import com.lacker.visitors.data.storage.basket.BasketManager
 import com.lacker.visitors.data.storage.favourite.FavouritesManager
 import com.lacker.visitors.data.storage.session.SessionStorage
@@ -18,7 +17,6 @@ import com.lacker.visitors.features.session.dishdetails.DishDetailsMachine.State
 import com.lacker.visitors.features.session.dishdetails.DishDetailsMachine.Result
 import ru.terrakok.cicerone.Router
 import voodoo.rocks.flux.Machine
-import java.time.OffsetDateTime
 
 class DishDetailsMachine @Inject constructor(
     private val sessionStorage: SessionStorage,

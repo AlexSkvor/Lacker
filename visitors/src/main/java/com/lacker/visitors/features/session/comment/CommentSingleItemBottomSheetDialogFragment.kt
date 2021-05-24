@@ -11,8 +11,8 @@ import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.lacker.dto.order.OrderInfo
 import com.lacker.visitors.R
-import com.lacker.visitors.data.dto.menu.OrderInfo
 import com.lacker.visitors.features.session.common.DomainMenuItem
 import kotlinx.android.synthetic.main.bottom_sheet_fragment_comment_single_item.*
 
