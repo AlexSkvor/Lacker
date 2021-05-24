@@ -6,7 +6,6 @@ import com.lacker.dto.R
 enum class DishTag(@StringRes val stringResource: Int) {
 
     ALCOHOL(R.string.tagAlcohol),
-    DISH(R.string.tagDish),
     DRINKS(R.string.tagDrinks),
     BIRD(R.string.tagBird),
     SEA(R.string.tagSea),

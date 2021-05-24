@@ -8,7 +8,6 @@ class DishTagJsonAdapter {
 
     private val map = listOf(
         DishTag.ALCOHOL to "ALCOHOL",
-        DishTag.DISH to "DISH",
         DishTag.DRINKS to "DRINKS",
         DishTag.BIRD to "BIRD",
         DishTag.SEA to "SEA",

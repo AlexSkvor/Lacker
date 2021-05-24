@@ -2,7 +2,6 @@
 <resources>
 
     <string name="tagAlcohol">Алкоголь</string>
-    <string name="tagDish">Dish</string>
     <string name="tagDrinks">Напитки</string>
     <string name="tagBird">С птицей</string>
     <string name="tagSea">Морепродукты</string>

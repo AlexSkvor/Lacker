@@ -2,7 +2,6 @@
 <resources>
 
     <string name="tagAlcohol">Alcohol</string>
-    <string name="tagDish">Dish</string>
     <string name="tagDrinks">Drinks</string>
     <string name="tagBird">Bird</string>
     <string name="tagSea">Sea</string>
