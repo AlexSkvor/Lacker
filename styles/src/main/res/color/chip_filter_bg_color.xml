@@ -4,7 +4,7 @@
     <item android:alpha="0.76" android:color="@color/blue" android:state_enabled="true" android:state_selected="true"/>
     <item android:alpha="0.76" android:color="@color/blue" android:state_enabled="true" android:state_checked="true"/>
     <!-- 12% of 87% opacity -->
-    <item android:alpha="0.20" android:color="@color/blue" android:state_enabled="true"/>
-    <item android:alpha="0.10" android:color="@color/blue"/>
+    <item android:alpha="0.50" android:color="@color/blue" android:state_enabled="true"/>
+    <item android:alpha="0.30" android:color="@color/blue"/>
 
 </selector>
