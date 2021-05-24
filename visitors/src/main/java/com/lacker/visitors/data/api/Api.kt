@@ -26,7 +26,7 @@ interface Api {
     @GET("api/{restaurantId}/main_menu")
     suspend fun getRestaurantMenuTimestamp(
         @Path("restaurantId") restaurantId: String,
-        @Query("fields") fields: String = "update_date"
+        @Query("fields") fields: String = "update_time"
     ): DateTimeResponse
 
     @GET("api/{restaurantId}/tables")

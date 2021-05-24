@@ -11,6 +11,6 @@ data class MenuResponse(
 
 @JsonClass(generateAdapter = true)
 data class Menu(
-    @Json(name = "update_date") val timeStamp: OffsetDateTime,
+    @Json(name = "update_time") val timeStamp: OffsetDateTime,
     @Json(name = "dishes") val items: List<MenuItem>
 )

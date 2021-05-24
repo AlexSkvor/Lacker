@@ -11,5 +11,5 @@ data class DateTimeResponse(
 
 @JsonClass(generateAdapter = true)
 data class DateTimeDto(
-    @Json(name = "update_date") val dateTime: OffsetDateTime,
+    @Json(name = "update_time") val dateTime: OffsetDateTime,
 )

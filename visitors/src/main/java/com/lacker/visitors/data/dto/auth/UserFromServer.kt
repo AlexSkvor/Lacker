@@ -9,7 +9,7 @@ data class UserFromServer(
     @Json(name = "id") val id: String,
     @Json(name = "email") val email: String,
     @Json(name = "name") val name: String,
-    @Json(name = "surname") val surname: String?,
+    @Json(name = "family_name") val surname: String?,
     @Json(name = "access_token") val token: String,
     @Json(name = "fullPhotoUrl") val fullPhotoUrl: String?
 )
