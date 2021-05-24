@@ -1,7 +1,7 @@
-package com.lacker.visitors.data.dto.menu
+package com.lacker.dto.menu
 
 import androidx.annotation.StringRes
-import com.lacker.visitors.R
+import com.lacker.dto.R
 
 enum class DishTag(@StringRes val stringResource: Int) {
 

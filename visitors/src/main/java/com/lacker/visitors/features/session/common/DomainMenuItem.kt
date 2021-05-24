@@ -1,6 +1,6 @@
 package com.lacker.visitors.features.session.common
 
-import com.lacker.visitors.data.dto.menu.DishTag
+import com.lacker.dto.menu.DishTag
 import java.io.Serializable
 
 data class DomainMenuItem(

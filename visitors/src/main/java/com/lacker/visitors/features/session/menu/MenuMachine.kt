@@ -1,12 +1,12 @@
 package com.lacker.visitors.features.session.menu
 
+import com.lacker.dto.menu.MenuItem
 import com.lacker.utils.exceptions.ImpossibleSituationException
 import com.lacker.utils.extensions.onNull
 import com.lacker.utils.resources.ResourceProvider
 import com.lacker.visitors.R
 import com.lacker.visitors.data.api.ApiCallResult
 import com.lacker.visitors.data.api.NetworkManager
-import com.lacker.visitors.data.dto.menu.MenuItem
 import com.lacker.visitors.data.dto.menu.OrderInfo
 import com.lacker.visitors.data.dto.menu.toDomain
 import com.lacker.visitors.data.dto.order.AddSuborderRequest

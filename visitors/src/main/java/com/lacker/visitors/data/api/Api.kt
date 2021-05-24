@@ -1,10 +1,10 @@
 package com.lacker.visitors.data.api
 
 import com.lacker.dto.common.DateTimeResponse
+import com.lacker.dto.menu.MenuResponse
 import com.lacker.utils.api.auth.AuthHeaderInterceptor
 import com.lacker.visitors.data.dto.auth.LoginResponse
 import com.lacker.visitors.data.dto.auth.GoogleAuthData
-import com.lacker.visitors.data.dto.menu.MenuResponse
 import com.lacker.visitors.data.dto.order.AddSuborderRequest
 import com.lacker.visitors.data.dto.order.CreateOrderRequest
 import com.lacker.visitors.data.dto.order.CurrentOrderResponse

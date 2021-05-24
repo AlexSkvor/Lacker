@@ -1,7 +1,7 @@
 package com.lacker.visitors.data.api.jsonadapters
 
-import com.lacker.visitors.data.dto.menu.DishTag
-import com.lacker.visitors.data.dto.menu.DishTag.*
+import com.lacker.dto.menu.DishTag
+import com.lacker.dto.menu.DishTag.*
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.ToJson
 

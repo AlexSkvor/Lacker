@@ -1,17 +1,8 @@
 package com.lacker.visitors.data.dto.menu
 
+import com.lacker.dto.menu.Portion
 import com.lacker.visitors.data.dto.order.SubOrder
 import com.lacker.visitors.features.session.common.DomainPortion
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
-
-@JsonClass(generateAdapter = true)
-data class Portion(
-    @Json(name = "id") val id: String,
-    @Json(name = "price") val price: Int,
-    @Json(name = "title") val portionName: String,
-    @Json(name = "sort") val sort: Int,
-)
 
 fun Portion.toDomain(
     menuItemId: String,
