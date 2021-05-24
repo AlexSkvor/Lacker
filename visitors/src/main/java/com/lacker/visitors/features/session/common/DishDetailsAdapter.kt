@@ -21,6 +21,7 @@ fun getOnlyDishDetailsAdapter(
     getDishDetailsAdapter(onAddToOrder, onAddToBasket, removeFromBasket, onFavouriteClick)
 )
 
+// TODO show blocked!
 fun getDishDetailsAdapter(
     onAddToOrder: (DomainMenuItem, DomainPortion) -> Unit,
     onAddToBasket: (DomainPortion) -> Unit,
