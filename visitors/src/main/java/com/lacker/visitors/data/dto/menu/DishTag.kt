@@ -1,32 +1,22 @@
 package com.lacker.visitors.data.dto.menu
 
-enum class DishTag {
+import androidx.annotation.StringRes
+import com.lacker.visitors.R
 
-    Drink, // Напиток
-    Pizza, // Пицца
-    Soup, // Суп
-    Snack, // Закуски
-    ColdSnack, // Холодные закуски
-    HotSnack, // Горячие закуски
-    Starter, // Первые блюда
-    Salad, // Салат
-    MainDish, // Основное блюдо
-    Meat, // С мясом
-    Steak, // Стейк
-    Poultry, // Блюдо из птицы
-    Fish, // Блюдо из рыбы
-    Seafood, // Морепродукты
-    SideDish, // Гарнир
-    Sauce, // Соус
-    Dessert, // Десерт
-    SoftDrink, // Прохладительный напиток
-    HotDrink, // Горячий напиток
-    DrinkAlcohol, // Алкогольный напиток
-    Breakfast, // Завтрак
-    Lunch, // Ланч
-    WOK, // Лапша вок
-    BBQ, // Барбикю
-    Burger, // Бургер
-    Sushi, // Суши
+enum class DishTag(@StringRes val stringResource: Int) {
+
+    ALCOHOL(R.string.tagAlcohol),
+    DISH(R.string.tagDish),
+    DRINKS(R.string.tagDrinks),
+    BIRD(R.string.tagBird),
+    SEA(R.string.tagSea),
+    MEAT(R.string.tagMeat),
+    GARNISH(R.string.tagGarnish),
+    ASIAN_DISH(R.string.tagAsianDish),
+    DESSERT(R.string.tagDessert),
+    SALAD(R.string.tagSalad),
+    SANDWICH(R.string.tagSandwich),
+    SOUP(R.string.tagSoup),
+    OTHER(R.string.tagOther),
 
 }

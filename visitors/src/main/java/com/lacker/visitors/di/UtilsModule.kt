@@ -8,6 +8,7 @@ import com.lacker.utils.extensions.DateAdapter
 import com.lacker.utils.extensions.DateTimeAdapter
 import com.lacker.utils.resources.ResourceProvider
 import com.lacker.utils.resources.ResourceProviderImpl
+import com.lacker.visitors.data.api.jsonadapters.DishTagJsonAdapter
 import javax.inject.Singleton
 
 @Module
@@ -22,5 +23,6 @@ class UtilsModule {
     fun provideJson(): Moshi = Moshi.Builder()
         .add(DateTimeAdapter())
         .add(DateAdapter())
+        .add(DishTagJsonAdapter())
         .build()
 }
