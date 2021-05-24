@@ -49,12 +49,6 @@
     <!-- History Screen -->
     <string name="historyScreenTitle">Orders History</string>
 
-    <!-- News Screen -->
-    <string name="newsScreenTitle">News</string>
-
-    <!-- Settings Screen -->
-    <string name="settingsScreenTitle">Settings</string>
-
     <!-- About Screen -->
     <string name="aboutScreenTitle">About this App</string>
 

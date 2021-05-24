@@ -11,12 +11,6 @@
             android:id="@+id/navigateHistory"
             android:title="@string/historyScreenTitle" />
         <item
-            android:id="@+id/navigateNews"
-            android:title="@string/newsScreenTitle" />
-        <item
-            android:id="@+id/navigateSettings"
-            android:title="@string/settingsScreenTitle" />
-        <item
             android:id="@+id/navigateAbout"
             android:title="@string/aboutScreenTitle" />
     </group>

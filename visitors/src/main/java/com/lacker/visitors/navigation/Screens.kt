@@ -3,13 +3,11 @@ package com.lacker.visitors.navigation
 import androidx.fragment.app.Fragment
 import com.lacker.visitors.features.about.AboutFragment
 import com.lacker.visitors.features.history.HistoryFragment
-import com.lacker.visitors.features.news.NewsFragment
 import com.lacker.visitors.features.profile.ProfileFragment
 import com.lacker.visitors.features.session.menu.MenuFragment
 import com.lacker.visitors.features.scan.ScanFragment
 import com.lacker.visitors.features.session.common.DomainMenuItem
 import com.lacker.visitors.features.session.dishdetails.DishDetailsFragment
-import com.lacker.visitors.features.settings.SettingsFragment
 import ru.terrakok.cicerone.android.support.SupportAppScreen
 
 object Screens {
@@ -28,14 +26,6 @@ object Screens {
 
     object OrderHistoryScreen : SupportAppScreen() {
         override fun getFragment(): Fragment = HistoryFragment.newInstance()
-    }
-
-    object NewsScreen : SupportAppScreen() {
-        override fun getFragment(): Fragment = NewsFragment.newInstance()
-    }
-
-    object SettingsScreen : SupportAppScreen() {
-        override fun getFragment(): Fragment = SettingsFragment.newInstance()
     }
 
     object AboutScreen : SupportAppScreen() {

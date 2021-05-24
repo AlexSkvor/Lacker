@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.lacker.visitors.features.about.AboutMachine
 import com.lacker.visitors.features.history.HistoryMachine
-import com.lacker.visitors.features.news.NewsMachine
 import com.lacker.visitors.features.profile.ProfileMachine
 import dagger.Binds
 import dagger.MapKey
@@ -13,7 +12,6 @@ import dagger.multibindings.IntoMap
 import com.lacker.visitors.features.session.menu.MenuMachine
 import com.lacker.visitors.features.scan.ScanMachine
 import com.lacker.visitors.features.session.dishdetails.DishDetailsMachine
-import com.lacker.visitors.features.settings.SettingsMachine
 import kotlin.reflect.KClass
 
 @Target(
@@ -50,16 +48,6 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(HistoryMachine::class)
     internal abstract fun bindHistoryMachine(viewModel: HistoryMachine): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(NewsMachine::class)
-    internal abstract fun bindNewsMachine(viewModel: NewsMachine): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(SettingsMachine::class)
-    internal abstract fun bindSettingsMachine(viewModel: SettingsMachine): ViewModel
 
     @Binds
     @IntoMap
