@@ -1,5 +1,6 @@
 package com.lacker.visitors.features.session.common
 
+import com.google.android.material.chip.Chip
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateLayoutContainer
 import com.lacker.utils.extensions.gone
@@ -57,6 +58,23 @@ fun getDishDetailsAdapter(
 
         for (i in item.portions.size until dishDetailsPortionsContainer.childCount)
             dishDetailsPortionsContainer.getChildAt(i).gone()
+
+        item.tags.forEachIndexed { i, tag ->
+            if (dishDetailsTags.childCount <= i)
+                dishDetailsTags.addView(Chip(context).apply {
+                    setTextColor(getColor(R.color.white))
+                    setChipBackgroundColorResource(R.color.blue)
+                })
+
+            val chipView = dishDetailsTags.getChildAt(i) as? Chip
+            chipView?.apply {
+                setText(tag.stringResource)
+                visible()
+            }
+        }
+
+        for (i in item.tags.size until dishDetailsTags.childCount)
+            dishDetailsTags.getChildAt(i).gone()
     }
 
 }

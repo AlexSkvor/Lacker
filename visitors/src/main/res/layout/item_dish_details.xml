@@ -67,5 +67,13 @@
             android:layout_marginBottom="@dimen/_6sdp"
             android:orientation="vertical" />
 
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/dishDetailsTags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:layout_marginBottom="@dimen/_6sdp"/>
+
     </LinearLayout>
 </FrameLayout>
