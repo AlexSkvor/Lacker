@@ -37,6 +37,11 @@
     <string name="consultation">Consultation</string>
     <string name="shouldSelectRestaurantBeforeCallStaff">You should select restaurant before call staff</string>
 
+    <!-- Search Screen -->
+    <string name="search">Search</string>
+    <string name="searchTextHint">Search by name</string>
+    <string name="clear">Clear</string>
+
     <!-- Profile Screen -->
     <string name="profileScreenTitle">Profile</string>
     <string name="guest">Guest</string>

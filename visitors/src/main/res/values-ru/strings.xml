@@ -38,6 +38,11 @@
     <string name="consultation">Консультация</string>
     <string name="shouldSelectRestaurantBeforeCallStaff">Перед вызвовом официанта нужно выбрать ресторан!</string>
 
+    <!-- Search Screen -->
+    <string name="search">Поиск</string>
+    <string name="searchTextHint">Поиск по названию</string>
+    <string name="clear">Сбросить</string>
+
     <!-- Profile Screen -->
     <string name="profileScreenTitle">Профиль</string>
     <string name="guest">Гость</string>
@@ -49,12 +54,6 @@
 
     <!-- History Screen -->
     <string name="historyScreenTitle">История заказов</string>
-
-    <!-- News Screen -->
-    <string name="newsScreenTitle">Новости</string>
-
-    <!-- Settings Screen -->
-    <string name="settingsScreenTitle">Настройки</string>
 
     <!-- About Screen -->
     <string name="aboutScreenTitle">О приложении</string>
