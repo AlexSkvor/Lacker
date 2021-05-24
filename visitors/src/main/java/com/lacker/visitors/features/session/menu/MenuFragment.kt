@@ -14,6 +14,7 @@ import com.lacker.visitors.features.session.common.DomainMenuItem
 import com.lacker.visitors.features.session.common.DomainPortion
 import com.lacker.visitors.features.session.common.MenuButtonItem
 import com.lacker.visitors.features.session.common.getMenuAdapter
+import com.lacker.visitors.features.session.filter.openMenuFilterDialog
 import com.lacker.visitors.features.session.menu.MenuMachine.Wish
 import com.lacker.visitors.features.session.menu.MenuMachine.State
 import com.lacker.visitors.views.asDomain
@@ -251,7 +252,10 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
                 return true
             }
             R.id.filtersIcon -> {
-                alsoPrintDebug("AAAAAAAA")
+                openMenuFilterDialog(
+                    filter = machine.states().value.filter,
+                    listener = { performWish(Wish.SetFilter(it)) }
+                )
                 return true
             }
         }

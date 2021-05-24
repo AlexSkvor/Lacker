@@ -55,7 +55,7 @@ class MenuMachine @Inject constructor(
 
         data class ShowDishDetails(val dish: DomainMenuItem) : Wish()
 
-        data class AddFilter(val filter: MenuSearchFilter) : Wish()
+        data class SetFilter(val filter: MenuSearchFilter) : Wish()
     }
 
     sealed class Result {
@@ -182,7 +182,7 @@ class MenuMachine @Inject constructor(
         is Wish.ShowDishDetails -> oldState.also {
             router.navigateTo(Screens.DishDetailsScreen(wish.dish))
         }
-        is Wish.AddFilter -> oldState.copy(filter = wish.filter)
+        is Wish.SetFilter -> oldState.copy(filter = wish.filter)
             .recountMenuWithOrdersAndBasketAndFavouritesAndFilter()
     }
 
