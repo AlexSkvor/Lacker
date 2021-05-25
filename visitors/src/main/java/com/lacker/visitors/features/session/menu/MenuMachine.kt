@@ -62,6 +62,8 @@ class MenuMachine @Inject constructor(
         data class ShowDishDetails(val dish: DomainMenuItem) : Wish()
 
         data class SetFilter(val filter: MenuSearchFilter) : Wish()
+
+        object CloseOrder : Wish()
     }
 
     sealed class Result {
@@ -90,6 +92,11 @@ class MenuMachine @Inject constructor(
         sealed class FavouriteResult : Result() {
             data class Favourites(val items: Set<String>) : FavouriteResult()
             data class Error(val text: String) : FavouriteResult()
+        }
+
+        sealed class CloseOrder : Result() {
+            object Success : CloseOrder()
+            data class Error(val text: String) : CloseOrder()
         }
 
     }
@@ -191,6 +198,12 @@ class MenuMachine @Inject constructor(
         is Wish.SetFilter -> oldState.copy(filter = wish.filter)
             .recountMenuWithOrdersAndBasketAndFavouritesAndFilter()
         is Wish.DrinksImmediatelyChanged -> oldState.copy(drinksImmediately = wish.value)
+        Wish.CloseOrder -> if (oldState.order?.status == "PAID") oldState.also {
+            orderStorage.orderId = null
+            router.newRootScreen(Screens.ScanScreen)
+        } else oldState.also {
+            pushResult { closeOrder(it.order?.id) }
+        }
     }
 
     override fun onResult(res: Result, oldState: State): State = when (res) {
@@ -242,6 +255,11 @@ class MenuMachine @Inject constructor(
             errorText = if (oldState.favourites == null) res.text else oldState.errorText
         ).also {
             sendMessage(res.text)
+        }
+        is Result.CloseOrder.Error -> oldState.also { sendMessage(res.text) }
+        Result.CloseOrder.Success -> oldState.also {
+            orderStorage.orderId = null
+            router.newRootScreen(Screens.ScanScreen)
         }
     }
 
@@ -422,6 +440,14 @@ class MenuMachine @Inject constructor(
         return when (val res = net.callResult { addToCurrentOrder(orderId, request) }) {
             is ApiCallResult.Result -> Result.OrderResult.OrderLoaded(res.value.order)
             is ApiCallResult.ErrorOccurred -> error.copy(text = res.text)
+        }
+    }
+
+    private suspend fun closeOrder(orderId: String?): Result.CloseOrder {
+        if (orderId == null) return Result.CloseOrder.Success
+        return when (val res = net.callResult { closeOrder(orderId) }) {
+            is ApiCallResult.Result -> Result.CloseOrder.Success
+            is ApiCallResult.ErrorOccurred -> Result.CloseOrder.Error(res.text)
         }
     }
 

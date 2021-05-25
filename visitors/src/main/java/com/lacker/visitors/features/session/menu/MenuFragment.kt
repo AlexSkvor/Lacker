@@ -1,5 +1,6 @@
 package com.lacker.visitors.features.session.menu
 
+import android.app.AlertDialog
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.lacker.utils.extensions.*
@@ -245,12 +246,18 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
 
     override fun onMenuItemChosen(itemId: Int): Boolean {
         when (itemId) {
-            R.id.bellIcon1 -> {
+            R.id.bellIcon1, R.id.bellIcon2 -> {
                 openCallStaffDialog()
                 return true
             }
-            R.id.bellIcon2 -> {
-                openCallStaffDialog()
+            R.id.closeIcon1, R.id.closeIcon2 -> {
+                AlertDialog.Builder(requireContext())
+                    .setTitle(R.string.closeOrderTitle)
+                    .setMessage(R.string.closeOrderQuestion)
+                    .setPositiveButton(R.string.yes) { _, _ ->
+                        performWish(Wish.CloseOrder)
+                    }.setNegativeButton(R.string.no) { _, _ -> }
+                    .create().show()
                 return true
             }
             R.id.filtersIcon -> {

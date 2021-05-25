@@ -39,6 +39,10 @@
     <string name="consultation">Консультация</string>
     <string name="shouldSelectRestaurantBeforeCallStaff">Перед вызвовом официанта нужно выбрать ресторан!</string>
 
+    <!-- Close order dialog -->
+    <string name="closeOrderTitle">Закрытие заказа</string>
+    <string name="closeOrderQuestion">Вы точно хотите закрыть заказ?</string>
+
     <!-- Search Screen -->
     <string name="search">Поиск</string>
     <string name="searchTextHint">Поиск по названию</string>

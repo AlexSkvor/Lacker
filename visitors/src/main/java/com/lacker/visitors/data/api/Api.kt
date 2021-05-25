@@ -2,6 +2,7 @@ package com.lacker.visitors.data.api
 
 import com.lacker.dto.common.DateTimeResponse
 import com.lacker.dto.menu.MenuResponse
+import com.lacker.dto.order.CloseOrderBody
 import com.lacker.utils.api.auth.AuthHeaderInterceptor
 import com.lacker.visitors.data.dto.auth.LoginResponse
 import com.lacker.visitors.data.dto.auth.GoogleAuthData
@@ -53,6 +54,13 @@ interface Api {
     suspend fun createOrder(
         @Body request: CreateOrderRequest
     ): CurrentOrderResponse
+
+    @Headers(AuthHeaderInterceptor.REQUIRES_AUTH)
+    @POST("api/{orderId}")
+    suspend fun closeOrder(
+        @Path("orderId") orderId: String,
+        @Body closeOrderBody: CloseOrderBody = CloseOrderBody(),
+    )
 
     @Headers(AuthHeaderInterceptor.REQUIRES_AUTH)
     @POST("api/{orderId}/add_suborder")
