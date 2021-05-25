@@ -116,7 +116,7 @@ class MainActivity : AppCompatActivity(), ViewModelFactoryProvider, UserNotifier
         val header = leftNavigation.getHeaderView(0)
 
         val avatarView = header.findViewById<CircleImageView>(R.id.avatarProfileNavHeader)
-        avatarView.loadFromNet(user.fullPhotoUrl, crossFade = false)
+        avatarView.loadFromNet("https://i.ytimg.com/vi/Yh5whB-37HY/hqdefault_live.jpg", crossFade = false)
 
         header.findViewById<TextView>(R.id.usernameNavHeader).text = name
     }

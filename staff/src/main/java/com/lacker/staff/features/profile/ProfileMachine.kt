@@ -1,6 +1,5 @@
 package com.lacker.staff.features.profile
 
-import com.lacker.staff.data.storage.restaurants.RestaurantStorage
 import com.lacker.staff.data.storage.user.User
 import com.lacker.staff.data.storage.user.UserStorage
 import javax.inject.Inject
@@ -13,8 +12,7 @@ import voodoo.rocks.flux.Machine
 
 class ProfileMachine @Inject constructor(
     private val router: Router,
-    private val userStorage: UserStorage,
-    private val restaurantStorage: RestaurantStorage,
+    private val userStorage: UserStorage
 ) : Machine<Wish, Result, State>() {
 
     sealed class Wish {
@@ -32,7 +30,6 @@ class ProfileMachine @Inject constructor(
     override fun onWish(wish: Wish, oldState: State): State = when (wish) {
         Wish.SignOut -> {
             userStorage.user = User.empty()
-            restaurantStorage.restaurant = null
             router.newRootScreen(Screens.SignInScreen)
             oldState
         }

@@ -25,17 +25,6 @@ class AuthFragment : ToolbarFluxFragment<Wish, State>() {
     override val toolbarSettings: ToolbarFragmentSettings? = null
 
     override fun onScreenInit() {
-        performWish(Wish.Start)
-        restaurantView.setOnClickListener {
-            val restaurants = machine.states().value.restaurants.orEmpty()
-            if (restaurants.isEmpty()) performWish(Wish.Start)
-            else SelectRestaurantBottomFragment.show(requireActivity(),
-                restaurants = restaurants,
-                listener = { performWish(Wish.Restaurant(it)) } // TODO prevent reselecting and input changes while progress!
-            //TODO investigate leaks
-            )
-        }
-
         emailField.doAfterTextChanged {
             performWish(Wish.Email(it?.toString().orEmpty()))
         }
@@ -68,9 +57,5 @@ class AuthFragment : ToolbarFluxFragment<Wish, State>() {
 
         passwordFieldLayout.error = state.errorTextPassword
         passwordField.setTextIfNotEquals(state.password)
-
-        restaurantView.restaurant = state.selectedRestaurant
-        restaurantView.active = !state.restaurantsLoading
-        restaurantProgress.visible = state.restaurantsLoading
     }
 }

@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.lacker.staff.views.ViewRestaurant xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/restaurantViewItem"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/_8sdp" />

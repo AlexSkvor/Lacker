@@ -5,7 +5,6 @@ import com.lacker.staff.data.api.ApiCallResult
 import com.lacker.staff.data.api.NetworkManager
 import com.lacker.staff.data.dto.calls.StaffCall
 import com.lacker.staff.data.dto.orders.SubOrderListItem
-import com.lacker.staff.data.storage.restaurants.RestaurantStorage
 import com.lacker.staff.data.storage.user.User
 import com.lacker.staff.data.storage.user.UserStorage
 import javax.inject.Inject
@@ -26,7 +25,6 @@ class TasksMachine @Inject constructor(
     private val resourceProvider: ResourceProvider,
     private val router: Router,
     private val net: NetworkManager,
-    private val restaurantStorage: RestaurantStorage,
     private val userStorage: UserStorage,
 ) : Machine<Wish, Result, State>() {
 
@@ -88,24 +86,20 @@ class TasksMachine @Inject constructor(
     }
 
     private suspend fun getOrders(pageNumber: Int, lastOrder: SubOrderListItem?): Result {
-        val restaurantId = restaurantStorage.restaurant?.id ?: return Result.NeedAuth
-        val lastOrderId = if (pageNumber <= 1) null else lastOrder?.id
+        TODO()
+        /*val lastOrderId = if (pageNumber <= 1) null else lastOrder?.id
         val res = net.callResult {
-            getNewOrders(
-                restaurantId = restaurantId,
-                lastReceivedSuborderId = lastOrderId,
-            )
+            getNewOrders(restaurantId = restaurantId,)
         }
         val receive = when (res) {
             is ApiCallResult.Result -> Receive.NewPage(pageNumber, res.value.subOrders)
             is ApiCallResult.ErrorOccurred -> Receive.PageError(res.text)
         }
-        return Result.ReceiveNewOrders(receive)
+        return Result.ReceiveNewOrders(receive)*/
     }
 
     private fun logOut() {
         userStorage.user = User.empty()
-        restaurantStorage.restaurant = null
         sendMessage(resourceProvider.getString(R.string.tokenError))
         router.newRootScreen(Screens.SignInScreen)
     }

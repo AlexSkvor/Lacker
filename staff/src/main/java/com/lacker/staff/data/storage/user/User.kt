@@ -6,7 +6,7 @@ data class User(
     val surname: String,
     val email: String,
     val token: String,
-    val fullPhotoUrl: String // TODO add restaurant data!
+    val restaurantId: String,
 ) {
 
     companion object {

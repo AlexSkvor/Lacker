@@ -13,13 +13,18 @@
 
         <requestFocus />
 
-        <com.lacker.staff.views.ViewRestaurant
-            android:id="@+id/restaurantView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_16sdp"
-            android:layout_marginTop="@dimen/_32sdp"
-            app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/logoImageAuth"
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="@dimen/_140sdp"
+            android:layout_gravity="center"
+            android:contentDescription="@string/stub"
+            android:src="@drawable/logo_with_title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.1" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/emailFieldLayout"
@@ -27,11 +32,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_16sdp"
-            android:layout_marginTop="@dimen/_32sdp"
+            android:layout_marginTop="@dimen/_16sdp"
             android:layout_marginEnd="@dimen/_16sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/restaurantView">
+            app:layout_constraintTop_toBottomOf="@id/logoImageAuth">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/emailField"
@@ -89,18 +94,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/passwordFieldLayout" />
-
-        <ProgressBar
-            android:id="@+id/restaurantProgress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:translationZ="@dimen/_100sdp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@id/restaurantView"
-            app:layout_constraintEnd_toEndOf="@id/restaurantView"
-            app:layout_constraintStart_toStartOf="@id/restaurantView"
-            app:layout_constraintTop_toTopOf="@id/restaurantView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -15,9 +15,6 @@
     <string name="emailEmptyError">Email не может быть пуст</string>
     <string name="emailIsNotValid">Email не валиден</string>
     <string name="passwordEmptyError">Пароль не должен быть пуст</string>
-    <string name="restaurant">Ресторан</string>
-    <string name="noSelectedRestaurant">Ресторан не выбран!\nВыберите ресторан, пожалуйста!</string>
-    <string name="selectRestaurantHeader">Выберите Ваш ресторан</string>
     <string name="password">Пароль</string>
     <string name="enterEmail">Email</string>
     <string name="signIn">Войти</string>

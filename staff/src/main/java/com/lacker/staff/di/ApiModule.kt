@@ -3,7 +3,6 @@ package com.lacker.staff.di
 import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.lacker.staff.data.api.Api
-import com.lacker.staff.data.api.FakeApi
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -29,8 +28,6 @@ class ApiModule {
     @Provides
     @Singleton
     fun provideApi(context: Context, json: Moshi, userStorage: UserStorage): Api {
-        return FakeApi()
-        //TODO return real api when it is ready
         return Retrofit.Builder()
             .baseUrl(BuildConfig.SERVER_URL)
             .addConverterFactory(MoshiConverterFactory.create(json))

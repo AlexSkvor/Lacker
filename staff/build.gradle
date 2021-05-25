@@ -22,12 +22,12 @@ android {
     buildTypes {
 
         debug {
-            buildConfigField "String", "SERVER_URL", "\"http://lacker.backend.debug/fulladdress/\""
+            buildConfigField "String", "SERVER_URL", "\"http://lacker.ru/\""
             debuggable true
         }
 
         release {
-            buildConfigField "String", "SERVER_URL", "\"http://lacker.backend.prod/fulladdress/\""
+            buildConfigField "String", "SERVER_URL", "\"http://lacker.ru/\""
             debuggable false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -51,6 +51,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation project(':utils')
     implementation project(':styles')
+    implementation project(':dto')
 
     implementation "androidx.core:core-ktx:$androidxCoreVersion"
     implementation "androidx.appcompat:appcompat:$androidxAppcompatVersion"

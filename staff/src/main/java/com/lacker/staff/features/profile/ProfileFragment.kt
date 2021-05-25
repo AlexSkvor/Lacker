@@ -34,7 +34,7 @@ class ProfileFragment : ToolbarFluxFragment<Wish, State>() {
 
     @SuppressLint("SetTextI18n")
     override fun render(state: State) {
-        avatarProfile.loadFromNet(state.user.fullPhotoUrl, crossFade = false)
+        avatarProfile.loadFromNet("https://i.ytimg.com/vi/Yh5whB-37HY/hqdefault_live.jpg", crossFade = false)
         fullName.text = state.user.name + " " + state.user.surname
     }
 }

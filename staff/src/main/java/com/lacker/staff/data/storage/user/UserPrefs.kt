@@ -17,7 +17,7 @@ class UserPrefs @Inject constructor(
         const val EMAIL_KEY = "EMAIL_KEY"
         const val NAME_KEY = "NAME_KEY"
         const val SURNAME_KEY = "SURNAME_KEY"
-        const val PHOTO_KEY = "PHOTO_KEY"
+        const val RESTAURANT_ID_KEY = "RESTAURANT_ID_KEY"
     }
 
     private val empty by lazy { User.empty() }
@@ -37,7 +37,7 @@ class UserPrefs @Inject constructor(
             surname = surname,
             email = email,
             token = token,
-            fullPhotoUrl = fullPhotoUrl
+            restaurantId = restaurantId,
         )
         set(value) {
             id = value.id
@@ -45,7 +45,7 @@ class UserPrefs @Inject constructor(
             surname = value.surname
             email = value.email
             token = value.token
-            fullPhotoUrl = value.fullPhotoUrl
+            restaurantId = value.restaurantId
         }
 
 
@@ -69,8 +69,8 @@ class UserPrefs @Inject constructor(
         get() = prefs.getString(SURNAME_KEY, empty.surname).onNull(empty.surname)
         set(value) = prefs.edit { putString(SURNAME_KEY, value) }
 
-    private var fullPhotoUrl: String
-        get() = prefs.getString(PHOTO_KEY, empty.fullPhotoUrl).onNull(empty.fullPhotoUrl)
-        set(value) = prefs.edit { putString(PHOTO_KEY, value) }
+    private var restaurantId: String
+        get() = prefs.getString(RESTAURANT_ID_KEY, empty.restaurantId).onNull(empty.restaurantId)
+        set(value) = prefs.edit { putString(RESTAURANT_ID_KEY, value) }
 
 }

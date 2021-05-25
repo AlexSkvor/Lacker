@@ -5,10 +5,6 @@ import com.lacker.staff.data.api.ApiCallResult
 import com.lacker.staff.data.api.NetworkManager
 import com.lacker.staff.data.dto.auth.AuthRequest
 import com.lacker.staff.data.dto.auth.toDomain
-import com.lacker.staff.data.dto.restaurant.RestaurantDto
-import com.lacker.staff.data.storage.restaurants.DomainRestaurant
-import com.lacker.staff.data.storage.restaurants.RestaurantStorage
-import com.lacker.staff.data.storage.restaurants.SignedBeforeRestaurantsStorage
 import com.lacker.staff.data.storage.user.UserStorage
 import javax.inject.Inject
 import com.lacker.staff.features.auth.AuthMachine.Wish
@@ -22,19 +18,15 @@ import ru.terrakok.cicerone.Router
 import voodoo.rocks.flux.Machine
 
 class AuthMachine @Inject constructor(
-    private val oldStorage: SignedBeforeRestaurantsStorage,
     private val net: NetworkManager,
     private val router: Router,
     private val resourceProvider: ResourceProvider,
     private val userStorage: UserStorage,
-    private val restaurantStorage: RestaurantStorage,
 ) : Machine<Wish, Result, State>() {
 
     sealed class Wish {
         object SignIn : Wish()
-        object Start : Wish()
 
-        data class Restaurant(val restaurant: RestaurantDto?) : Wish()
         data class Email(val text: String) : Wish()
         data class Password(val text: String) : Wish()
     }
@@ -44,20 +36,12 @@ class AuthMachine @Inject constructor(
             object Success : Result.SignIn()
             data class Error(val text: String) : Result.SignIn()
         }
-
-        sealed class Restaurants : Result() {
-            data class Success(val restaurants: List<RestaurantDto>) : Result.Restaurants()
-            data class Error(val text: String) : Result.Restaurants()
-        }
     }
 
     data class State(
         val loading: Boolean = false,
-        val restaurantsLoading: Boolean = false,
         val email: String = "",
         val password: String = "",
-        val restaurants: List<RestaurantDto>? = null,
-        val selectedRestaurant: RestaurantDto? = null,
         val errorTextEmail: String? = null,
         val errorTextPassword: String? = null
     )
@@ -72,19 +56,9 @@ class AuthMachine @Inject constructor(
             password = wish.text, errorTextPassword = null
         )
         Wish.SignIn -> checkStateAndSignInIfPossible(oldState)
-        Wish.Start -> oldState.copy(restaurantsLoading = true)
-            .also { pushResult { loadRestaurants() } }
-        is Wish.Restaurant -> oldState.setRestaurant(wish.restaurant)
     }
 
     override fun onResult(res: Result, oldState: State): State = when (res) {
-        is Result.Restaurants.Success -> {
-            val newState = oldState.copy(restaurants = res.restaurants, restaurantsLoading = false)
-            if (res.restaurants.size != 1) newState // TODO autoselect last restaurant!
-            else newState.setRestaurant(res.restaurants.first())
-        }
-        is Result.Restaurants.Error -> oldState.copy(restaurantsLoading = false)
-            .also { sendMessage(res.text) }
         Result.SignIn.Success -> oldState.also { router.replaceScreen(Screens.TasksScreen) }
         is Result.SignIn.Error -> oldState.copy(loading = false).also { sendMessage(res.text) }
     }
@@ -101,57 +75,25 @@ class AuthMachine @Inject constructor(
         val passwordError = if (oldState.password.isNotBlank()) null
         else resourceProvider.getString(R.string.passwordEmptyError)
 
-        val restaurantError = if (oldState.selectedRestaurant != null) null
-        else resourceProvider.getString(R.string.noSelectedRestaurant)
-
-        restaurantError?.let { sendMessage(restaurantError) }
-
-        if (emailError != null || passwordError != null || restaurantError != null)
+        if (emailError != null || passwordError != null)
             return oldState.copy(
                 errorTextEmail = emailError,
                 errorTextPassword = passwordError
             )
 
-        requireNotNull(oldState.selectedRestaurant)
-        pushResult { auth(oldState.selectedRestaurant, oldState.email, oldState.password) }
+        pushResult { auth(oldState.email, oldState.password) }
         return oldState.copy(loading = true)
     }
 
-    private fun State.setRestaurant(restaurant: RestaurantDto?): State {
-
-        val oldRest = this.selectedRestaurant
-
-        val oldEmail = oldRest?.let { oldStorage.getEmail(it.id) }
-        val newEmail = restaurant?.id?.let { oldStorage.getEmail(it) }
-
-        val emailToSet = if (oldEmail == this.email || email.isBlank()) newEmail
-        else email
-
-        return copy(
-            selectedRestaurant = restaurant,
-            email = emailToSet.orEmpty()
-        )
-    }
-
-    private suspend fun loadRestaurants(): Result.Restaurants {
-        return when (val res = net.callResult { getRestaurants() }) {
-            is ApiCallResult.Result -> Result.Restaurants.Success(res.value)
-            is ApiCallResult.ErrorOccurred -> Result.Restaurants.Error(res.text)
-        }
-    }
-
     private suspend fun auth(
-        restaurant: RestaurantDto,
         email: String,
         password: String
     ): Result.SignIn {
-        val request = AuthRequest(restaurant.id, email, password)
+        val request = AuthRequest(email, password)
 
         return when (val res = net.authCallResult { signIn(request) }) {
             is ApiCallResult.Result -> {
-                oldStorage.addEmail(restaurant.id, email)
-                restaurantStorage.restaurant = DomainRestaurant(restaurant.id)
-                userStorage.user = res.value.toDomain()
+                userStorage.user = res.value.data.toDomain()
                 Result.SignIn.Success
             }
             is ApiCallResult.ErrorOccurred -> Result.SignIn.Error(res.text)

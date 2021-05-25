@@ -1,30 +1,22 @@
 package com.lacker.staff.data.api
 
 import com.lacker.staff.data.dto.auth.AuthRequest
+import com.lacker.staff.data.dto.auth.AuthResponse
 import com.lacker.staff.data.dto.auth.UserDto
 import com.lacker.staff.data.dto.orders.NewOrdersPageResponse
-import com.lacker.staff.data.dto.restaurant.RestaurantDto
-import com.lacker.staff.data.dto.restaurant.RestaurantInfoResponse
+import com.lacker.utils.api.auth.AuthHeaderInterceptor
 import retrofit2.http.*
 
 interface Api {
 
-    @POST("staff/account/sign-in/")
+    @POST("public/auth/staff")
     suspend fun signIn(
         @Body request: AuthRequest
-    ): UserDto
+    ): AuthResponse
 
-    @GET("restaurants/{restaurantId}/info/")
-    suspend fun getRestaurantInfo(
-        @Path("restaurantId") restaurantId: String
-    ): RestaurantInfoResponse
-
-    @GET("restaurants/list")
-    suspend fun getRestaurants(): List<RestaurantDto>
-
-    @GET("restaurants/{restaurantId}/newOrders")
+    @Headers(AuthHeaderInterceptor.REQUIRES_AUTH)
+    @GET("api/{restaurantId}/unchecked_suborders")
     suspend fun getNewOrders(
         @Path("restaurantId") restaurantId: String,
-        @Query("lastReceivedSuborderId") lastReceivedSuborderId: String?,
     ): NewOrdersPageResponse
 }
