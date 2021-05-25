@@ -35,7 +35,14 @@ class SmallMenuItemView @JvmOverloads constructor(
                 smallMenuItemContainer.addView(PortionView(context))
             val portionView = smallMenuItemContainer.getChildAt(i) as PortionView
             portionView.apply {
-                setupForPortion(portion, {}, onAddToBasket, removeFromBasket, allowChanges)
+                setupForPortion(
+                    dishStopped = item.stopped,
+                    portion = portion,
+                    onAddToOrder = {},
+                    onAddToBasket = onAddToBasket,
+                    removeFromBasket = removeFromBasket,
+                    allowChanges = allowChanges
+                )
                 visible()
             }
         }

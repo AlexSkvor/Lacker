@@ -25,6 +25,7 @@ class PortionView @JvmOverloads constructor(
     }
 
     fun setupForPortion(
+        dishStopped: Boolean,
         portion: DomainPortion,
         onAddToOrder: (DomainPortion) -> Unit,
         onAddToBasket: (DomainPortion) -> Unit,
@@ -38,8 +39,8 @@ class PortionView @JvmOverloads constructor(
         minusPortionButton.visible = portion.basketNumber + portion.orderedNumber > 0
         orderedPortionsNumber.visible = portion.basketNumber + portion.orderedNumber > 0
 
-        minusPortionButton.isEnabled = portion.basketNumber > 0 && allowChanges
-        plusPortionButton.isEnabled = allowChanges &&
+        minusPortionButton.isEnabled = portion.basketNumber > 0 && allowChanges && !dishStopped
+        plusPortionButton.isEnabled = allowChanges && !dishStopped &&
                 portion.basketNumber + portion.orderedNumber < MAX_BASKET_SIZE_FOR_ONE_MENU_ITEM
 
         minusPortionButton.setOnClickListener { removeFromBasket(portion) }

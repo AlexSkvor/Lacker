@@ -48,6 +48,7 @@ fun getDishDetailsAdapter(
             val portionView = dishDetailsPortionsContainer.getChildAt(i) as? PortionView
             portionView?.apply {
                 setupForPortion(
+                    dishStopped = item.stopped,
                     portion = portion,
                     onAddToOrder = { onAddToOrder(item, portion) },
                     onAddToBasket = onAddToBasket,

@@ -38,7 +38,13 @@ fun getDomainMenuItemAdapter(
 
             val portionView = portionsContainer.getChildAt(i) as? PortionView
             portionView?.apply {
-                setupForPortion(portion, { onAddToOrder(item, portion) }, onAddToBasket, removeFromBasket)
+                setupForPortion(
+                    dishStopped = item.stopped,
+                    portion = portion,
+                    onAddToOrder = { onAddToOrder(item, portion) },
+                    onAddToBasket = onAddToBasket,
+                    removeFromBasket = removeFromBasket
+                )
                 visible()
             }
         }
@@ -48,18 +54,18 @@ fun getDomainMenuItemAdapter(
 
 
         item.tags.forEachIndexed { i, tag ->
-                if (menuItemTags.childCount <= i)
-                    menuItemTags.addView(Chip(context).apply {
-                        setTextColor(getColor(R.color.white))
-                        setChipBackgroundColorResource(R.color.blue)
-                    })
+            if (menuItemTags.childCount <= i)
+                menuItemTags.addView(Chip(context).apply {
+                    setTextColor(getColor(R.color.white))
+                    setChipBackgroundColorResource(R.color.blue)
+                })
 
-                val chipView = menuItemTags.getChildAt(i) as? Chip
-                chipView?.apply {
-                    setText(tag.stringResource)
-                    visible()
-                }
+            val chipView = menuItemTags.getChildAt(i) as? Chip
+            chipView?.apply {
+                setText(tag.stringResource)
+                visible()
             }
+        }
 
         for (i in item.tags.size until menuItemTags.childCount)
             menuItemTags.getChildAt(i).gone()
