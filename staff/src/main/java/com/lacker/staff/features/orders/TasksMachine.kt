@@ -46,10 +46,11 @@ class TasksMachine @Inject constructor(
         val oldOrders: PaginationList<SubOrderListItem> = PaginationList.EmptyProgress(),
         val newCalls: PaginationList<StaffCall> = PaginationList.EmptyProgress(),
         val oldCalls: PaginationList<StaffCall> = PaginationList.EmptyProgress(),
-        val newOrdersTotalCount: Int = 0,
-        val newCallsTotalCount: Int = 0,
-        val type: Type = Type.NEW_ORDERS
+        val type: Type = Type.NEW_ORDERS,
     ) {
+        val newOrdersTotalCount: Int = newOrders.size
+        val newCallsTotalCount: Int = newCalls.size
+
         enum class Type {
             NEW_ORDERS, NEW_CALLS, OLD_ORDERS, OLD_CALLS
         }

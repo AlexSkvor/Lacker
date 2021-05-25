@@ -87,7 +87,7 @@
         android:layout_width="@dimen/_16sdp"
         android:layout_height="@dimen/_16sdp"
         android:layout_marginTop="@dimen/_4sdp"
-        android:layout_marginEnd="@dimen/_2sdp"
+        android:layout_marginEnd="@dimen/_6sdp"
         android:background="@drawable/circle"
         android:gravity="center"
         android:maxLines="1"
@@ -96,8 +96,9 @@
         android:textStyle="bold"
         app:autoSizeMinTextSize="@dimen/_3ssp"
         app:autoSizeTextType="uniform"
-        app:backgroundTint="@color/blue"
-        app:layout_constraintEnd_toEndOf="@id/newOrdersTab"
+        app:backgroundTint="@color/errorColor"
+        app:layout_constraintEnd_toStartOf="@id/newCallsTab"
+        app:layout_constraintStart_toEndOf="@id/newOrdersTab"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="99" />
 
@@ -106,7 +107,6 @@
         android:layout_width="@dimen/_16sdp"
         android:layout_height="@dimen/_16sdp"
         android:layout_marginTop="@dimen/_4sdp"
-        android:layout_marginEnd="@dimen/_4sdp"
         android:background="@drawable/circle"
         android:gravity="center"
         android:maxLines="1"
@@ -115,7 +115,7 @@
         android:textStyle="bold"
         app:autoSizeMinTextSize="@dimen/_3ssp"
         app:autoSizeTextType="uniform"
-        app:backgroundTint="@color/blue"
+        app:backgroundTint="@color/errorColor"
         app:layout_constraintEnd_toEndOf="@id/newCallsTab"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="99" />
