@@ -10,7 +10,6 @@ import com.lacker.visitors.R
 import com.lacker.visitors.views.PortionView
 import kotlinx.android.synthetic.main.item_menu_item.*
 
-// TODO show blocked!
 fun getDomainMenuItemAdapter(
     onAddToOrder: (DomainMenuItem, DomainPortion) -> Unit,
     onAddToBasket: (DomainPortion) -> Unit,
