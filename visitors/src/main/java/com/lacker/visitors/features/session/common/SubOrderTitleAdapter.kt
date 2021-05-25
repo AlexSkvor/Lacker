@@ -19,9 +19,10 @@ fun getSubOrderTitleAdapter(
         else getString(R.string.no)
         drinksFlagText.text = getString(R.string.drinksImmediately, drinksText)
 
+        val time = item.dateTime
         val timeText = try {
-            if (item.dateTime.isToday()) item.dateTime?.format(userFormatterTimeWithoutSecs)
-            else item.dateTime?.format(userFormatterSpacesWithoutSecs)
+            if (time.isToday()) time?.format(userFormatterTimeWithoutSecs)
+            else time?.format(userFormatterSpacesWithoutSecs)
         } catch (t: Throwable) {
             null
         }

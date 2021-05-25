@@ -23,7 +23,7 @@ class CommentSingleItemBottomSheetDialogFragment : BottomSheetDialogFragment() {
             manager: FragmentManager,
             menuItem: DomainMenuItem,
             portionId: String,
-            onSubmitClick: (String, OrderInfo) -> Unit
+            onSubmitClick: (String, OrderInfo, Boolean) -> Unit
         ) = CommentSingleItemBottomSheetDialogFragment().apply {
             val portions = menuItem.portions.filter { it.id == portionId }
                 .map { it.copy(basketNumber = 1, orderedNumber = 0) }
@@ -36,7 +36,7 @@ class CommentSingleItemBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     private lateinit var menuItem: DomainMenuItem
     private lateinit var portionId: String
-    private lateinit var onSubmitClick: (String, OrderInfo) -> Unit
+    private lateinit var onSubmitClick: (String, OrderInfo, Boolean) -> Unit
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
@@ -64,7 +64,11 @@ class CommentSingleItemBottomSheetDialogFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         itemField.setupForMenuItem(0, menuItem, {}, {}, false)
         submitButton.setOnClickListener {
-            onSubmitClick(commentField.text?.toString().orEmpty(), OrderInfo(portionId, 1))
+            onSubmitClick(
+                commentField.text?.toString().orEmpty(),
+                OrderInfo(portionId, 1),
+                drinksAsapCheck.isChecked
+            )
             dismiss()
         }
     }
@@ -73,7 +77,7 @@ class CommentSingleItemBottomSheetDialogFragment : BottomSheetDialogFragment() {
 fun Fragment.orderSingleItem(
     menuItem: DomainMenuItem,
     portionId: String,
-    onSubmitClick: (String, OrderInfo) -> Unit
+    onSubmitClick: (String, OrderInfo, Boolean) -> Unit
 ) {
     requireActivity()
     CommentSingleItemBottomSheetDialogFragment.open(

@@ -11,7 +11,7 @@ data class SubOrder(
     @Json(name = "drinks_immediately") val drinksImmediately: Boolean = false,
     @Json(name = "portions") val portions: List<Portion>,
     @Json(name = "count") val totalPrice: Int,
-    @Json(name = "createdTimeStamp") val createdTimeStamp: OffsetDateTime?,
+    @Json(name = "create_time") val createdTimeStamp: OffsetDateTime?,
 ) {
     val orderList: List<OrderInfo>
         get() = portions.groupBy { it.id }

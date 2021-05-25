@@ -5,6 +5,7 @@ import android.view.View
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.ToJson
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalDateTime.ofInstant
 import java.time.OffsetDateTime
 import java.time.ZoneId
@@ -12,35 +13,41 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 private const val SERVER_DATE_FORMAT = "yyyy-MM-dd"
-val serverDateFormatter: DateTimeFormatter by lazy { DateTimeFormatter.ofPattern(SERVER_DATE_FORMAT) }
+val serverDateFormatter: DateTimeFormatter by lazy {
+    DateTimeFormatter.ofPattern(SERVER_DATE_FORMAT).withZone(ZoneId.systemDefault())
+}
 
 val serverFormatter: DateTimeFormatter by lazy { DateTimeFormatter.ISO_OFFSET_DATE_TIME }
 
 private const val USER_DATE_FORMAT = "dd/MM/yyyy"
-val userDateFormatter: DateTimeFormatter by lazy { DateTimeFormatter.ofPattern(USER_DATE_FORMAT) }
+val userDateFormatter: DateTimeFormatter by lazy {
+    DateTimeFormatter.ofPattern(USER_DATE_FORMAT).withZone(ZoneId.systemDefault())
+}
 
 private const val USER_FORMAT_WITHOUT_SECS = "$USER_DATE_FORMAT HH:mm"
 val userFormatterWithoutSecs: DateTimeFormatter by lazy {
-    DateTimeFormatter.ofPattern(USER_FORMAT_WITHOUT_SECS)
+    DateTimeFormatter.ofPattern(USER_FORMAT_WITHOUT_SECS).withZone(ZoneId.systemDefault())
 }
 
 private const val USER_DATE_FORMAT_SPACES = "dd MMM yyyy"
 val userDateFormatterSpaces: DateTimeFormatter by lazy {
-    DateTimeFormatter.ofPattern(USER_DATE_FORMAT_SPACES)
+    DateTimeFormatter.ofPattern(USER_DATE_FORMAT_SPACES).withZone(ZoneId.systemDefault())
 }
 
 private const val USER_FORMAT_SPACES_WITHOUT_SECS = "HH:mm $USER_DATE_FORMAT_SPACES"
 val userFormatterSpacesWithoutSecs: DateTimeFormatter by lazy {
-    DateTimeFormatter.ofPattern(USER_FORMAT_SPACES_WITHOUT_SECS)
+    DateTimeFormatter.ofPattern(USER_FORMAT_SPACES_WITHOUT_SECS).withZone(ZoneId.systemDefault())
 }
 
 private const val USER_FORMAT_TIME_WITHOUT_SECS = "HH:mm"
 val userFormatterTimeWithoutSecs: DateTimeFormatter by lazy {
-    DateTimeFormatter.ofPattern(USER_FORMAT_TIME_WITHOUT_SECS)
+    DateTimeFormatter.ofPattern(USER_FORMAT_TIME_WITHOUT_SECS).withZone(ZoneId.systemDefault())
 }
 
 private const val USER_TIME_FORMAT = "HH:mm:ss"
-val userTimeFormatter: DateTimeFormatter by lazy { DateTimeFormatter.ofPattern(USER_TIME_FORMAT) }
+val userTimeFormatter: DateTimeFormatter by lazy {
+    DateTimeFormatter.ofPattern(USER_TIME_FORMAT).withZone(ZoneId.systemDefault())
+}
 
 class DateTimeAdapter {
 
@@ -98,6 +105,12 @@ fun View.selectDateOnClick(
 }
 
 fun OffsetDateTime?.isToday(): Boolean {
+    return this?.let {
+        OffsetDateTime.now().toLocalDate().equals(it.toLocalDate())
+    } ?: false
+}
+
+fun LocalDateTime?.isToday(): Boolean {
     return this?.let {
         OffsetDateTime.now().toLocalDate().equals(it.toLocalDate())
     } ?: false

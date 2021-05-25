@@ -30,7 +30,11 @@ class DishDetailsMachine @Inject constructor(
     sealed class Wish {
         data class SetDish(val dish: DomainMenuItem) : Wish()
 
-        data class AddToOrder(val comment: String, val portion: OrderInfo) : Wish()
+        data class AddToOrder(
+            val comment: String,
+            val portion: OrderInfo,
+            val drinksAsap: Boolean,
+        ) : Wish()
 
         data class AddToBasket(val portion: DomainPortion) : Wish()
         data class RemoveFromBasket(val portion: DomainPortion) : Wish()
@@ -86,7 +90,7 @@ class DishDetailsMachine @Inject constructor(
         }
         is Wish.AddToOrder -> oldState.copy(loading = true).also {
             sendMessage(resourceProvider.getString(R.string.requestSent))
-            pushResult { addToOrder(wish.comment, wish.portion) }
+            pushResult { addToOrder(wish.comment, wish.portion, wish.drinksAsap) }
         }
         is Wish.SetDish -> oldState.copy(dish = wish.dish)
     }
@@ -154,7 +158,11 @@ class DishDetailsMachine @Inject constructor(
         }
     }
 
-    private suspend fun addToOrder(comment: String, info: OrderInfo): Result.OrderResult {
+    private suspend fun addToOrder(
+        comment: String,
+        info: OrderInfo,
+        drinksAsap: Boolean,
+    ): Result.OrderResult {
         /*val subOrder = SubOrder(
             comment = comment,
             drinksImmediately = true,

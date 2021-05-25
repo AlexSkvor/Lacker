@@ -42,13 +42,19 @@ class MenuMachine @Inject constructor(
     sealed class Wish {
         object Refresh : Wish()
 
-        data class AddToOrder(val comment: String, val portion: OrderInfo) : Wish()
+        data class AddToOrder(
+            val comment: String,
+            val portion: OrderInfo,
+            val drinksImmediately: Boolean,
+        ) : Wish()
+
         data class AddToBasket(val portion: DomainPortion) : Wish()
         data class AddToFavourite(val menuItemId: String) : Wish()
         data class RemoveFromBasket(val portion: DomainPortion) : Wish()
         data class RemoveFromFavourite(val menuItemId: String) : Wish()
 
         data class ChangeComment(val comment: String) : Wish()
+        data class DrinksImmediatelyChanged(val value: Boolean) : Wish()
 
         data class ChangeShowType(val type: State.Type) : Wish()
         object SendBasketToServer : Wish()
@@ -105,7 +111,7 @@ class MenuMachine @Inject constructor(
         val errorText: String? = null,
         val type: Type = Type.MENU,
         val comment: String = "",
-        val drinksImmediately: Boolean = false, // TODO use it on order dialog
+        val drinksImmediately: Boolean = false,
         val filter: MenuSearchFilter? = null,
     ) {
 
@@ -184,6 +190,7 @@ class MenuMachine @Inject constructor(
         }
         is Wish.SetFilter -> oldState.copy(filter = wish.filter)
             .recountMenuWithOrdersAndBasketAndFavouritesAndFilter()
+        is Wish.DrinksImmediatelyChanged -> oldState.copy(drinksImmediately = wish.value)
     }
 
     override fun onResult(res: Result, oldState: State): State = when (res) {
@@ -253,20 +260,22 @@ class MenuMachine @Inject constructor(
         val menuTmp = menuItems.map { it.toDomain(subOrders, basket, favourites) }
         val basketTmp = menuTmp.filter { it.portions.any { p -> p.basketNumber > 0 } }
             .let { if (it.isEmpty()) emptyList() else it.plus(startCookingItem) }
-        val orderTmp = subOrders.map { subOrder ->
-            val portionIds: List<String> = subOrder.orderList.map { p -> p.portionId }
-            val menuItemsFiltered = menuItems.filter {
-                it.portions.map { p -> p.id }.any { id -> id in portionIds }
-            }
-            val items = menuItemsFiltered.map { it.toDomain(listOf(subOrder), basket, favourites) }
-            listOf(
-                SubOrderTitle(
-                    dateTime = subOrder.createdTimeStamp,
-                    drinksImmediately = subOrder.drinksImmediately,
-                    comment = subOrder.comment
-                )
-            ) + items
-        }.flatten()
+        val orderTmp = subOrders.sortedByDescending { it.createdTimeStamp }
+            .map { subOrder ->
+                val portionIds: List<String> = subOrder.orderList.map { p -> p.portionId }
+                val menuItemsFiltered = menuItems.filter {
+                    it.portions.map { p -> p.id }.any { id -> id in portionIds }
+                }
+                val items =
+                    menuItemsFiltered.map { it.toDomain(listOf(subOrder), basket, favourites) }
+                listOf(
+                    SubOrderTitle(
+                        dateTime = subOrder.createdTimeStamp,
+                        drinksImmediately = subOrder.drinksImmediately,
+                        comment = subOrder.comment
+                    )
+                ) + items
+            }.flatten()
 
         val menuFilteredToShow = when {
             filter == null -> menuTmp

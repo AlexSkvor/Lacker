@@ -22,18 +22,21 @@ import kotlinx.android.synthetic.main.bottom_sheet_fragment_comment_before_order
 
 class CommentBeforeOrderBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
-    fun render(items: List<DomainMenuItem>, commentText: String) {
+    fun render(items: List<DomainMenuItem>, commentText: String, drinksImmediately: Boolean) {
         lastStateItems = items
         lastStateCommentText = commentText
+        lastStateDrinksImmediately = drinksImmediately
         renderItems(items)
-        val sum = items.sumBy { it.portions.sumBy { p -> p.basketNumber } }
+        val sum = items.sumOf { it.portions.sumOf { p -> p.basketNumber } }
         commentTitle?.text = getString(R.string.youHaveChosenDishes, sum)
         commentField?.setTextIfNotEquals(commentText)
+        drinksAsapCheck?.isChecked = drinksImmediately
         if (items.isEmpty() && isAdded) dismiss()
     }
 
     private var lastStateItems: List<DomainMenuItem>? = null
     private var lastStateCommentText: String? = null
+    private var lastStateDrinksImmediately: Boolean? = null
 
     private fun renderItems(items: List<DomainMenuItem>) {
         val ctx = context ?: return
@@ -61,6 +64,7 @@ class CommentBeforeOrderBottomSheetDialogFragment : BottomSheetDialogFragment() 
     var addToBasketListener: ((DomainPortion) -> Unit)? = null
     var removeFromBasketListener: ((DomainPortion) -> Unit)? = null
     var commentListener: ((String) -> Unit)? = null
+    var drinksImmediatelyListener: ((Boolean) -> Unit)? = null
     var submitListener: (() -> Unit)? = null
     var onDismissListener: (() -> Unit)? = null
 
@@ -90,9 +94,13 @@ class CommentBeforeOrderBottomSheetDialogFragment : BottomSheetDialogFragment() 
         super.onViewCreated(view, savedInstanceState)
         commentField.doAfterTextChanged { commentListener?.invoke(it?.toString().orEmpty()) }
         submitButton.setOnClickListener { submitListener?.invoke() }
+        drinksAsapCheck.setOnCheckedChangeListener { _, value ->
+            drinksImmediatelyListener?.invoke(value)
+        }
         val lastComment = lastStateCommentText ?: return
         val lastItems = lastStateItems ?: return
-        render(lastItems, lastComment)
+        val lastDrinks = lastStateDrinksImmediately ?: return
+        render(lastItems, lastComment, lastDrinks)
     }
 
     override fun onDestroy() {

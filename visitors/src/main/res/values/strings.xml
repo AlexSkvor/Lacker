@@ -26,6 +26,7 @@
     <string name="noComment">You left no comment</string>
     <string name="yourComment">Your comment: %s</string>
     <string name="drinksImmediately">Drinks asap: %s</string>
+    <string name="justDrinksImmediately">Drinks asap</string>
     <string name="requestSent">Request sent</string>
     <string name="orderImmediately">Order immediately</string>
 

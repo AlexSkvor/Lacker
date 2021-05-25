@@ -20,7 +20,6 @@ import com.lacker.visitors.features.session.menu.MenuMachine.State
 import com.lacker.visitors.views.asDomain
 import com.lacker.visitors.views.asUi
 import kotlinx.android.synthetic.main.fragment_menu.*
-import java.util.*
 
 class MenuFragment : ToolbarFluxFragment<Wish, State>() {
 
@@ -33,7 +32,7 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
             title = currentTitle,
             subtitle = null,
             showBackIcon = false,
-            menuResId = currentMenu // TODO filters as right-side NavigationDrawer
+            menuResId = currentMenu
         )
 
     private val currentMenu: Int
@@ -61,12 +60,14 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
                     addToBasketListener = ::onAddPortionToBasket
                     removeFromBasketListener = ::onRemovePortionFromBasket
                     commentListener = { performWish(Wish.ChangeComment(it)) }
+                    drinksImmediatelyListener = { performWish(Wish.DrinksImmediatelyChanged(it)) }
                     submitListener = { performWish(Wish.SendBasketToServer) }
                     onDismissListener = { commentFragment = null }
                     val state = machine.states().value
                     render(
                         state.basketShowList.orEmpty().filterIsInstance<DomainMenuItem>(),
-                        state.comment
+                        state.comment,
+                        state.drinksImmediately,
                     )
                 }
     }
@@ -87,8 +88,8 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
 
     private fun onAddPortionToOrderClick(item: DomainMenuItem, portion: DomainPortion) {
         withAuthCheck(false, R.string.orderCreationAuthReason) {
-            orderSingleItem(item, portion.id) { comment, info ->
-                performWish(Wish.AddToOrder(comment, info))
+            orderSingleItem(item, portion.id) { comment, info, drinksAsap ->
+                performWish(Wish.AddToOrder(comment, info, drinksAsap))
             }
         }
     }
@@ -206,7 +207,7 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
         menuNavigationBar.setState(state.type.asUi())
 
         menuNavigationBar.setFavouriteBadge(state.favourites.orEmpty().size)
-        menuNavigationBar.setBasketBadge(state.basket.orEmpty().sumBy { it.ordered })
+        menuNavigationBar.setBasketBadge(state.basket.orEmpty().sumOf { it.ordered })
         menuNavigationBar.setOrderBadge(
             state.subOrders.orEmpty()
                 .map { it.orderList }
@@ -218,7 +219,7 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
 
         menuErrorPlaceholder.errorText = state.errorText
 
-        menuProgressPlaceholder.cookingThingText = currentTitle.toLowerCase(Locale.getDefault())
+        menuProgressPlaceholder.cookingThingText = currentTitle.lowercase()
 
         menuSwipeRefresh.isEnabled = !state.empty
         menuSwipeRefresh.isRefreshing = state.showLoading
@@ -237,7 +238,8 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
 
         commentFragment?.render(
             state.basketShowList.orEmpty().filterIsInstance<DomainMenuItem>(),
-            state.comment
+            state.comment,
+            state.drinksImmediately,
         )
     }
 

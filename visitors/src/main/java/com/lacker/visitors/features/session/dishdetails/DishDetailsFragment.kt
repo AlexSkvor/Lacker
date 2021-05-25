@@ -42,8 +42,8 @@ class DishDetailsFragment : ToolbarFluxFragment<Wish, State>() {
 
     private fun onAddPortionToOrderClick(item: DomainMenuItem, portion: DomainPortion) {
         withAuthCheck(false, R.string.orderCreationAuthReason) {
-            orderSingleItem(item, portion.id) { comment, info ->
-                performWish(Wish.AddToOrder(comment, info))
+            orderSingleItem(item, portion.id) { comment, info, drinksAsap ->
+                performWish(Wish.AddToOrder(comment, info, drinksAsap))
             }
         }
     }

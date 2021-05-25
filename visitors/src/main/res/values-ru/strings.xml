@@ -27,6 +27,7 @@
     <string name="noComment">Вы не оставили комментарий</string>
     <string name="yourComment">Ваш комментарий: %s</string>
     <string name="drinksImmediately">Напитки сразу: %s</string>
+    <string name="justDrinksImmediately">Напитки сразу</string>
     <string name="requestSent">Запрос отправлен</string>
     <string name="orderImmediately">Быстрый заказ</string>
 
