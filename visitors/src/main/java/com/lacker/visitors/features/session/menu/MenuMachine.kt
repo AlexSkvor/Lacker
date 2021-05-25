@@ -199,11 +199,9 @@ class MenuMachine @Inject constructor(
         is Wish.SetFilter -> oldState.copy(filter = wish.filter)
             .recountMenuWithOrdersAndBasketAndFavouritesAndFilter()
         is Wish.DrinksImmediatelyChanged -> oldState.copy(drinksImmediately = wish.value)
-        Wish.CloseOrder -> if (oldState.order?.status == "PAID") oldState.also {
-            orderStorage.orderId = null
-            router.newRootScreen(Screens.ScanScreen)
-        } else oldState.also {
-            pushResult { closeOrder(it.order?.id) }
+        Wish.CloseOrder -> {
+            if (oldState.order?.status == "PAID") oldState.also { onOrderClosed() }
+            else oldState.also { pushResult { closeOrder(it.order?.id) } }
         }
     }
 
@@ -258,10 +256,7 @@ class MenuMachine @Inject constructor(
             sendMessage(res.text)
         }
         is Result.CloseOrder.Error -> oldState.also { sendMessage(res.text) }
-        Result.CloseOrder.Success -> oldState.also {
-            orderStorage.orderId = null
-            router.newRootScreen(Screens.ScanScreen)
-        }
+        Result.CloseOrder.Success -> oldState.also { onOrderClosed() }
     }
 
     private val startCookingItem by lazy {
@@ -451,6 +446,12 @@ class MenuMachine @Inject constructor(
             is ApiCallResult.Result -> Result.CloseOrder.Success
             is ApiCallResult.ErrorOccurred -> Result.CloseOrder.Error(res.text)
         }
+    }
+
+    private fun onOrderClosed() {
+        orderStorage.orderId = null
+        basketManager.clearBasket()
+        router.newRootScreen(Screens.ScanScreen)
     }
 
     private var lastClickTime: Long? = null

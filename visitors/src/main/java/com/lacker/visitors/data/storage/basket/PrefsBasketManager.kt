@@ -28,7 +28,7 @@ class PrefsBasketManager @Inject constructor(
             .build()
     }
 
-    override suspend fun clearBasket(): ApiCallResult<List<OrderInfo>> {
+    override fun clearBasket(): ApiCallResult<List<OrderInfo>> {
         restaurantId = null
         basket = emptyList()
         return ApiCallResult.Result(basket)

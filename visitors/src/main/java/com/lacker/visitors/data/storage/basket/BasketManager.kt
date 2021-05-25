@@ -9,7 +9,7 @@ interface BasketManager {
         const val MAX_BASKET_SIZE_FOR_ONE_MENU_ITEM = 99
     }
 
-    suspend fun clearBasket(): ApiCallResult<List<OrderInfo>>
+    fun clearBasket(): ApiCallResult<List<OrderInfo>>
 
     suspend fun addToBasket(
         restaurantId: String,
