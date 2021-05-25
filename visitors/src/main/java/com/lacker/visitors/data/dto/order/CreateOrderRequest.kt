@@ -5,5 +5,6 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class CreateOrderRequest(
-    @Json(name = "restaurant") val restaurantId: String,
+    @Json(name = "table") val tableId: String,
+    @Json(name = "sub_order") val subOrder: AddSuborderRequest,
 )

@@ -377,13 +377,14 @@ class MenuMachine @Inject constructor(
             portions = basket.map { dish -> List(dish.ordered) { dish.portionId } }.flatten()
         )
 
-        val checkedOrderId = orderId
-            ?: when (val res = net.callResult { createOrder(CreateOrderRequest(restaurantId)) }) {
-                is ApiCallResult.Result -> res.value.order.id
-                is ApiCallResult.ErrorOccurred -> return error.copy(text = res.text)
-            }
+        if (orderId == null) return when (
+            val res = net.callResult { createOrder(CreateOrderRequest(tableId, request)) }
+        ) {
+            is ApiCallResult.Result -> Result.OrderResult.OrderLoaded(res.value.order)
+            is ApiCallResult.ErrorOccurred -> error.copy(text = res.text)
+        }
 
-        return when (val res = net.callResult { addToCurrentOrder(checkedOrderId, request) }) {
+        return when (val res = net.callResult { addToCurrentOrder(orderId, request) }) {
             is ApiCallResult.Result -> Result.OrderResult.OrderLoaded(res.value.order)
             is ApiCallResult.ErrorOccurred -> error.copy(text = res.text)
         }
@@ -402,13 +403,14 @@ class MenuMachine @Inject constructor(
             portions = List(order.ordered) { order.portionId }
         )
 
-        val checkedOrderId = orderId
-            ?: when (val res = net.callResult { createOrder(CreateOrderRequest(restaurantId)) }) {
-                is ApiCallResult.Result -> res.value.order.id
-                is ApiCallResult.ErrorOccurred -> return error.copy(text = res.text)
-            }
+        if (orderId == null) return when (
+            val res = net.callResult { createOrder(CreateOrderRequest(tableId, request)) }
+        ) {
+            is ApiCallResult.Result -> Result.OrderResult.OrderLoaded(res.value.order)
+            is ApiCallResult.ErrorOccurred -> error.copy(text = res.text)
+        }
 
-        return when (val res = net.callResult { addToCurrentOrder(checkedOrderId, request) }) {
+        return when (val res = net.callResult { addToCurrentOrder(orderId, request) }) {
             is ApiCallResult.Result -> Result.OrderResult.OrderLoaded(res.value.order)
             is ApiCallResult.ErrorOccurred -> error.copy(text = res.text)
         }
