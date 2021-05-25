@@ -1,13 +1,17 @@
 package com.lacker.visitors.features.session.dishdetails
 
+import com.lacker.dto.order.Order
 import com.lacker.dto.order.OrderInfo
 import com.lacker.utils.exceptions.ImpossibleSituationException
 import com.lacker.utils.resources.ResourceProvider
 import com.lacker.visitors.R
 import com.lacker.visitors.data.api.ApiCallResult
 import com.lacker.visitors.data.api.NetworkManager
+import com.lacker.visitors.data.dto.order.AddSuborderRequest
+import com.lacker.visitors.data.dto.order.CreateOrderRequest
 import com.lacker.visitors.data.storage.basket.BasketManager
 import com.lacker.visitors.data.storage.favourite.FavouritesManager
+import com.lacker.visitors.data.storage.order.OrderStorage
 import com.lacker.visitors.data.storage.session.SessionStorage
 import com.lacker.visitors.features.session.common.DomainMenuItem
 import com.lacker.visitors.features.session.common.DomainPortion
@@ -24,11 +28,12 @@ class DishDetailsMachine @Inject constructor(
     private val favouritesManager: FavouritesManager,
     private val resourceProvider: ResourceProvider,
     private val router: Router,
-    private val net: NetworkManager
+    private val net: NetworkManager,
+    private val orderStorage: OrderStorage,
 ) : Machine<Wish, Result, State>() {
 
     sealed class Wish {
-        data class SetDish(val dish: DomainMenuItem) : Wish()
+        data class SetDishAndOrderId(val dish: DomainMenuItem, val orderId: String) : Wish()
 
         data class AddToOrder(
             val comment: String,
@@ -63,6 +68,7 @@ class DishDetailsMachine @Inject constructor(
     data class State(
         val loading: Boolean = false,
         val dish: DomainMenuItem? = null,
+        val orderId: String? = null,
     )
 
     override val initialState: State = State()
@@ -90,9 +96,9 @@ class DishDetailsMachine @Inject constructor(
         }
         is Wish.AddToOrder -> oldState.copy(loading = true).also {
             sendMessage(resourceProvider.getString(R.string.requestSent))
-            pushResult { addToOrder(wish.comment, wish.portion, wish.drinksAsap) }
+            pushResult { addToOrder(wish.comment, wish.portion, wish.drinksAsap, it.orderId) }
         }
-        is Wish.SetDish -> oldState.copy(dish = wish.dish)
+        is Wish.SetDishAndOrderId -> oldState.copy(dish = wish.dish, orderId = wish.orderId)
     }
 
     override fun onResult(res: Result, oldState: State): State = when (res) {
@@ -160,32 +166,39 @@ class DishDetailsMachine @Inject constructor(
 
     private suspend fun addToOrder(
         comment: String,
-        info: OrderInfo,
+        order: OrderInfo,
         drinksAsap: Boolean,
+        orderId: String?,
     ): Result.OrderResult {
-        /*val subOrder = SubOrder(
+        val request = AddSuborderRequest(
             comment = comment,
-            drinksImmediately = true,
-            orderList = listOf(info),
-            createdTimeStamp = OffsetDateTime.now()
+            drinksImmediately = drinksAsap,
+            portions = List(order.ordered) { order.portionId }
         )
 
-        val possiblePortionIds = states().value.dish?.portions?.map { it.id }.orEmpty()
-        val res = net.callResult { addToCurrentOrder(restaurantId, tableId, subOrder) }
-        return when (res) {
-            is ApiCallResult.Result -> {
-                val map = mutableMapOf<String, Int>()
-                res.value.order?.subOrders.orEmpty()
-                    .map { it.orderList }.flatten()
-                    .filter { it.portionId in possiblePortionIds }
-                    .forEach {
-                        map[it.portionId] = map.getOrDefault(it.portionId, 0) + it.ordered
-                    }
-                Result.OrderResult.OrderLoaded(map)
-            }
+        if (orderId == null || orderId.isEmpty()) return when (
+            val res = net.callResult { createOrder(CreateOrderRequest(tableId, request)) }
+        ) {
+            is ApiCallResult.Result -> Result.OrderResult.OrderLoaded(res.value.order.orderedNumber())
             is ApiCallResult.ErrorOccurred -> Result.OrderResult.Error(res.text)
-        }*/
-        TODO("Pass orderId with screen args!")
+        }
+
+        return when (val res = net.callResult { addToCurrentOrder(orderId, request) }) {
+            is ApiCallResult.Result -> Result.OrderResult.OrderLoaded(res.value.order.orderedNumber())
+            is ApiCallResult.ErrorOccurred -> Result.OrderResult.Error(res.text)
+        }
+    }
+
+    private fun Order.orderedNumber(): Map<String, Int> {
+        orderStorage.orderId = id
+        val map = mutableMapOf<String, Int>()
+        val possiblePortionIds = states().value.dish?.portions?.map { it.id }.orEmpty()
+        subOrders.map { it.orderList }.flatten()
+            .filter { it.portionId in possiblePortionIds }
+            .forEach {
+                map[it.portionId] = map.getOrDefault(it.portionId, 0) + it.ordered
+            }
+        return map
     }
 
     override fun onBackPressed() {

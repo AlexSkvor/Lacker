@@ -165,6 +165,7 @@ class MenuMachine @Inject constructor(
             pushResult {
                 sendSinglePortionOrderToServer(
                     wish.comment,
+                    wish.drinksImmediately,
                     wish.portion,
                     oldState.order?.id,
                 )
@@ -193,7 +194,7 @@ class MenuMachine @Inject constructor(
         }
         is Wish.ChangeComment -> oldState.copy(comment = wish.comment)
         is Wish.ShowDishDetails -> oldState.also {
-            router.navigateTo(Screens.DishDetailsScreen(wish.dish))
+            router.navigateTo(Screens.DishDetailsScreen(wish.dish, it.order?.id))
         }
         is Wish.SetFilter -> oldState.copy(filter = wish.filter)
             .recountMenuWithOrdersAndBasketAndFavouritesAndFilter()
@@ -419,6 +420,7 @@ class MenuMachine @Inject constructor(
 
     private suspend fun sendSinglePortionOrderToServer(
         comment: String,
+        drinksImmediately: Boolean,
         order: OrderInfo,
         orderId: String?,
     ): Result.OrderResult {
@@ -426,7 +428,7 @@ class MenuMachine @Inject constructor(
 
         val request = AddSuborderRequest(
             comment = comment,
-            drinksImmediately = true,
+            drinksImmediately = drinksImmediately,
             portions = List(order.ordered) { order.portionId }
         )
 

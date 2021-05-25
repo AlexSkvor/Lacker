@@ -32,7 +32,10 @@ object Screens {
         override fun getFragment(): Fragment = AboutFragment.newInstance()
     }
 
-    data class DishDetailsScreen(val dish: DomainMenuItem) : SupportAppScreen() {
-        override fun getFragment(): Fragment = DishDetailsFragment.newInstance(dish)
+    data class DishDetailsScreen(
+        val dish: DomainMenuItem,
+        val orderId: String?
+    ) : SupportAppScreen() {
+        override fun getFragment(): Fragment = DishDetailsFragment.newInstance(dish, orderId)
     }
 }

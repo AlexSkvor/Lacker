@@ -1,13 +1,10 @@
 package com.lacker.visitors.features.session.dishdetails
 
-import com.lacker.utils.extensions.getArgument
-import com.lacker.utils.extensions.visible
-import com.lacker.utils.extensions.withArguments
 import com.lacker.visitors.R
 import com.lacker.visitors.features.auth.bottomdialog.withAuthCheck
 import com.lacker.utils.base.ToolbarFluxFragment
 import com.lacker.utils.base.ToolbarFragmentSettings
-import com.lacker.utils.extensions.disableBlinking
+import com.lacker.utils.extensions.*
 import com.lacker.visitors.features.session.comment.orderSingleItem
 import com.lacker.visitors.features.session.common.DomainMenuItem
 import com.lacker.visitors.features.session.common.DomainPortion
@@ -19,10 +16,14 @@ import kotlinx.android.synthetic.main.fragment_dish_details.*
 class DishDetailsFragment : ToolbarFluxFragment<Wish, State>() {
 
     companion object {
-        fun newInstance(dish: DomainMenuItem) = DishDetailsFragment()
-            .withArguments(DISH_KEY to dish)
+        fun newInstance(dish: DomainMenuItem, orderId: String?) = DishDetailsFragment()
+            .withArguments(
+                DISH_KEY to dish,
+                ORDER_ID_KEY to orderId.orEmpty(),
+            )
 
         private const val DISH_KEY = "DishDetailsFragment DISH_KEY"
+        private const val ORDER_ID_KEY = "DishDetailsFragment ORDER_ID_KEY"
     }
 
     override fun layoutRes(): Int = R.layout.fragment_dish_details
@@ -30,6 +31,7 @@ class DishDetailsFragment : ToolbarFluxFragment<Wish, State>() {
     override val machine by lazy { getMachineFromFactory(DishDetailsMachine::class.java) }
 
     private val dish: DomainMenuItem by lazy { getArgument(DISH_KEY) }
+    private val orderId: String by lazy { getArgument(ORDER_ID_KEY) }
 
     private val adapter by lazy {
         getOnlyDishDetailsAdapter(
@@ -73,7 +75,7 @@ class DishDetailsFragment : ToolbarFluxFragment<Wish, State>() {
     override fun onScreenInit() {
         dishDetailsRecycler.adapter = adapter
         dishDetailsRecycler.disableBlinking()
-        performWish(Wish.SetDish(dish))
+        performWish(Wish.SetDishAndOrderId(dish, orderId))
     }
 
     override fun render(state: State) {
