@@ -1,9 +1,9 @@
 package com.lacker.visitors.data.storage.favourite
 
+import com.lacker.dto.files.FilesManager
 import com.lacker.utils.resources.ResourceProvider
 import com.lacker.visitors.R
 import com.lacker.visitors.data.api.ApiCallResult
-import com.lacker.visitors.data.storage.files.FilesManager
 import javax.inject.Inject
 
 class FileFavouritesManager @Inject constructor(

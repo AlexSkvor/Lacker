@@ -1,12 +1,12 @@
 package com.lacker.visitors.data.storage.menu
 
+import com.lacker.dto.files.FilesManager
 import com.lacker.dto.menu.Menu
 import com.lacker.dto.menu.MenuItem
 import com.lacker.utils.resources.ResourceProvider
 import com.lacker.visitors.R
 import com.lacker.visitors.data.api.ApiCallResult
 import com.lacker.visitors.data.api.NetworkManager
-import com.lacker.visitors.data.storage.files.FilesManager
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock

@@ -1,6 +1,7 @@
 package com.lacker.visitors.di
 
 import android.content.Context
+import com.lacker.dto.files.FilesManager
 import com.lacker.dto.jsonadapters.AppealTypeJsonAdapter
 import com.lacker.dto.jsonadapters.DishTagJsonAdapter
 import com.squareup.moshi.Moshi
@@ -27,4 +28,8 @@ class UtilsModule {
         .add(DishTagJsonAdapter())
         .add(AppealTypeJsonAdapter())
         .build()
+
+    @Singleton
+    @Provides
+    fun provideFilesManager(context: Context) = FilesManager(context)
 }

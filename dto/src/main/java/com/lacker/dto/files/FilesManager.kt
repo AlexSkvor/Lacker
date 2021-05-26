@@ -1,10 +1,9 @@
-package com.lacker.visitors.data.storage.files
+package com.lacker.dto.files
 
 import android.content.Context
 import java.io.File
-import javax.inject.Inject
 
-class FilesManager @Inject constructor(
+class FilesManager constructor(
     private val context: Context
 ) {
 
