@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.lacker.dto.appeal.AppealType
 import com.lacker.utils.extensions.gone
 import com.lacker.utils.extensions.visible
 import com.lacker.visitors.R
@@ -36,13 +37,13 @@ class CallStaffBottomFragment : BottomSheetDialogFragment(), CallStaffView {
         presenter.bindView(this)
         val view = inflater.inflate(R.layout.bottom_sheet_fragment_call_staff, container, false)
         view.bankCardPaymentButton.setOnClickListener {
-            presenter.callFor(CallStaffPresenter.CallStaffType.PAYMENT_BANK)
+            presenter.callFor(AppealType.PAYMENT_BANK)
         }
         view.cashPaymentButton.setOnClickListener {
-            presenter.callFor(CallStaffPresenter.CallStaffType.PAYMENT_CASH)
+            presenter.callFor(AppealType.PAYMENT_CASH)
         }
         view.consultationButton.setOnClickListener {
-            presenter.callFor(CallStaffPresenter.CallStaffType.CONSULTATION)
+            presenter.callFor(AppealType.CONSULTATION)
         }
         return view
     }

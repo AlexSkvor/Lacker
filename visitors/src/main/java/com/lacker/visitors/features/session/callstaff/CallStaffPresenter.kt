@@ -1,24 +1,24 @@
 package com.lacker.visitors.features.session.callstaff
 
+import com.lacker.dto.appeal.AppealType
 import com.lacker.utils.base.BaseMvpPresenter
 import com.lacker.utils.resources.ResourceProvider
 import com.lacker.visitors.R
 import com.lacker.visitors.data.api.ApiCallResult
 import com.lacker.visitors.data.api.NetworkManager
+import com.lacker.visitors.data.dto.appeal.CreateAppealRequest
 import com.lacker.visitors.data.storage.session.SessionStorage
-import com.lacker.visitors.data.storage.user.UserStorage
 import javax.inject.Inject
 
 class CallStaffPresenter @Inject constructor(
     private val net: NetworkManager,
-    private val userStorage: UserStorage,
     private val sessionStorage: SessionStorage,
     private val resourceProvider: ResourceProvider
 ) : BaseMvpPresenter<CallStaffView>() {
 
     private var taskExecuting: Boolean = false
 
-    fun callFor(type: CallStaffType) {
+    fun callFor(type: AppealType) {
         val session = sessionStorage.session
             ?: return view.showError(resourceProvider.getString(R.string.shouldSelectRestaurantBeforeCallStaff))
 
@@ -27,10 +27,13 @@ class CallStaffPresenter @Inject constructor(
 
         view.showProgress()
 
+        val request = CreateAppealRequest(
+            tableId = session.tableId,
+            target = type,
+        )
+
         launchIo {
-            val res = net.callResult {
-                callStaff(session.restaurantId, type.apiName, session.tableId)
-            }
+            val res = net.callResult { callStaff(request) }
 
             launchUi {
                 when (res) {
@@ -42,10 +45,4 @@ class CallStaffPresenter @Inject constructor(
         }
     }
 
-
-    enum class CallStaffType(val apiName: String) {
-        PAYMENT_BANK("bank_payment"),
-        PAYMENT_CASH("cash_payment"),
-        CONSULTATION("consultation")
-    }
 }

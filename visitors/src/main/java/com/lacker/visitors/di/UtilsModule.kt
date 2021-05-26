@@ -1,6 +1,7 @@
 package com.lacker.visitors.di
 
 import android.content.Context
+import com.lacker.dto.jsonadapters.AppealTypeJsonAdapter
 import com.lacker.dto.jsonadapters.DishTagJsonAdapter
 import com.squareup.moshi.Moshi
 import dagger.Module
@@ -24,5 +25,6 @@ class UtilsModule {
         .add(DateTimeAdapter())
         .add(DateAdapter())
         .add(DishTagJsonAdapter())
+        .add(AppealTypeJsonAdapter())
         .build()
 }

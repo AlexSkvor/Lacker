@@ -4,6 +4,7 @@ import com.lacker.dto.common.DateTimeResponse
 import com.lacker.dto.menu.MenuResponse
 import com.lacker.dto.order.CloseOrderBody
 import com.lacker.utils.api.auth.AuthHeaderInterceptor
+import com.lacker.visitors.data.dto.appeal.CreateAppealRequest
 import com.lacker.visitors.data.dto.auth.LoginResponse
 import com.lacker.visitors.data.dto.auth.GoogleAuthData
 import com.lacker.visitors.data.dto.order.AddSuborderRequest
@@ -35,12 +36,10 @@ interface Api {
         @Path("restaurantId") restaurantId: String,
     ): TablesOfRestaurantResponse
 
-    // TODO also use auth token later
-    @POST("restaurants/{restaurantId}/callStaff/{type}")
+    @Headers(AuthHeaderInterceptor.REQUIRES_AUTH)
+    @POST("api/me/make_appeal")
     suspend fun callStaff(
-        @Path("restaurantId") restaurantId: String,
-        @Query("type") type: String,
-        @Query("tableId") tableId: String
+        @Body request: CreateAppealRequest,
     )
 
     @Headers(AuthHeaderInterceptor.REQUIRES_AUTH)
