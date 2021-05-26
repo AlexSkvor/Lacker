@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.lacker.staff.features.auth.AuthMachine
 import com.lacker.staff.features.orders.TasksMachine
 import com.lacker.staff.features.profile.ProfileMachine
+import com.lacker.staff.features.suborder.SuborderMachine
 import dagger.Binds
 import dagger.MapKey
 import dagger.Module
@@ -36,6 +37,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(TasksMachine::class)
     internal abstract fun bindTasksMachine(viewModel: TasksMachine): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SuborderMachine::class)
+    internal abstract fun bindSuborderMachine(viewModel: SuborderMachine): ViewModel
 
     @Binds
     @IntoMap

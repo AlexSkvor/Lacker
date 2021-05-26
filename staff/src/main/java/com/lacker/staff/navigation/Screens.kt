@@ -5,6 +5,7 @@ import com.lacker.staff.data.dto.orders.SubOrderListItem
 import com.lacker.staff.features.auth.AuthFragment
 import com.lacker.staff.features.orders.TasksFragment
 import com.lacker.staff.features.profile.ProfileFragment
+import com.lacker.staff.features.suborder.SuborderFragment
 import ru.terrakok.cicerone.android.support.SupportAppScreen
 
 object Screens {
@@ -22,7 +23,7 @@ object Screens {
     }
 
     data class SuborderScreen(val subOrder: SubOrderListItem) : SupportAppScreen() {
-        override fun getFragment(): Fragment = TODO()
+        override fun getFragment(): Fragment = SuborderFragment.newInstance(subOrder)
     }
 
 }

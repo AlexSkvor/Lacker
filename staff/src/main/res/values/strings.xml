@@ -34,4 +34,7 @@
     <string name="accept">Accept</string>
     <string name="couldNotAcceptSuborder">Could not accept suborder</string>
 
+    <!-- Suborder details -->
+    <string name="suborderDetailsTitle">Suborder</string>
+
 </resources>

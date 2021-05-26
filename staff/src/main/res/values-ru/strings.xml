@@ -35,4 +35,7 @@
     <string name="accept">Принять</string>
     <string name="couldNotAcceptSuborder">Не удалось принять подзаказ</string>
 
+    <!-- Suborder details -->
+    <string name="suborderDetailsTitle">Подзаказ</string>
+
 </resources>
