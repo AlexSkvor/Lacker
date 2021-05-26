@@ -409,7 +409,7 @@ class MenuMachine @Inject constructor(
 
         return when (val res = net.callResult { addToCurrentOrder(orderId, request) }) {
             is ApiCallResult.Result -> Result.OrderResult.OrderLoaded(res.value.order)
-            is ApiCallResult.ErrorOccurred -> error.copy(text = res.text)
+            is ApiCallResult.ErrorOccurred -> error.copy(text = resourceProvider.getString(R.string.orderClosed))
         }
     }
 
@@ -436,7 +436,7 @@ class MenuMachine @Inject constructor(
 
         return when (val res = net.callResult { addToCurrentOrder(orderId, request) }) {
             is ApiCallResult.Result -> Result.OrderResult.OrderLoaded(res.value.order)
-            is ApiCallResult.ErrorOccurred -> error.copy(text = res.text)
+            is ApiCallResult.ErrorOccurred -> error.copy(text = resourceProvider.getString(R.string.orderClosed))
         }
     }
 

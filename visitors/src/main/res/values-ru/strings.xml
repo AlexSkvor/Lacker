@@ -30,6 +30,7 @@
     <string name="justDrinksImmediately">Напитки сразу</string>
     <string name="requestSent">Запрос отправлен</string>
     <string name="orderImmediately">Быстрый заказ</string>
+    <string name="orderClosed">Заказ закрыт официантом</string>
 
     <!-- Call Staff Screen -->
     <string name="weWillNotifyStaff">Ваш запрос отправлен, ожидайте</string>

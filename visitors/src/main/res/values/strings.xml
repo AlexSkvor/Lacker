@@ -29,6 +29,7 @@
     <string name="justDrinksImmediately">Drinks asap</string>
     <string name="requestSent">Request sent</string>
     <string name="orderImmediately">Order immediately</string>
+    <string name="orderClosed">Order was closed by waiter</string>
 
     <!-- Call Staff Screen -->
     <string name="weWillNotifyStaff">Your request was accepted, please wait</string>

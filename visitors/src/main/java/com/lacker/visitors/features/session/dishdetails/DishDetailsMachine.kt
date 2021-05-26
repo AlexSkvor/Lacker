@@ -185,7 +185,7 @@ class DishDetailsMachine @Inject constructor(
 
         return when (val res = net.callResult { addToCurrentOrder(orderId, request) }) {
             is ApiCallResult.Result -> Result.OrderResult.OrderLoaded(res.value.order.orderedNumber())
-            is ApiCallResult.ErrorOccurred -> Result.OrderResult.Error(res.text)
+            is ApiCallResult.ErrorOccurred -> Result.OrderResult.Error(resourceProvider.getString(R.string.orderClosed))
         }
     }
 
