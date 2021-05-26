@@ -66,11 +66,11 @@ class TasksFragment : ToolbarFluxFragment<Wish, State>() {
     }
 
     private fun onViewSuborderClicked(subOrder: SubOrderListItem) {
-        subOrder.alsoPrintDebug("View suborder not implemented!")
+        performWish(Wish.ViewSuborder(subOrder))
     }
 
     private fun onAcceptSuborderClicked(subOrder: SubOrderListItem) {
-        subOrder.alsoPrintDebug("Accept suborder not implemented!")
+        performWish(Wish.AcceptSuborder(subOrder))
     }
 
     override fun onScreenInit() {

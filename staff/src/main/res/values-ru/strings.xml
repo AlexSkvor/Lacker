@@ -33,5 +33,6 @@
     <string name="dishNumber">Заказано порций: %d</string>
     <string name="view">Посмотреть</string>
     <string name="accept">Принять</string>
+    <string name="couldNotAcceptSuborder">Не удалось принять подзаказ</string>
 
 </resources>

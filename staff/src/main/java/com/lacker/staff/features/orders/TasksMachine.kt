@@ -33,11 +33,19 @@ class TasksMachine @Inject constructor(
     sealed class Wish {
         data class ChangeShowType(val type: State.Type) : Wish()
         data class PaginationAsk(val type: State.Type, val ask: Ask) : Wish()
+
+        data class ViewSuborder(val suborder: SubOrderListItem) : Wish()
+        data class AcceptSuborder(val suborder: SubOrderListItem) : Wish()
     }
 
     sealed class Result {
         data class ReceiveNewOrders(val receive: Receive<SubOrderListItem>) : Result()
         data class ReceiveOldOrders(val receive: Receive<SubOrderListItem>) : Result()
+
+        sealed class AcceptSuborder : Result() {
+            data class Success(val suborder: SubOrderListItem) : AcceptSuborder()
+            object Error : AcceptSuborder()
+        }
 
         object NeedAuth : Result()
     }
@@ -62,6 +70,10 @@ class TasksMachine @Inject constructor(
     override fun onWish(wish: Wish, oldState: State): State = when (wish) {
         is Wish.ChangeShowType -> oldState.copy(type = wish.type)
         is Wish.PaginationAsk -> onPaginationAsk(oldState, wish.type, wish.ask)
+        is Wish.AcceptSuborder -> oldState.also { pushResult { acceptSuborder(wish.suborder) } }
+        is Wish.ViewSuborder -> oldState.also {
+            router.navigateTo(Screens.SuborderScreen(wish.suborder))
+        }
     }
 
     private fun onPaginationAsk(oldState: State, type: State.Type, ask: Ask): State = when (type) {
@@ -91,6 +103,14 @@ class TasksMachine @Inject constructor(
                 error.defaultErrorMessage()?.let { sendMessage(it) }
             }
         )
+        is Result.AcceptSuborder.Success -> oldState.copy(
+            newOrders = oldState.newOrders.onAsk(Ask.Refresh) { pushResult { getNewOrders(it) } },
+            oldOrders = oldState.oldOrders.onAsk(Ask.Refresh) { pushResult { getOldOrders(it) } }
+        ).also { router.navigateTo(Screens.SuborderScreen(res.suborder)) }
+        Result.AcceptSuborder.Error -> oldState.copy(
+            newOrders = oldState.newOrders.onAsk(Ask.Refresh) { pushResult { getNewOrders(it) } },
+            oldOrders = oldState.oldOrders.onAsk(Ask.Refresh) { pushResult { getOldOrders(it) } }
+        ).also { sendMessage(resourceProvider.getString(R.string.couldNotAcceptSuborder)) }
     }
 
     private suspend fun getNewOrders(pageNumber: Int): Result {
@@ -111,6 +131,13 @@ class TasksMachine @Inject constructor(
             is ApiCallResult.ErrorOccurred -> Receive.PageError(res.text)
         }
         return Result.ReceiveOldOrders(receive)
+    }
+
+    private suspend fun acceptSuborder(suborder: SubOrderListItem): Result.AcceptSuborder {
+        return when (net.callResult { acceptSuborder(suborder.id) }) {
+            is ApiCallResult.Result -> Result.AcceptSuborder.Success(suborder)
+            is ApiCallResult.ErrorOccurred -> Result.AcceptSuborder.Error
+        }
     }
 
     private fun logOut() {

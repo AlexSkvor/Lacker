@@ -32,5 +32,6 @@
     <string name="dishNumber">Dish number: %d</string>
     <string name="view">View</string>
     <string name="accept">Accept</string>
+    <string name="couldNotAcceptSuborder">Could not accept suborder</string>
 
 </resources>

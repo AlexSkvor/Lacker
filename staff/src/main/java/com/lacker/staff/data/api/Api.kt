@@ -1,5 +1,6 @@
 package com.lacker.staff.data.api
 
+import com.lacker.dto.common.CheckRequest
 import com.lacker.dto.common.DateTimeResponse
 import com.lacker.dto.menu.MenuResponse
 import com.lacker.staff.data.dto.auth.AuthRequest
@@ -37,4 +38,11 @@ interface Api {
     suspend fun getOldOrders(
         @Path("restaurantId") restaurantId: String,
     ): SubOrdersListResponse
+
+    @Headers(AuthHeaderInterceptor.REQUIRES_AUTH)
+    @POST("api/{suborderId}")
+    suspend fun acceptSuborder(
+        @Path("suborderId") suborderId: String,
+        @Body checkRequest: CheckRequest = CheckRequest(),
+    )
 }
