@@ -34,7 +34,11 @@ private fun HttpException.logApiCallError(json: Moshi): ApiException? {
     val responseBodyRaw = response()?.errorBody()?.string()
 
     val userMessage = responseBodyRaw?.let {
-        json.adapter(ErrorResponse::class.java).fromJson(it)?.exception
+        try {
+            json.adapter(ErrorResponse::class.java).fromJson(it)?.exception
+        } catch (t: Throwable) {
+            return null
+        }
     }
 
     val responseBody = responseBodyRaw.orEmpty().formatJson()
