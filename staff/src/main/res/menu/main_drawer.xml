@@ -7,5 +7,9 @@
         <item
             android:id="@+id/navigateOrders"
             android:title="@string/tasksScreenTitle" />
+
+        <item
+            android:id="@+id/navigateMenu"
+            android:title="@string/menuTitle" />
     </group>
 </menu>

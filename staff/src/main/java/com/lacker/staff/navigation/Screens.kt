@@ -3,6 +3,7 @@ package com.lacker.staff.navigation
 import androidx.fragment.app.Fragment
 import com.lacker.staff.data.dto.orders.SubOrderListItem
 import com.lacker.staff.features.auth.AuthFragment
+import com.lacker.staff.features.menu.MenuFragment
 import com.lacker.staff.features.orders.TasksFragment
 import com.lacker.staff.features.profile.ProfileFragment
 import com.lacker.staff.features.suborder.SuborderFragment
@@ -20,6 +21,10 @@ object Screens {
 
     object ProfileScreen : SupportAppScreen() {
         override fun getFragment(): Fragment = ProfileFragment.newInstance()
+    }
+
+    object MenuScreen : SupportAppScreen() {
+        override fun getFragment(): Fragment = MenuFragment.newInstance()
     }
 
     data class SuborderScreen(val subOrder: SubOrderListItem) : SupportAppScreen() {

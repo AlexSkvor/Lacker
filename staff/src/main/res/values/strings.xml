@@ -37,4 +37,8 @@
     <!-- Suborder details -->
     <string name="suborderDetailsTitle">Suborder</string>
 
+    <!-- Menu -->
+    <string name="menuTitle">Menu</string>
+    <string name="orderedCount" translatable="false">X %d</string>
+
 </resources>

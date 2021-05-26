@@ -2,6 +2,8 @@ package com.lacker.staff.features.menu
 
 import com.lacker.dto.menu.MenuItem
 import com.lacker.staff.data.api.ApiCallResult
+import com.lacker.staff.data.dto.orders.Dish
+import com.lacker.staff.data.dto.orders.DomainPortion
 import com.lacker.staff.data.storage.menu.MenuManager
 import javax.inject.Inject
 import com.lacker.staff.features.menu.MenuMachine.Wish
@@ -14,6 +16,7 @@ import voodoo.rocks.paginator.reduce.PaginationList
 import voodoo.rocks.paginator.reduce.Receive
 import voodoo.rocks.paginator.reduce.defaultErrorMessage
 
+// TODO filters?
 class MenuMachine @Inject constructor(
     private val router: Router,
     private val menuManager: MenuManager,
@@ -24,11 +27,11 @@ class MenuMachine @Inject constructor(
     }
 
     sealed class Result {
-        data class ReceiveMenu(val receive: Receive<MenuItem>) : Result()
+        data class ReceiveMenu(val receive: Receive<Dish>) : Result()
     }
 
     data class State(
-        val menu: PaginationList<MenuItem> = PaginationList.EmptyProgress(),
+        val menu: PaginationList<Dish> = PaginationList.EmptyProgress(),
     )
 
     override val initialState: State = State()
@@ -49,11 +52,28 @@ class MenuMachine @Inject constructor(
         if (page > 1) return Result.ReceiveMenu(Receive.NewPage(page, emptyList()))
 
         val receive = when (val res = menuManager.getMenu()) {
-            is ApiCallResult.Result -> Receive.NewPage(page, res.value)
+            is ApiCallResult.Result -> Receive.NewPage(page, res.value.map { it.toDish() })
             is ApiCallResult.ErrorOccurred -> Receive.PageError(res.text)
         }
         return Result.ReceiveMenu(receive)
     }
+
+    private fun MenuItem.toDish() = Dish(
+        dishId = id,
+        dishName = name,
+        shortDescription = shortDescription,
+        photoFullUrl = photoFullUrl,
+        tags = tags,
+        stopped = stopped,
+        portions = portions.sortedBy { it.sort }.map {
+            DomainPortion(
+                id = it.id,
+                price = it.price,
+                portionName = it.portionName,
+                count = 0
+            )
+        },
+    )
 
     override fun onBackPressed() {
         router.exit()

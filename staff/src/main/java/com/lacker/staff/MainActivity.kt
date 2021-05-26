@@ -198,6 +198,7 @@ class MainActivity : AppCompatActivity(), ViewModelFactoryProvider, UserNotifier
         leftNavigation.setNavigationItemSelectedListener { item ->
             val nextScreen = when (item.itemId) {
                 R.id.navigateOrders -> defaultScreen
+                R.id.navigateMenu -> Screens.MenuScreen
                 else -> null
             }
             requireNotNull(nextScreen)

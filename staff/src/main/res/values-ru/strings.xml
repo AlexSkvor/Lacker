@@ -38,4 +38,7 @@
     <!-- Suborder details -->
     <string name="suborderDetailsTitle">Подзаказ</string>
 
+    <!-- Menu -->
+    <string name="menuTitle">Меню</string>
+
 </resources>
