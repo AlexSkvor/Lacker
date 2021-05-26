@@ -6,12 +6,10 @@ import com.lacker.dto.order.SubOrder
 import com.lacker.visitors.features.session.common.DomainPortion
 
 fun Portion.toDomain(
-    menuItemId: String,
     orders: List<SubOrder>,
     basket: List<OrderInfo>
 ) = DomainPortion(
     id = id,
-    menuItemId = menuItemId,
     price = price,
     portionName = portionName,
     basketNumber = basket.firstOrNull { it.portionId == id }?.ordered ?: 0,
