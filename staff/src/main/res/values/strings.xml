@@ -40,5 +40,6 @@
     <!-- Menu -->
     <string name="menuTitle">Menu</string>
     <string name="orderedCount" translatable="false">X %d</string>
+    <string name="stopped">Stopped</string>
 
 </resources>

@@ -40,5 +40,6 @@
 
     <!-- Menu -->
     <string name="menuTitle">Меню</string>
+    <string name="stopped">Стоп</string>
 
 </resources>

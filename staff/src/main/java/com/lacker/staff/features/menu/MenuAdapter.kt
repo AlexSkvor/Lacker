@@ -10,7 +10,6 @@ import com.lacker.utils.extensions.loadFromNet
 import com.lacker.utils.extensions.visible
 import kotlinx.android.synthetic.main.item_dish.*
 
-// TODO show stopped!
 fun dishAdapter(
     showNumber: Boolean,
     showEmptyPortions: Boolean,
@@ -18,6 +17,7 @@ fun dishAdapter(
 
     bind {
 
+        stoppedIndicator.visible = item.stopped
         menuItemPicture.loadFromNet(url = item.photoFullUrl)
         menuItemName.text = item.dishName
         menuItemDescription.text = item.shortDescription
