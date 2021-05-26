@@ -286,7 +286,7 @@ class MenuMachine @Inject constructor(
                     SubOrderTitle(
                         dateTime = subOrder.createdTimeStamp,
                         drinksImmediately = subOrder.drinksImmediately,
-                        comment = subOrder.comment
+                        comment = subOrder.comment.orEmpty(),
                     )
                 ) + items
             }.flatten()
