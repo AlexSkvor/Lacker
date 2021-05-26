@@ -16,10 +16,9 @@ fun orderAdapter(
 
     bind {
         val timeText = try {
-            if (item.createdDateTime.isToday()) item.createdDateTime.format(
-                userFormatterTimeWithoutSecs
-            )
-            else item.createdDateTime.format(userFormatterSpacesWithoutSecs)
+            if (item.createdDateTime.isToday()) item.createdDateTime
+                ?.format(userFormatterTimeWithoutSecs)
+            else item.createdDateTime?.format(userFormatterSpacesWithoutSecs)
         } catch (t: Throwable) {
             null
         }
@@ -37,12 +36,14 @@ fun orderAdapter(
         itemSuborderTable.text = itemSuborderTableText
             .withBold(itemSuborderTableRecolorPart)
 
-        val itemSuborderCommentText = getString(R.string.orderComment, item.comment)
-        val itemSuborderCommentRecolorPart = itemSuborderCommentText.substringBefore(item.comment)
+        val commentText = if (item.comment.isBlank()) getString(R.string.orderNoComment)
+        else item.comment
+        val itemSuborderCommentText = getString(R.string.orderComment, commentText)
+        val itemSuborderCommentRecolorPart = itemSuborderCommentText.substringBefore(commentText)
         itemSuborderComment.text = itemSuborderCommentText
             .withBold(itemSuborderCommentRecolorPart)
 
-        val dishNumber = item.orderList.sumBy { it.portions.sumBy { p -> p.count } }
+        val dishNumber = item.orderList.sumOf { it.portions.sumOf { p -> p.count } }
         val itemSuborderDishNumberText = getString(R.string.dishNumber, dishNumber)
         val itemSuborderDishNumberRecolorPart = itemSuborderDishNumberText
             .substringBefore(dishNumber.toString())

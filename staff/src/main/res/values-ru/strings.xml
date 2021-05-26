@@ -29,6 +29,7 @@
     <string name="client">Клиент: %s</string>
     <string name="table">Стол: %s</string>
     <string name="orderComment">Комментарий: %s</string>
+    <string name="orderNoComment">Клиент не добавил комментарий</string>
     <string name="dishNumber">Заказано порций: %d</string>
     <string name="view">Посмотреть</string>
     <string name="accept">Принять</string>

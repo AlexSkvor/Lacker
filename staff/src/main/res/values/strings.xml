@@ -28,6 +28,7 @@
     <string name="client">Client: %s</string>
     <string name="table">Table: %s</string>
     <string name="orderComment">Comment: %s</string>
+    <string name="orderNoComment">Client left no comment</string>
     <string name="dishNumber">Dish number: %d</string>
     <string name="view">View</string>
     <string name="accept">Accept</string>
