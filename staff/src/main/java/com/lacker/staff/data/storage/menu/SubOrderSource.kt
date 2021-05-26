@@ -39,7 +39,7 @@ class SubOrderSource @Inject constructor(
 
     private suspend fun getNewOrOldSuborders(new: Boolean) =
         if (new) net.callResult { getNewOrders(restaurantId) }
-        else TODO()
+        else net.callResult { getOldOrders(restaurantId) }
 
     private fun SubOrder.toDomain(menu: List<MenuItem>): SubOrderListItem {
         val portionIds: List<String> = orderList.map { p -> p.portionId }

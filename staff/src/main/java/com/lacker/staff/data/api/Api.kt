@@ -31,4 +31,10 @@ interface Api {
     suspend fun getNewOrders(
         @Path("restaurantId") restaurantId: String,
     ): SubOrdersListResponse
+
+    @Headers(AuthHeaderInterceptor.REQUIRES_AUTH)
+    @GET("api/{restaurantId}/checked_suborders")
+    suspend fun getOldOrders(
+        @Path("restaurantId") restaurantId: String,
+    ): SubOrdersListResponse
 }

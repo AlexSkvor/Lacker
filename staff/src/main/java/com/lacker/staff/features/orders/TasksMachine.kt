@@ -37,6 +37,7 @@ class TasksMachine @Inject constructor(
 
     sealed class Result {
         data class ReceiveNewOrders(val receive: Receive<SubOrderListItem>) : Result()
+        data class ReceiveOldOrders(val receive: Receive<SubOrderListItem>) : Result()
 
         object NeedAuth : Result()
     }
@@ -65,13 +66,13 @@ class TasksMachine @Inject constructor(
 
     private fun onPaginationAsk(oldState: State, type: State.Type, ask: Ask): State = when (type) {
         State.Type.NEW_ORDERS -> oldState.copy(newOrders = oldState.newOrders.onAsk(ask) {
-            pushResult { getOrders(it) }
+            pushResult { getNewOrders(it) }
         })
         State.Type.NEW_CALLS -> oldState.copy(newCalls = oldState.newCalls.onAsk(ask) {
             // TODO push result
         })
         State.Type.OLD_ORDERS -> oldState.copy(oldOrders = oldState.oldOrders.onAsk(ask) {
-            // TODO push result
+            pushResult { getOldOrders(it) }
         })
         State.Type.OLD_CALLS -> oldState.copy(oldCalls = oldState.oldCalls.onAsk(ask) {
             // TODO push result
@@ -85,9 +86,14 @@ class TasksMachine @Inject constructor(
                 error.defaultErrorMessage()?.let { sendMessage(it) }
             }
         )
+        is Result.ReceiveOldOrders -> oldState.copy(
+            oldOrders = oldState.oldOrders.onReceive(res.receive) { error ->
+                error.defaultErrorMessage()?.let { sendMessage(it) }
+            }
+        )
     }
 
-    private suspend fun getOrders(pageNumber: Int): Result {
+    private suspend fun getNewOrders(pageNumber: Int): Result {
         if (pageNumber > 1) return Result.ReceiveNewOrders(Receive.NewPage(pageNumber, emptyList()))
 
         val receive = when (val res = subOrdersSource.getSuborders(true)) {
@@ -95,6 +101,16 @@ class TasksMachine @Inject constructor(
             is ApiCallResult.ErrorOccurred -> Receive.PageError(res.text)
         }
         return Result.ReceiveNewOrders(receive)
+    }
+
+    private suspend fun getOldOrders(pageNumber: Int): Result {
+        if (pageNumber > 1) return Result.ReceiveOldOrders(Receive.NewPage(pageNumber, emptyList()))
+
+        val receive = when (val res = subOrdersSource.getSuborders(false)) {
+            is ApiCallResult.Result -> Receive.NewPage(pageNumber, res.value)
+            is ApiCallResult.ErrorOccurred -> Receive.PageError(res.text)
+        }
+        return Result.ReceiveOldOrders(receive)
     }
 
     private fun logOut() {
