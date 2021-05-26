@@ -6,6 +6,7 @@ import com.lacker.dto.menu.MenuItem
 import com.lacker.staff.R
 import com.lacker.staff.data.api.ApiCallResult
 import com.lacker.staff.data.api.NetworkManager
+import com.lacker.staff.data.storage.user.UserStorage
 import com.lacker.utils.resources.ResourceProvider
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.sync.Mutex
@@ -19,6 +20,7 @@ class FileMenuManager @Inject constructor(
     private val filesManager: FilesManager,
     private val json: Moshi,
     private val resourceProvider: ResourceProvider,
+    private val userStorage: UserStorage,
 ) : MenuManager {
 
     companion object {
@@ -27,7 +29,9 @@ class FileMenuManager @Inject constructor(
 
     private val mutex = Mutex()
 
-    override suspend fun getMenu(restaurantId: String): ApiCallResult<List<MenuItem>> {
+    override suspend fun getMenu(): ApiCallResult<List<MenuItem>> {
+
+        val restaurantId = userStorage.user.restaurantId
 
         try {
             val savedMenu = mutex.withLock {

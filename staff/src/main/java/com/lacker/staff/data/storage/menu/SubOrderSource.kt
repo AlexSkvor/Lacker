@@ -18,13 +18,12 @@ class SubOrderSource @Inject constructor(
 ) {
 
     suspend fun getSuborders(new: Boolean): ApiCallResult<List<SubOrderListItem>> {
-        val restaurantId = userStorage.user.restaurantId
         val suborders = when (val res = getNewOrOldSuborders(new)) {
             is ApiCallResult.Result -> res.value.data
             is ApiCallResult.ErrorOccurred -> return ApiCallResult.ErrorOccurred(res.text)
         }
 
-        val menu = when (val res = menuManager.getMenu(restaurantId)) {
+        val menu = when (val res = menuManager.getMenu()) {
             is ApiCallResult.Result -> res.value
             is ApiCallResult.ErrorOccurred -> return ApiCallResult.ErrorOccurred(res.text)
         }

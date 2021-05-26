@@ -5,6 +5,6 @@ import com.lacker.staff.data.api.ApiCallResult
 
 interface MenuManager {
 
-    suspend fun getMenu(restaurantId: String): ApiCallResult<List<MenuItem>>
+    suspend fun getMenu(): ApiCallResult<List<MenuItem>>
 
 }
