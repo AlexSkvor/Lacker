@@ -5,7 +5,7 @@ import com.lacker.staff.data.api.ApiCallResult
 import com.lacker.staff.data.api.NetworkManager
 import com.lacker.staff.data.dto.calls.StaffCall
 import com.lacker.staff.data.dto.orders.SubOrderListItem
-import com.lacker.staff.data.storage.menu.SubOrderMapper
+import com.lacker.staff.data.storage.menu.SubOrderSource
 import com.lacker.staff.data.storage.user.User
 import com.lacker.staff.data.storage.user.UserStorage
 import javax.inject.Inject
@@ -27,7 +27,7 @@ class TasksMachine @Inject constructor(
     private val router: Router,
     private val net: NetworkManager,
     private val userStorage: UserStorage,
-    private val mapper: SubOrderMapper,
+    private val subOrdersSource: SubOrderSource,
 ) : Machine<Wish, Result, State>() {
 
     sealed class Wish {
@@ -89,9 +89,9 @@ class TasksMachine @Inject constructor(
 
     private suspend fun getOrders(pageNumber: Int): Result {
         if (pageNumber > 1) return Result.ReceiveNewOrders(Receive.NewPage(pageNumber, emptyList()))
-        val restaurantId = userStorage.user.restaurantId
-        val receive = when (val res = net.callResult { getNewOrders(restaurantId) }) {
-            is ApiCallResult.Result -> Receive.NewPage(pageNumber, mapper.map(res.value.data))
+
+        val receive = when (val res = subOrdersSource.getSuborders(true)) {
+            is ApiCallResult.Result -> Receive.NewPage(pageNumber, res.value)
             is ApiCallResult.ErrorOccurred -> Receive.PageError(res.text)
         }
         return Result.ReceiveNewOrders(receive)

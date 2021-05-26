@@ -1,6 +1,7 @@
 package com.lacker.staff.di
 
 import android.content.Context
+import com.lacker.dto.files.FilesManager
 import com.lacker.staff.data.api.jsonadapters.CallTypeAdapter
 import com.lacker.utils.extensions.DateAdapter
 import com.lacker.utils.extensions.DateTimeAdapter
@@ -25,4 +26,8 @@ class UtilsModule {
         .add(DateAdapter())
         .add(CallTypeAdapter())
         .build()
+
+    @Singleton
+    @Provides
+    fun provideFilesManager(context: Context) = FilesManager(context)
 }
