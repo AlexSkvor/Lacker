@@ -51,9 +51,17 @@ class TasksFragment : ToolbarFluxFragment<Wish, State>() {
 
     private val newOrdersAdapter by lazy {
         getNewOrdersAdaptersList(
-            onViewClick = { onViewSuborderClicked(it) },
-            onAcceptClick = { onAcceptSuborderClicked(it) },
+            onViewClick = { onAcceptSuborderClicked(it) },
+            acceptInsteadView = true,
             onRefresh = { performWish(Wish.PaginationAsk(State.Type.NEW_ORDERS, Ask.Refresh)) },
+        )
+    }
+
+    private val oldOrdersAdapter by lazy {
+        getNewOrdersAdaptersList(
+            onViewClick = { onViewSuborderClicked(it) },
+            acceptInsteadView = false,
+            onRefresh = { performWish(Wish.PaginationAsk(State.Type.OLD_ORDERS, Ask.Refresh)) },
         )
     }
 
@@ -89,7 +97,7 @@ class TasksFragment : ToolbarFluxFragment<Wish, State>() {
         oldOrdersPaginationview.apply {
             swipeRefresh?.setColorSchemeColors(colorCompat(R.color.blue))
             onAsk { performWish(Wish.PaginationAsk(State.Type.OLD_ORDERS, it)) }
-            addOrReplaceExistingAdapters(newOrdersAdapter) // TODO different adapter
+            addOrReplaceExistingAdapters(oldOrdersAdapter)
             startRefresh()
         }
         oldCallsPaginationview.apply {

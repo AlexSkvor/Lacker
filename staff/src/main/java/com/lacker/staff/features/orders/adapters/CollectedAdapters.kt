@@ -4,9 +4,9 @@ import com.lacker.staff.data.dto.orders.SubOrderListItem
 
 fun getNewOrdersAdaptersList(
     onViewClick: (SubOrderListItem) -> Unit,
-    onAcceptClick: (SubOrderListItem) -> Unit,
+    acceptInsteadView: Boolean,
     onRefresh: () -> Unit,
 ) = listOf(
-    orderAdapter(onViewClick = onViewClick, onAcceptClick = onAcceptClick),
+    orderAdapter(onViewClick = onViewClick, acceptInsteadView),
     customEmptyListAdapter(onRefresh)
 )

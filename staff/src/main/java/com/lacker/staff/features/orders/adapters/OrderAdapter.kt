@@ -8,13 +8,15 @@ import kotlinx.android.synthetic.main.item_suborder.*
 
 fun orderAdapter(
     onViewClick: (SubOrderListItem) -> Unit,
-    onAcceptClick: (SubOrderListItem) -> Unit,
+    acceptInsteadView: Boolean,
 ) = adapterDelegateLayoutContainer<SubOrderListItem, Any>(R.layout.item_suborder) {
 
     itemSuborderViewButton.setOnClickListener { onViewClick(item) }
-    itemSuborderButton.setOnClickListener { onAcceptClick(item) }
 
     bind {
+        itemSuborderViewButton.text = if (acceptInsteadView) getString(R.string.accept)
+        else getString(R.string.view)
+
         val timeText = try {
             if (item.createdDateTime.isToday()) item.createdDateTime
                 ?.format(userFormatterTimeWithoutSecs)
