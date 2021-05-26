@@ -15,25 +15,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <FrameLayout
-            android:id="@+id/stoppedIndicator"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/darkGrey"
-            android:visibility="gone"
-            tools:visibility="visible">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:rotation="45"
-                android:text="@string/stopped"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_48ssp" />
-
-        </FrameLayout>
-
         <ImageView
             android:id="@+id/menuItemPicture"
             android:layout_width="@dimen/_64sdp"
@@ -101,4 +82,24 @@
             app:layout_constraintTop_toBottomOf="@id/portionsContainer" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <FrameLayout
+        android:id="@+id/stoppedIndicator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/darkGrey"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:rotation="45"
+            android:text="@string/stopped"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_48ssp" />
+
+    </FrameLayout>
+
 </com.google.android.material.card.MaterialCardView>
