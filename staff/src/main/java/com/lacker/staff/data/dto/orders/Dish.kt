@@ -1,6 +1,7 @@
 package com.lacker.staff.data.dto.orders
 
 import com.lacker.dto.menu.DishTag
+import java.io.Serializable
 
 data class Dish(
     val dishId: String,
@@ -10,4 +11,4 @@ data class Dish(
     val photoFullUrl: String,
     val tags: List<DishTag>,
     val stopped: Boolean,
-)
+): Serializable

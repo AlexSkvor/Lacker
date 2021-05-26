@@ -1,5 +1,6 @@
 package com.lacker.staff.data.dto.orders
 
+import java.io.Serializable
 import java.time.OffsetDateTime
 
 data class SubOrderListItem(
@@ -9,4 +10,4 @@ data class SubOrderListItem(
     val createdDateTime: OffsetDateTime?,
     val comment: String,
     val orderList: List<Dish>,
-)
+): Serializable
