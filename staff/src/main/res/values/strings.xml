@@ -33,6 +33,7 @@
     <string name="view">View</string>
     <string name="accept">Accept</string>
     <string name="couldNotAcceptSuborder">Could not accept suborder</string>
+    <string name="couldNotAcceptAppeal">Could not accept appeal</string>
 
     <!-- Suborder details -->
     <string name="suborderDetailsTitle">Suborder</string>

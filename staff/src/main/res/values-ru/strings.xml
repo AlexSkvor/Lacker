@@ -34,6 +34,7 @@
     <string name="view">Посмотреть</string>
     <string name="accept">Принять</string>
     <string name="couldNotAcceptSuborder">Не удалось принять подзаказ</string>
+    <string name="couldNotAcceptAppeal">Could not accept appeal</string>
 
     <!-- Suborder details -->
     <string name="suborderDetailsTitle">Подзаказ</string>

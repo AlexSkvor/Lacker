@@ -36,15 +36,23 @@ class TasksMachine @Inject constructor(
 
         data class ViewSuborder(val suborder: SubOrderListItem) : Wish()
         data class AcceptSuborder(val suborder: SubOrderListItem) : Wish()
+        data class AcceptAppeal(val appeal: AppealDto) : Wish()
     }
 
     sealed class Result {
         data class ReceiveNewOrders(val receive: Receive<SubOrderListItem>) : Result()
         data class ReceiveOldOrders(val receive: Receive<SubOrderListItem>) : Result()
+        data class ReceiveNewAppeals(val receive: Receive<AppealDto>) : Result()
+        data class ReceiveOldAppeals(val receive: Receive<AppealDto>) : Result()
 
         sealed class AcceptSuborder : Result() {
             data class Success(val suborder: SubOrderListItem) : AcceptSuborder()
             object Error : AcceptSuborder()
+        }
+
+        sealed class AcceptAppeal : Result() {
+            object Success : AcceptAppeal()
+            object Error : AcceptAppeal()
         }
 
         object NeedAuth : Result()
@@ -74,6 +82,7 @@ class TasksMachine @Inject constructor(
         is Wish.ViewSuborder -> oldState.also {
             router.navigateTo(Screens.SuborderScreen(wish.suborder))
         }
+        is Wish.AcceptAppeal -> oldState.also { pushResult { acceptAppeal(wish.appeal) } }
     }
 
     private fun onPaginationAsk(oldState: State, type: State.Type, ask: Ask): State = when (type) {
@@ -81,13 +90,13 @@ class TasksMachine @Inject constructor(
             pushResult { getNewOrders(it) }
         })
         State.Type.NEW_CALLS -> oldState.copy(newCalls = oldState.newCalls.onAsk(ask) {
-            // TODO push result
+            pushResult { getNewAppeals(it) }
         })
         State.Type.OLD_ORDERS -> oldState.copy(oldOrders = oldState.oldOrders.onAsk(ask) {
             pushResult { getOldOrders(it) }
         })
         State.Type.OLD_CALLS -> oldState.copy(oldCalls = oldState.oldCalls.onAsk(ask) {
-            // TODO push result
+            pushResult { getOldAppeals(it) }
         })
     }
 
@@ -110,6 +119,24 @@ class TasksMachine @Inject constructor(
             newOrders = oldState.newOrders.onAsk(Ask.Refresh) { pushResult { getNewOrders(it) } },
             oldOrders = oldState.oldOrders.onAsk(Ask.Refresh) { pushResult { getOldOrders(it) } }
         ).also { sendMessage(resourceProvider.getString(R.string.couldNotAcceptSuborder)) }
+        Result.AcceptAppeal.Success -> oldState.copy(
+            newCalls = oldState.newCalls.onAsk(Ask.Refresh) { pushResult { getNewAppeals(it) } },
+            oldCalls = oldState.oldCalls.onAsk(Ask.Refresh) { pushResult { getOldAppeals(it) } }
+        )
+        Result.AcceptAppeal.Error -> oldState.copy(
+            newCalls = oldState.newCalls.onAsk(Ask.Refresh) { pushResult { getNewAppeals(it) } },
+            oldCalls = oldState.oldCalls.onAsk(Ask.Refresh) { pushResult { getOldAppeals(it) } }
+        ).also { sendMessage(resourceProvider.getString(R.string.couldNotAcceptAppeal)) }
+        is Result.ReceiveNewAppeals -> oldState.copy(
+            newCalls = oldState.newCalls.onReceive(res.receive) { error ->
+                error.defaultErrorMessage()?.let { sendMessage(it) }
+            }
+        )
+        is Result.ReceiveOldAppeals -> oldState.copy(
+            oldCalls = oldState.oldCalls.onReceive(res.receive) { error ->
+                error.defaultErrorMessage()?.let { sendMessage(it) }
+            }
+        )
     }
 
     private suspend fun getNewOrders(pageNumber: Int): Result.ReceiveNewOrders {
@@ -136,6 +163,33 @@ class TasksMachine @Inject constructor(
         return when (net.callResult { acceptSuborder(suborder.id) }) {
             is ApiCallResult.Result -> Result.AcceptSuborder.Success(suborder)
             is ApiCallResult.ErrorOccurred -> Result.AcceptSuborder.Error
+        }
+    }
+
+    private suspend fun getNewAppeals(page: Int): Result.ReceiveNewAppeals {
+        if (page > 1) return Result.ReceiveNewAppeals(Receive.NewPage(page, emptyList()))
+
+        val r = when (val res = net.callResult { getNewAppeals(userStorage.user.restaurantId) }) {
+            is ApiCallResult.Result -> Receive.NewPage(page, res.value.data)
+            is ApiCallResult.ErrorOccurred -> Receive.PageError(res.text)
+        }
+        return Result.ReceiveNewAppeals(r)
+    }
+
+    private suspend fun getOldAppeals(page: Int): Result.ReceiveOldAppeals {
+        if (page > 1) return Result.ReceiveOldAppeals(Receive.NewPage(page, emptyList()))
+
+        val r = when (val res = net.callResult { getOldAppeals(userStorage.user.restaurantId) }) {
+            is ApiCallResult.Result -> Receive.NewPage(page, res.value.data)
+            is ApiCallResult.ErrorOccurred -> Receive.PageError(res.text)
+        }
+        return Result.ReceiveOldAppeals(r)
+    }
+
+    private suspend fun acceptAppeal(appeal: AppealDto): Result.AcceptAppeal {
+        return when (net.callResult { acceptAppeal(appeal.id) }) {
+            is ApiCallResult.Result -> Result.AcceptAppeal.Success
+            is ApiCallResult.ErrorOccurred -> Result.AcceptAppeal.Error
         }
     }
 
