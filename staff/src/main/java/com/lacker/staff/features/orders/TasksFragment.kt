@@ -7,7 +7,7 @@ import com.lacker.utils.base.ToolbarFluxFragment
 import com.lacker.utils.base.ToolbarFragmentSettings
 import com.lacker.staff.features.orders.TasksMachine.Wish
 import com.lacker.staff.features.orders.TasksMachine.State
-import com.lacker.staff.features.orders.adapters.getNewOrdersAdaptersList
+import com.lacker.staff.features.orders.adapters.getOrdersAdaptersList
 import com.lacker.staff.utils.addOrReplaceExistingAdapters
 import com.lacker.staff.views.asDomain
 import com.lacker.staff.views.asUi
@@ -50,7 +50,7 @@ class TasksFragment : ToolbarFluxFragment<Wish, State>() {
         )
 
     private val newOrdersAdapter by lazy {
-        getNewOrdersAdaptersList(
+        getOrdersAdaptersList(
             onViewClick = { onAcceptSuborderClicked(it) },
             acceptInsteadView = true,
             onRefresh = { performWish(Wish.PaginationAsk(State.Type.NEW_ORDERS, Ask.Refresh)) },
@@ -58,7 +58,7 @@ class TasksFragment : ToolbarFluxFragment<Wish, State>() {
     }
 
     private val oldOrdersAdapter by lazy {
-        getNewOrdersAdaptersList(
+        getOrdersAdaptersList(
             onViewClick = { onViewSuborderClicked(it) },
             acceptInsteadView = false,
             onRefresh = { performWish(Wish.PaginationAsk(State.Type.OLD_ORDERS, Ask.Refresh)) },
