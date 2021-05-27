@@ -2,7 +2,7 @@ package com.lacker.staff.di
 
 import android.content.Context
 import com.lacker.dto.files.FilesManager
-import com.lacker.staff.data.api.jsonadapters.CallTypeAdapter
+import com.lacker.dto.jsonadapters.AppealTypeJsonAdapter
 import com.lacker.utils.extensions.DateAdapter
 import com.lacker.utils.extensions.DateTimeAdapter
 import com.lacker.utils.resources.ResourceProvider
@@ -24,7 +24,7 @@ class UtilsModule {
     fun provideJson(): Moshi = Moshi.Builder()
         .add(DateTimeAdapter())
         .add(DateAdapter())
-        .add(CallTypeAdapter())
+        .add(AppealTypeJsonAdapter())
         .build()
 
     @Singleton

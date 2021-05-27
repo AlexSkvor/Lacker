@@ -1,11 +1,13 @@
 package com.lacker.staff.data.api
 
 import com.lacker.dto.common.CheckRequest
-import com.lacker.dto.common.DateTimeResponse
-import com.lacker.dto.menu.MenuResponse
+import com.lacker.dto.common.DataDto
+import com.lacker.dto.common.DataListDto
+import com.lacker.dto.common.DateTimeDto
+import com.lacker.dto.menu.Menu
+import com.lacker.dto.order.SubOrder
 import com.lacker.staff.data.dto.auth.AuthRequest
-import com.lacker.staff.data.dto.auth.AuthResponse
-import com.lacker.staff.data.dto.orders.SubOrdersListResponse
+import com.lacker.staff.data.dto.auth.UserDto
 import com.lacker.utils.api.auth.AuthHeaderInterceptor
 import retrofit2.http.*
 
@@ -14,30 +16,30 @@ interface Api {
     @POST("public/auth/staff")
     suspend fun signIn(
         @Body request: AuthRequest
-    ): AuthResponse
+    ): DataDto<UserDto>
 
     @GET("api/{restaurantId}/main_menu")
     suspend fun getRestaurantMenu(
         @Path("restaurantId") restaurantId: String
-    ): MenuResponse
+    ): DataDto<Menu>
 
     @GET("api/{restaurantId}/main_menu")
     suspend fun getRestaurantMenuTimestamp(
         @Path("restaurantId") restaurantId: String,
         @Query("fields") fields: String = "update_time"
-    ): DateTimeResponse
+    ): DataDto<DateTimeDto>
 
     @Headers(AuthHeaderInterceptor.REQUIRES_AUTH)
     @GET("api/{restaurantId}/unchecked_suborders")
     suspend fun getNewOrders(
         @Path("restaurantId") restaurantId: String,
-    ): SubOrdersListResponse
+    ): DataListDto<SubOrder>
 
     @Headers(AuthHeaderInterceptor.REQUIRES_AUTH)
     @GET("api/{restaurantId}/checked_suborders")
     suspend fun getOldOrders(
         @Path("restaurantId") restaurantId: String,
-    ): SubOrdersListResponse
+    ): DataListDto<SubOrder>
 
     @Headers(AuthHeaderInterceptor.REQUIRES_AUTH)
     @POST("api/{suborderId}")

@@ -1,16 +1,18 @@
 package com.lacker.visitors.data.api
 
-import com.lacker.dto.common.DateTimeResponse
-import com.lacker.dto.menu.MenuResponse
+import com.lacker.dto.common.DataDto
+import com.lacker.dto.common.DataListDto
+import com.lacker.dto.common.DateTimeDto
+import com.lacker.dto.common.IdOwner
+import com.lacker.dto.menu.Menu
 import com.lacker.dto.order.CloseOrderBody
+import com.lacker.dto.order.Order
 import com.lacker.utils.api.auth.AuthHeaderInterceptor
 import com.lacker.visitors.data.dto.appeal.CreateAppealRequest
-import com.lacker.visitors.data.dto.auth.LoginResponse
 import com.lacker.visitors.data.dto.auth.GoogleAuthData
+import com.lacker.visitors.data.dto.auth.UserFromServer
 import com.lacker.visitors.data.dto.order.AddSuborderRequest
 import com.lacker.visitors.data.dto.order.CreateOrderRequest
-import com.lacker.visitors.data.dto.order.CurrentOrderResponse
-import com.lacker.visitors.data.dto.restaurants.TablesOfRestaurantResponse
 import retrofit2.http.*
 
 interface Api {
@@ -18,23 +20,23 @@ interface Api {
     @POST("public/auth/google")
     suspend fun signInWithGoogle(
         @Body request: GoogleAuthData
-    ): LoginResponse
+    ): DataDto<UserFromServer>
 
     @GET("api/{restaurantId}/main_menu")
     suspend fun getRestaurantMenu(
         @Path("restaurantId") restaurantId: String
-    ): MenuResponse
+    ): DataDto<Menu>
 
     @GET("api/{restaurantId}/main_menu")
     suspend fun getRestaurantMenuTimestamp(
         @Path("restaurantId") restaurantId: String,
         @Query("fields") fields: String = "update_time"
-    ): DateTimeResponse
+    ): DataDto<DateTimeDto>
 
     @GET("api/{restaurantId}/tables")
     suspend fun getTablesOfRestaurant(
         @Path("restaurantId") restaurantId: String,
-    ): TablesOfRestaurantResponse
+    ): DataListDto<IdOwner>
 
     @Headers(AuthHeaderInterceptor.REQUIRES_AUTH)
     @POST("api/me/make_appeal")
@@ -46,13 +48,13 @@ interface Api {
     @GET("api/{orderId}")
     suspend fun getOrderById(
         @Path("orderId") orderId: String,
-    ): CurrentOrderResponse
+    ): DataDto<Order>
 
     @Headers(AuthHeaderInterceptor.REQUIRES_AUTH)
     @POST("api/me/make_order")
     suspend fun createOrder(
         @Body request: CreateOrderRequest
-    ): CurrentOrderResponse
+    ): DataDto<Order>
 
     @Headers(AuthHeaderInterceptor.REQUIRES_AUTH)
     @POST("api/{orderId}")
@@ -66,5 +68,5 @@ interface Api {
     suspend fun addToCurrentOrder(
         @Path("orderId") orderId: String,
         @Body request: AddSuborderRequest,
-    ): CurrentOrderResponse
+    ): DataDto<Order>
 }

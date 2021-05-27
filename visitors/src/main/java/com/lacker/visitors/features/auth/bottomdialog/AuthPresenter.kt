@@ -26,7 +26,7 @@ class AuthPresenter @Inject constructor(
             launchUi {
                 when (res) {
                     is ApiCallResult.Result -> {
-                        userStorage.user = res.value.user.toDomainUser()
+                        userStorage.user = res.value.data.toDomainUser()
                         view.onSuccessAuth()
                     }
                     is ApiCallResult.ErrorOccurred -> {

@@ -87,7 +87,7 @@ class FileMenuManager @Inject constructor(
 
     private suspend fun getMenuFromServerWithCashing(restaurantId: String): ApiCallResult<List<MenuItem>> {
         val menu = when (val res = net.callResult { getRestaurantMenu(restaurantId) }) {
-            is ApiCallResult.Result -> res.value.menu
+            is ApiCallResult.Result -> res.value.data
             is ApiCallResult.ErrorOccurred -> return ApiCallResult.ErrorOccurred(res.text)
         }
 

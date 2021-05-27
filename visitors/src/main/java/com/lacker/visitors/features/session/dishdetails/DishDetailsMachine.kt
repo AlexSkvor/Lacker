@@ -179,12 +179,12 @@ class DishDetailsMachine @Inject constructor(
         if (orderId == null || orderId.isEmpty()) return when (
             val res = net.callResult { createOrder(CreateOrderRequest(tableId, request)) }
         ) {
-            is ApiCallResult.Result -> Result.OrderResult.OrderLoaded(res.value.order.orderedNumber())
+            is ApiCallResult.Result -> Result.OrderResult.OrderLoaded(res.value.data.orderedNumber())
             is ApiCallResult.ErrorOccurred -> Result.OrderResult.Error(res.text)
         }
 
         return when (val res = net.callResult { addToCurrentOrder(orderId, request) }) {
-            is ApiCallResult.Result -> Result.OrderResult.OrderLoaded(res.value.order.orderedNumber())
+            is ApiCallResult.Result -> Result.OrderResult.OrderLoaded(res.value.data.orderedNumber())
             is ApiCallResult.ErrorOccurred -> Result.OrderResult.Error(resourceProvider.getString(R.string.orderClosed))
         }
     }

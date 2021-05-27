@@ -381,7 +381,7 @@ class MenuMachine @Inject constructor(
         if (orderId == null) return Result.OrderResult.OrderNotCreated
 
         return when (val res = net.callResult { getOrderById(orderId) }) {
-            is ApiCallResult.Result -> Result.OrderResult.OrderLoaded(res.value.order)
+            is ApiCallResult.Result -> Result.OrderResult.OrderLoaded(res.value.data)
             is ApiCallResult.ErrorOccurred -> Result.OrderResult.Error(null, null, null, res.text)
         }
     }
@@ -403,12 +403,12 @@ class MenuMachine @Inject constructor(
         if (orderId == null) return when (
             val res = net.callResult { createOrder(CreateOrderRequest(tableId, request)) }
         ) {
-            is ApiCallResult.Result -> Result.OrderResult.OrderLoaded(res.value.order)
+            is ApiCallResult.Result -> Result.OrderResult.OrderLoaded(res.value.data)
             is ApiCallResult.ErrorOccurred -> error.copy(text = res.text)
         }
 
         return when (val res = net.callResult { addToCurrentOrder(orderId, request) }) {
-            is ApiCallResult.Result -> Result.OrderResult.OrderLoaded(res.value.order)
+            is ApiCallResult.Result -> Result.OrderResult.OrderLoaded(res.value.data)
             is ApiCallResult.ErrorOccurred -> error.copy(text = resourceProvider.getString(R.string.orderClosed))
         }
     }
@@ -430,12 +430,12 @@ class MenuMachine @Inject constructor(
         if (orderId == null) return when (
             val res = net.callResult { createOrder(CreateOrderRequest(tableId, request)) }
         ) {
-            is ApiCallResult.Result -> Result.OrderResult.OrderLoaded(res.value.order)
+            is ApiCallResult.Result -> Result.OrderResult.OrderLoaded(res.value.data)
             is ApiCallResult.ErrorOccurred -> error.copy(text = res.text)
         }
 
         return when (val res = net.callResult { addToCurrentOrder(orderId, request) }) {
-            is ApiCallResult.Result -> Result.OrderResult.OrderLoaded(res.value.order)
+            is ApiCallResult.Result -> Result.OrderResult.OrderLoaded(res.value.data)
             is ApiCallResult.ErrorOccurred -> error.copy(text = resourceProvider.getString(R.string.orderClosed))
         }
     }
