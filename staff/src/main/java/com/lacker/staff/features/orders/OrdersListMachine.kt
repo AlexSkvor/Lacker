@@ -54,7 +54,7 @@ class OrdersListMachine @Inject constructor(
         if (page > 1) return Result.OrdersListReceive(Receive.NewPage(page, emptyList()))
 
         val receive = when (val res = net.callResult { getOrders(userStorage.user.restaurantId) }) {
-            is ApiCallResult.Result -> Receive.NewPage(page, res.value.data)
+            is ApiCallResult.Result -> Receive.NewPage(page, res.value.data.sortedBy { it.status })
             is ApiCallResult.ErrorOccurred -> Receive.PageError(res.text)
         }
         return Result.OrdersListReceive(receive)
