@@ -56,6 +56,7 @@ class SuborderFragment : ToolbarFluxFragment<Wish, State>() {
     override fun onScreenInit() {
         suborderFragmentContainer.apply {
             swipeRefresh?.setColorSchemeColors(colorCompat(R.color.blue))
+            onAsk { swipeRefresh?.isRefreshing = false }
             addOrReplaceExistingAdapters(adapter)
         }
         performWish(Wish.Suborder(suborder))
