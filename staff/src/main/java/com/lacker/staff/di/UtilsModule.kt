@@ -3,6 +3,7 @@ package com.lacker.staff.di
 import android.content.Context
 import com.lacker.dto.files.FilesManager
 import com.lacker.dto.jsonadapters.AppealTypeJsonAdapter
+import com.lacker.dto.jsonadapters.OrderStatusJsonAdapter
 import com.lacker.utils.extensions.DateAdapter
 import com.lacker.utils.extensions.DateTimeAdapter
 import com.lacker.utils.resources.ResourceProvider
@@ -25,6 +26,7 @@ class UtilsModule {
         .add(DateTimeAdapter())
         .add(DateAdapter())
         .add(AppealTypeJsonAdapter())
+        .add(OrderStatusJsonAdapter())
         .build()
 
     @Singleton
