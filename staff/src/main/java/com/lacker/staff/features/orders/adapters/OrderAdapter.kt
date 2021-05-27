@@ -9,11 +9,13 @@ import kotlinx.android.synthetic.main.item_suborder.*
 fun orderAdapter(
     onViewClick: (SubOrderListItem) -> Unit,
     acceptInsteadView: Boolean,
+    showButton: Boolean = true,
 ) = adapterDelegateLayoutContainer<SubOrderListItem, Any>(R.layout.item_suborder) {
 
     itemSuborderViewButton.setOnClickListener { onViewClick(item) }
 
     bind {
+        itemSuborderViewButton.visible = showButton
         itemSuborderViewButton.text = if (acceptInsteadView) getString(R.string.accept)
         else getString(R.string.view)
 

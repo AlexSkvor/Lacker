@@ -72,6 +72,7 @@
             android:layout_marginStart="@dimen/_16sdp"
             android:layout_marginTop="@dimen/_3sdp"
             android:layout_marginEnd="@dimen/_16sdp"
+            android:layout_marginBottom="@dimen/_8sdp"
             android:gravity="start"
             android:textSize="@dimen/_14ssp"
             tools:text="Dish number: 7" />
@@ -82,8 +83,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_48sdp"
-            android:layout_marginVertical="@dimen/_8sdp"
             android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_8sdp"
             android:text="@string/view" />
 
     </LinearLayout>
