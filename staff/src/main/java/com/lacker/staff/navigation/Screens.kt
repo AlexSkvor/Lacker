@@ -31,4 +31,8 @@ object Screens {
         override fun getFragment(): Fragment = SuborderFragment.newInstance(subOrder)
     }
 
+    object OrdersListScreen : SupportAppScreen() {
+        override fun getFragment(): Fragment = TODO()
+    }
+
 }
