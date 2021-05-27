@@ -35,4 +35,8 @@ object Screens {
         override fun getFragment(): Fragment = TODO()
     }
 
+    data class OrderScreen(val orderId: String) : SupportAppScreen() {
+        override fun getFragment(): Fragment = TODO()
+    }
+
 }
