@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import com.lacker.staff.data.dto.orders.SubOrderListItem
 import com.lacker.staff.features.auth.AuthFragment
 import com.lacker.staff.features.menu.MenuFragment
-import com.lacker.staff.features.orders.TasksFragment
+import com.lacker.staff.features.tasks.TasksFragment
 import com.lacker.staff.features.profile.ProfileFragment
 import com.lacker.staff.features.suborder.SuborderFragment
 import ru.terrakok.cicerone.android.support.SupportAppScreen

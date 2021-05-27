@@ -1,4 +1,4 @@
-package com.lacker.staff.features.orders
+package com.lacker.staff.features.tasks
 
 import com.lacker.dto.appeal.AppealDto
 import com.lacker.staff.R
@@ -9,9 +9,9 @@ import com.lacker.staff.data.storage.menu.SubOrderSource
 import com.lacker.staff.data.storage.user.User
 import com.lacker.staff.data.storage.user.UserStorage
 import javax.inject.Inject
-import com.lacker.staff.features.orders.TasksMachine.Wish
-import com.lacker.staff.features.orders.TasksMachine.State
-import com.lacker.staff.features.orders.TasksMachine.Result
+import com.lacker.staff.features.tasks.TasksMachine.Wish
+import com.lacker.staff.features.tasks.TasksMachine.State
+import com.lacker.staff.features.tasks.TasksMachine.Result
 import com.lacker.staff.navigation.Screens
 import com.lacker.utils.extensions.onNull
 import com.lacker.utils.resources.ResourceProvider

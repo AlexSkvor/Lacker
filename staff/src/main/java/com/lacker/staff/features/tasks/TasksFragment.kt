@@ -1,4 +1,4 @@
-package com.lacker.staff.features.orders
+package com.lacker.staff.features.tasks
 
 import androidx.recyclerview.widget.RecyclerView
 import com.lacker.dto.appeal.AppealDto
@@ -6,10 +6,10 @@ import com.lacker.staff.R
 import com.lacker.staff.data.dto.orders.SubOrderListItem
 import com.lacker.utils.base.ToolbarFluxFragment
 import com.lacker.utils.base.ToolbarFragmentSettings
-import com.lacker.staff.features.orders.TasksMachine.Wish
-import com.lacker.staff.features.orders.TasksMachine.State
-import com.lacker.staff.features.orders.adapters.getAppealsAdaptersList
-import com.lacker.staff.features.orders.adapters.getOrdersAdaptersList
+import com.lacker.staff.features.tasks.TasksMachine.Wish
+import com.lacker.staff.features.tasks.TasksMachine.State
+import com.lacker.staff.features.tasks.adapters.getAppealsAdaptersList
+import com.lacker.staff.features.tasks.adapters.getOrdersAdaptersList
 import com.lacker.staff.utils.addOrReplaceExistingAdapters
 import com.lacker.staff.views.asDomain
 import com.lacker.staff.views.asUi

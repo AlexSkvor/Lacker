@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.lacker.staff.features.auth.AuthMachine
 import com.lacker.staff.features.menu.MenuMachine
-import com.lacker.staff.features.orders.TasksMachine
+import com.lacker.staff.features.tasks.TasksMachine
 import com.lacker.staff.features.profile.ProfileMachine
 import com.lacker.staff.features.suborder.SuborderMachine
 import dagger.Binds

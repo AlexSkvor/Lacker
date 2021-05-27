@@ -1,4 +1,4 @@
-package com.lacker.staff.features.orders.adapters
+package com.lacker.staff.features.tasks.adapters
 
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateLayoutContainer
 import com.lacker.staff.R

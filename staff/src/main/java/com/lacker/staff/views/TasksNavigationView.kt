@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.lacker.staff.R
-import com.lacker.staff.features.orders.TasksMachine
+import com.lacker.staff.features.tasks.TasksMachine
 import com.lacker.utils.extensions.getColor
 import com.lacker.utils.extensions.setTextSizeRes
 import com.lacker.utils.extensions.setTintColor

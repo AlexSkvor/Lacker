@@ -1,4 +1,4 @@
-package com.lacker.staff.features.orders.adapters
+package com.lacker.staff.features.tasks.adapters
 
 import com.lacker.dto.appeal.AppealDto
 import com.lacker.staff.data.dto.orders.SubOrderListItem

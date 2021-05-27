@@ -3,7 +3,7 @@ package com.lacker.staff.features.suborder
 import com.lacker.staff.R
 import com.lacker.staff.data.dto.orders.SubOrderListItem
 import com.lacker.staff.features.menu.dishAdapter
-import com.lacker.staff.features.orders.adapters.orderAdapter
+import com.lacker.staff.features.tasks.adapters.orderAdapter
 import com.lacker.utils.base.ToolbarFluxFragment
 import com.lacker.utils.base.ToolbarFragmentSettings
 import com.lacker.staff.features.suborder.SuborderMachine.Wish
