@@ -47,6 +47,14 @@
     <!-- Suborder details -->
     <string name="suborderDetailsTitle">Подзаказ</string>
 
+    <!-- All orders list -->
+    <string name="allOrdersListTitle">Все заказы</string>
+    <string name="status">Статус: %s</string>
+    <string name="statusActive">Активен</string>
+    <string name="statusPaid">Оплачен</string>
+    <string name="statusCanceled">Отменен</string>
+    <string name="statusUnknown">Не распознан</string>
+
     <!-- Menu -->
     <string name="menuTitle">Меню</string>
     <string name="stopped">Стоп</string>

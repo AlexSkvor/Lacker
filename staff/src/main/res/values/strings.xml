@@ -46,6 +46,14 @@
     <!-- Suborder details -->
     <string name="suborderDetailsTitle">Suborder</string>
 
+    <!-- All orders list -->
+    <string name="allOrdersListTitle">All orders</string>
+    <string name="status">Status: %s</string>
+    <string name="statusActive">Active</string>
+    <string name="statusPaid">Paid</string>
+    <string name="statusCanceled">Canceled</string>
+    <string name="statusUnknown">Unknown</string>
+
     <!-- Menu -->
     <string name="menuTitle">Menu</string>
     <string name="orderedCount" translatable="false">X %d</string>
