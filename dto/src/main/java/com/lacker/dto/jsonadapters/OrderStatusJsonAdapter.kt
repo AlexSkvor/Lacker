@@ -9,7 +9,7 @@ class OrderStatusJsonAdapter {
     private val map = listOf(
         OrderStatus.NEW to "NEW",
         OrderStatus.PAID to "PAID",
-        OrderStatus.CANCELLED to "CANCELLED",
+        OrderStatus.CANCELLED to "CANCELED",
         OrderStatus.UNKNOWN to "",
     )
 
