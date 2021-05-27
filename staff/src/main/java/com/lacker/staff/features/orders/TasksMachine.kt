@@ -103,10 +103,9 @@ class TasksMachine @Inject constructor(
                 error.defaultErrorMessage()?.let { sendMessage(it) }
             }
         )
-        is Result.AcceptSuborder.Success -> oldState.copy(
-            newOrders = oldState.newOrders.onAsk(Ask.Refresh) { pushResult { getNewOrders(it) } },
-            oldOrders = oldState.oldOrders.onAsk(Ask.Refresh) { pushResult { getOldOrders(it) } }
-        ).also { router.navigateTo(Screens.SuborderScreen(res.suborder)) }
+        is Result.AcceptSuborder.Success -> oldState.also {
+            router.navigateTo(Screens.SuborderScreen(res.suborder))
+        }
         Result.AcceptSuborder.Error -> oldState.copy(
             newOrders = oldState.newOrders.onAsk(Ask.Refresh) { pushResult { getNewOrders(it) } },
             oldOrders = oldState.oldOrders.onAsk(Ask.Refresh) { pushResult { getOldOrders(it) } }
