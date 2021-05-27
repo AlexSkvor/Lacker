@@ -6,11 +6,10 @@ import com.squareup.moshi.ToJson
 
 class AppealTypeJsonAdapter {
 
-    //TODO
     private val map = listOf(
         AppealType.CONSULTATION to "INFO",
-        AppealType.PAYMENT_BANK to "TODO1",
-        AppealType.PAYMENT_CASH to "TODO2",
+        AppealType.PAYMENT_BANK to "PAY_BANK",
+        AppealType.PAYMENT_CASH to "PAY_CASH",
         AppealType.UNKNOWN to "",
     )
 
