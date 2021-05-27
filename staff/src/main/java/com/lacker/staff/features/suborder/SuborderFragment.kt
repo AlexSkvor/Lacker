@@ -12,7 +12,7 @@ import com.lacker.staff.utils.addOrReplaceExistingAdapters
 import com.lacker.utils.extensions.colorCompat
 import com.lacker.utils.extensions.getArgument
 import com.lacker.utils.extensions.withArguments
-import kotlinx.android.synthetic.main.fragment_suborder.*
+import kotlinx.android.synthetic.main.fragment_only_pagination.*
 import voodoo.rocks.paginator.reduce.PaginationList
 
 class SuborderFragment : ToolbarFluxFragment<Wish, State>() {
@@ -24,7 +24,7 @@ class SuborderFragment : ToolbarFluxFragment<Wish, State>() {
         private const val SUBORDER_KEY = "SUBORDER_KEY SuborderFragment"
     }
 
-    override fun layoutRes(): Int = R.layout.fragment_suborder
+    override fun layoutRes(): Int = R.layout.fragment_only_pagination
 
     override val machine by lazy { getMachineFromFactory(SuborderMachine::class.java) }
 
@@ -54,7 +54,7 @@ class SuborderFragment : ToolbarFluxFragment<Wish, State>() {
     }
 
     override fun onScreenInit() {
-        suborderFragmentContainer.apply {
+        paginationFragmentContainer.apply {
             swipeRefresh?.setColorSchemeColors(colorCompat(R.color.blue))
             onAsk { swipeRefresh?.isRefreshing = false }
             addOrReplaceExistingAdapters(adapter)
@@ -69,6 +69,6 @@ class SuborderFragment : ToolbarFluxFragment<Wish, State>() {
     private fun renderSuborder(suborder: SubOrderListItem) {
         val items = listOf(suborder) + suborder.orderList // TODO button full order
         val paginationList = PaginationList.FullData<Any>(1, items)
-        suborderFragmentContainer.setList(paginationList)
+        paginationFragmentContainer.setList(paginationList)
     }
 }
