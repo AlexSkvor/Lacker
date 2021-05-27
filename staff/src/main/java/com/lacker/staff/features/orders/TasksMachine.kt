@@ -112,7 +112,7 @@ class TasksMachine @Inject constructor(
         ).also { sendMessage(resourceProvider.getString(R.string.couldNotAcceptSuborder)) }
     }
 
-    private suspend fun getNewOrders(pageNumber: Int): Result {
+    private suspend fun getNewOrders(pageNumber: Int): Result.ReceiveNewOrders {
         if (pageNumber > 1) return Result.ReceiveNewOrders(Receive.NewPage(pageNumber, emptyList()))
 
         val receive = when (val res = subOrdersSource.getSuborders(true)) {
@@ -122,7 +122,7 @@ class TasksMachine @Inject constructor(
         return Result.ReceiveNewOrders(receive)
     }
 
-    private suspend fun getOldOrders(pageNumber: Int): Result {
+    private suspend fun getOldOrders(pageNumber: Int): Result.ReceiveOldOrders {
         if (pageNumber > 1) return Result.ReceiveOldOrders(Receive.NewPage(pageNumber, emptyList()))
 
         val receive = when (val res = subOrdersSource.getSuborders(false)) {
