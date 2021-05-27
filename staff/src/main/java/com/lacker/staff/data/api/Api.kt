@@ -1,5 +1,6 @@
 package com.lacker.staff.data.api
 
+import com.lacker.dto.appeal.AppealDto
 import com.lacker.dto.common.CheckRequest
 import com.lacker.dto.common.DataDto
 import com.lacker.dto.common.DataListDto
@@ -45,6 +46,25 @@ interface Api {
     @POST("api/{suborderId}")
     suspend fun acceptSuborder(
         @Path("suborderId") suborderId: String,
+        @Body checkRequest: CheckRequest = CheckRequest(),
+    )
+
+    @Headers(AuthHeaderInterceptor.REQUIRES_AUTH)
+    @GET("api/{restaurantId}/unchecked_appeals")
+    suspend fun getNewAppeals(
+        @Path("restaurantId") restaurantId: String,
+    ): DataListDto<AppealDto>
+
+    @Headers(AuthHeaderInterceptor.REQUIRES_AUTH)
+    @GET("api/{restaurantId}/checked_appeals")
+    suspend fun getOldAppeals(
+        @Path("restaurantId") restaurantId: String,
+    ): DataListDto<AppealDto>
+
+    @Headers(AuthHeaderInterceptor.REQUIRES_AUTH)
+    @POST("api/{appealId}")
+    suspend fun acceptAppeal(
+        @Path("appealId") appealId: String,
         @Body checkRequest: CheckRequest = CheckRequest(),
     )
 }
