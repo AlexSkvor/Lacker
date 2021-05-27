@@ -1,9 +1,9 @@
 package com.lacker.staff.features.orders
 
+import com.lacker.dto.appeal.AppealDto
 import com.lacker.staff.R
 import com.lacker.staff.data.api.ApiCallResult
 import com.lacker.staff.data.api.NetworkManager
-import com.lacker.staff.data.dto.calls.StaffCall
 import com.lacker.staff.data.dto.orders.SubOrderListItem
 import com.lacker.staff.data.storage.menu.SubOrderSource
 import com.lacker.staff.data.storage.user.User
@@ -53,8 +53,8 @@ class TasksMachine @Inject constructor(
     data class State(
         val newOrders: PaginationList<SubOrderListItem> = PaginationList.EmptyProgress(),
         val oldOrders: PaginationList<SubOrderListItem> = PaginationList.EmptyProgress(),
-        val newCalls: PaginationList<StaffCall> = PaginationList.EmptyProgress(),
-        val oldCalls: PaginationList<StaffCall> = PaginationList.EmptyProgress(),
+        val newCalls: PaginationList<AppealDto> = PaginationList.EmptyProgress(),
+        val oldCalls: PaginationList<AppealDto> = PaginationList.EmptyProgress(),
         val type: Type = Type.NEW_ORDERS,
     ) {
         val newOrdersTotalCount: Int = newOrders.size
