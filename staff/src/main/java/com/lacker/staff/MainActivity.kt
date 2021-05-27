@@ -199,6 +199,7 @@ class MainActivity : AppCompatActivity(), ViewModelFactoryProvider, UserNotifier
             val nextScreen = when (item.itemId) {
                 R.id.navigateOrders -> defaultScreen
                 R.id.navigateMenu -> Screens.MenuScreen
+                R.id.navigateAllOrders -> Screens.OrdersListScreen
                 else -> null
             }
             requireNotNull(nextScreen)

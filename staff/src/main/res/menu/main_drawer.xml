@@ -11,5 +11,9 @@
         <item
             android:id="@+id/navigateMenu"
             android:title="@string/menuTitle" />
+
+        <item
+            android:id="@+id/navigateAllOrders"
+            android:title="@string/allOrdersListTitle" />
     </group>
 </menu>
