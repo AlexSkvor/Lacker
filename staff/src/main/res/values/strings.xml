@@ -33,7 +33,15 @@
     <string name="view">View</string>
     <string name="accept">Accept</string>
     <string name="couldNotAcceptSuborder">Could not accept suborder</string>
+
+    <!-- Appeals List -->
+    <string name="appealTitle">Called at %s</string>
     <string name="couldNotAcceptAppeal">Could not accept appeal</string>
+    <string name="type">Type: %s</string>
+    <string name="typeInfo">Consultation</string>
+    <string name="typeBank">Bank payment</string>
+    <string name="typeCash">Cash payment</string>
+    <string name="typeUnknown">Not recognized</string>
 
     <!-- Suborder details -->
     <string name="suborderDetailsTitle">Suborder</string>

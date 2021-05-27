@@ -34,7 +34,15 @@
     <string name="view">Посмотреть</string>
     <string name="accept">Принять</string>
     <string name="couldNotAcceptSuborder">Не удалось принять подзаказ</string>
-    <string name="couldNotAcceptAppeal">Could not accept appeal</string>
+
+    <!-- Appeals List -->
+    <string name="appealTitle">Вызов от %s</string>
+    <string name="couldNotAcceptAppeal">Не удалось принять вызов</string>
+    <string name="type">Тип: %s</string>
+    <string name="typeInfo">Консультация</string>
+    <string name="typeBank">Оплата банковской картой</string>
+    <string name="typeCash">Оплата наличными</string>
+    <string name="typeUnknown">Не распознан</string>
 
     <!-- Suborder details -->
     <string name="suborderDetailsTitle">Подзаказ</string>

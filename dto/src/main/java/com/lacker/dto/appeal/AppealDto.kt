@@ -4,6 +4,7 @@ import com.lacker.dto.common.NameOwner
 import com.lacker.dto.common.TitleOwner
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import java.time.OffsetDateTime
 
 @JsonClass(generateAdapter = true)
 data class AppealDto(
@@ -12,4 +13,5 @@ data class AppealDto(
     @Json(name = "target") val target: AppealType,
     @Json(name = "checked") val checked: Boolean,
     @Json(name = "id") val id: String,
+    @Json(name = "create_time") val created: OffsetDateTime,
 )

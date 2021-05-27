@@ -1,12 +1,14 @@
 package com.lacker.staff.features.orders
 
 import androidx.recyclerview.widget.RecyclerView
+import com.lacker.dto.appeal.AppealDto
 import com.lacker.staff.R
 import com.lacker.staff.data.dto.orders.SubOrderListItem
 import com.lacker.utils.base.ToolbarFluxFragment
 import com.lacker.utils.base.ToolbarFragmentSettings
 import com.lacker.staff.features.orders.TasksMachine.Wish
 import com.lacker.staff.features.orders.TasksMachine.State
+import com.lacker.staff.features.orders.adapters.getAppealsAdaptersList
 import com.lacker.staff.features.orders.adapters.getOrdersAdaptersList
 import com.lacker.staff.utils.addOrReplaceExistingAdapters
 import com.lacker.staff.views.asDomain
@@ -65,12 +67,32 @@ class TasksFragment : ToolbarFluxFragment<Wish, State>() {
         )
     }
 
+    private val newAppealsAdapter by lazy {
+        getAppealsAdaptersList(
+            onAccept = { onAcceptAppealClicked(it) },
+            canAccept = true,
+            onRefresh = { performWish(Wish.PaginationAsk(State.Type.NEW_CALLS, Ask.Refresh)) },
+        )
+    }
+
+    private val oldAppealsAdapter by lazy {
+        getAppealsAdaptersList(
+            onAccept = {},
+            canAccept = false,
+            onRefresh = { performWish(Wish.PaginationAsk(State.Type.OLD_CALLS, Ask.Refresh)) },
+        )
+    }
+
     private fun onViewSuborderClicked(subOrder: SubOrderListItem) {
         performWish(Wish.ViewSuborder(subOrder))
     }
 
     private fun onAcceptSuborderClicked(subOrder: SubOrderListItem) {
         performWish(Wish.AcceptSuborder(subOrder))
+    }
+
+    private fun onAcceptAppealClicked(appeal: AppealDto) {
+        performWish(Wish.AcceptAppeal(appeal))
     }
 
     override fun onScreenInit() {
@@ -91,7 +113,7 @@ class TasksFragment : ToolbarFluxFragment<Wish, State>() {
         newCallsPaginationview.apply {
             swipeRefresh?.setColorSchemeColors(colorCompat(R.color.blue))
             onAsk { performWish(Wish.PaginationAsk(State.Type.NEW_CALLS, it)) }
-            addOrReplaceExistingAdapters(newOrdersAdapter) // TODO different adapter
+            addOrReplaceExistingAdapters(newAppealsAdapter)
             startRefresh()
         }
         oldOrdersPaginationview.apply {
@@ -103,7 +125,7 @@ class TasksFragment : ToolbarFluxFragment<Wish, State>() {
         oldCallsPaginationview.apply {
             swipeRefresh?.setColorSchemeColors(colorCompat(R.color.blue))
             onAsk { performWish(Wish.PaginationAsk(State.Type.OLD_CALLS, it)) }
-            addOrReplaceExistingAdapters(newOrdersAdapter) // TODO different adapter
+            addOrReplaceExistingAdapters(oldAppealsAdapter)
             startRefresh()
         }
     }
