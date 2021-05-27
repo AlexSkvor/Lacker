@@ -29,8 +29,10 @@ class SubOrderSource @Inject constructor(
         }
 
         return ApiCallResult.Result(
-            suborders.sortedByDescending { it.createdTimeStamp }
-                .map { it.toDomain(menu) }
+            suborders.let { list ->
+                if (new) list.sortedBy { it.createdTimeStamp }
+                else list.sortedByDescending { it.createdTimeStamp }
+            }.map { it.toDomain(menu) }
         )
     }
 

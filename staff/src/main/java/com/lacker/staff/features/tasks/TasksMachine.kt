@@ -170,7 +170,10 @@ class TasksMachine @Inject constructor(
         if (page > 1) return Result.ReceiveNewAppeals(Receive.NewPage(page, emptyList()))
 
         val r = when (val res = net.callResult { getNewAppeals(userStorage.user.restaurantId) }) {
-            is ApiCallResult.Result -> Receive.NewPage(page, res.value.data)
+            is ApiCallResult.Result -> Receive.NewPage(
+                page,
+                res.value.data.sortedBy { it.created }
+            )
             is ApiCallResult.ErrorOccurred -> Receive.PageError(res.text)
         }
         return Result.ReceiveNewAppeals(r)
@@ -180,7 +183,9 @@ class TasksMachine @Inject constructor(
         if (page > 1) return Result.ReceiveOldAppeals(Receive.NewPage(page, emptyList()))
 
         val r = when (val res = net.callResult { getOldAppeals(userStorage.user.restaurantId) }) {
-            is ApiCallResult.Result -> Receive.NewPage(page, res.value.data)
+            is ApiCallResult.Result -> Receive.NewPage(
+                page,
+                res.value.data.sortedByDescending { it.created })
             is ApiCallResult.ErrorOccurred -> Receive.PageError(res.text)
         }
         return Result.ReceiveOldAppeals(r)
