@@ -300,7 +300,7 @@ class MenuMachine @Inject constructor(
             }
             else -> menuTmp.filter {
                 (filter.text.isEmpty() || it.name.contains(filter.text, ignoreCase = true))
-                        && it.tags.intersect(filter.tags).isNotEmpty()
+                        && it.tags.containsAll(filter.tags)
             }
         }
 

@@ -44,7 +44,7 @@ class MenuMachine @Inject constructor(
             else -> {
                 menu.removeItems {
                     !(filter.text.isEmpty() || it.dishName.contains(filter.text, ignoreCase = true))
-                            || it.tags.intersect(filter.tags).isEmpty()
+                            || !it.tags.containsAll(filter.tags)
                 }
             }
         }
