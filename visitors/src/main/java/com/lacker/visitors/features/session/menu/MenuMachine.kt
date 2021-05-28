@@ -4,6 +4,7 @@ import com.lacker.dto.menu.MenuItem
 import com.lacker.dto.menu.MenuSearchFilter
 import com.lacker.dto.order.Order
 import com.lacker.dto.order.OrderInfo
+import com.lacker.dto.order.OrderStatus
 import com.lacker.dto.order.SubOrder
 import com.lacker.utils.exceptions.ImpossibleSituationException
 import com.lacker.utils.extensions.onNull
@@ -200,7 +201,7 @@ class MenuMachine @Inject constructor(
             .recountMenuWithOrdersAndBasketAndFavouritesAndFilter()
         is Wish.DrinksImmediatelyChanged -> oldState.copy(drinksImmediately = wish.value)
         Wish.CloseOrder -> {
-            if (oldState.order?.status == "PAID") oldState.also { onOrderClosed() }
+            if (oldState.order?.status != OrderStatus.NEW) oldState.also { onOrderClosed() }
             else oldState.also { pushResult { closeOrder(it.order?.id) } }
         }
     }
