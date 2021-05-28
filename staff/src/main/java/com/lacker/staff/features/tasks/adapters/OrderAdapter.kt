@@ -6,7 +6,7 @@ import com.lacker.staff.data.dto.orders.SubOrderListItem
 import com.lacker.utils.extensions.*
 import kotlinx.android.synthetic.main.item_suborder.*
 
-fun orderAdapter(
+fun suborderAdapter(
     onViewClick: (SubOrderListItem) -> Unit,
     acceptInsteadView: Boolean,
     showButton: Boolean = true,

@@ -8,7 +8,7 @@ fun getOrdersAdaptersList(
     acceptInsteadView: Boolean,
     onRefresh: () -> Unit,
 ) = listOf(
-    orderAdapter(onViewClick = onViewClick, acceptInsteadView),
+    suborderAdapter(onViewClick = onViewClick, acceptInsteadView),
     customEmptyListAdapter(onRefresh)
 )
 
