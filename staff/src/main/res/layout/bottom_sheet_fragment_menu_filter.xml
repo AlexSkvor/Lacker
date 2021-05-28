@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/menuFilterTitle"
+        style="@style/Text.Bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/_8sdp"
+        android:clickable="false"
+        android:text="@string/search"
+        android:textSize="@dimen/_16ssp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/menuFilterSearchFieldLayout"
+        style="@style/InputStyle.NoTopHint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_16sdp"
+        android:layout_marginBottom="@dimen/_16sdp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/menuFilterSearchField"
+            style="@style/EditTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/searchTextHint" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/menuItemTags"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginEnd="@dimen/_12sdp"
+        android:layout_marginBottom="@dimen/_6sdp">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipAlcohol"
+            style="@style/ChipFilter"
+            android:text="@string/tagAlcohol" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipDrinks"
+            style="@style/ChipFilter"
+            android:text="@string/tagDrinks" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipBird"
+            style="@style/ChipFilter"
+            android:text="@string/tagBird" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipSea"
+            style="@style/ChipFilter"
+            android:text="@string/tagSea" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipMeat"
+            style="@style/ChipFilter"
+            android:text="@string/tagMeat" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipGarnish"
+            style="@style/ChipFilter"
+            android:text="@string/tagGarnish" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipAsian"
+            style="@style/ChipFilter"
+            android:text="@string/tagAsianDish" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipDessert"
+            style="@style/ChipFilter"
+            android:text="@string/tagDessert" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipSalad"
+            style="@style/ChipFilter"
+            android:text="@string/tagSalad" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipSandwich"
+            style="@style/ChipFilter"
+            android:text="@string/tagSandwich" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipSoup"
+            style="@style/ChipFilter"
+            android:text="@string/tagSoup" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipOther"
+            style="@style/ChipFilter"
+            android:text="@string/tagOther" />
+
+    </com.google.android.material.chip.ChipGroup>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/searchButton"
+            style="@style/App.Button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:layout_marginBottom="@dimen/_32sdp"
+            android:layout_weight="1"
+            android:text="@string/search" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/clearButton"
+            style="@style/App.Button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:layout_marginBottom="@dimen/_32sdp"
+            android:layout_weight="1"
+            android:text="@string/clear" />
+
+    </LinearLayout>
+
+</LinearLayout>

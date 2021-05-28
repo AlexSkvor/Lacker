@@ -1,6 +1,7 @@
 package com.lacker.staff.features.menu
 
 import com.lacker.dto.menu.MenuItem
+import com.lacker.dto.menu.MenuSearchFilter
 import com.lacker.staff.data.api.ApiCallResult
 import com.lacker.staff.data.dto.orders.Dish
 import com.lacker.staff.data.dto.orders.DomainPortion
@@ -16,7 +17,6 @@ import voodoo.rocks.paginator.reduce.PaginationList
 import voodoo.rocks.paginator.reduce.Receive
 import voodoo.rocks.paginator.reduce.defaultErrorMessage
 
-// TODO filters?
 class MenuMachine @Inject constructor(
     private val router: Router,
     private val menuManager: MenuManager,
@@ -24,6 +24,7 @@ class MenuMachine @Inject constructor(
 
     sealed class Wish {
         data class PaginationAsk(val ask: Ask) : Wish()
+        data class SetFilter(val filter: MenuSearchFilter) : Wish()
     }
 
     sealed class Result {
@@ -32,7 +33,22 @@ class MenuMachine @Inject constructor(
 
     data class State(
         val menu: PaginationList<Dish> = PaginationList.EmptyProgress(),
-    )
+        val filter: MenuSearchFilter? = null,
+    ) {
+        val menuToShow = when {
+            filter == null -> menu
+            filter.tags.isEmpty() -> {
+                if (filter.text.isBlank()) menu
+                else menu.removeItems { !it.dishName.contains(filter.text, ignoreCase = true) }
+            }
+            else -> {
+                menu.removeItems {
+                    !(filter.text.isEmpty() || it.dishName.contains(filter.text, ignoreCase = true))
+                            || it.tags.intersect(filter.tags).isEmpty()
+                }
+            }
+        }
+    }
 
     override val initialState: State = State()
 
@@ -40,6 +56,7 @@ class MenuMachine @Inject constructor(
         is Wish.PaginationAsk -> oldState.copy(menu = oldState.menu.onAsk(wish.ask) {
             pushResult { getMenu(it) }
         })
+        is Wish.SetFilter -> oldState.copy(filter = wish.filter)
     }
 
     override fun onResult(res: Result, oldState: State): State = when (res) {

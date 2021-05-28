@@ -24,7 +24,7 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
             title = getString(R.string.menuTitle),
             subtitle = null,
             showBackIcon = true,
-            menuResId = null
+            menuResId = R.menu.filter_menu,
         )
     }
 
@@ -42,6 +42,17 @@ class MenuFragment : ToolbarFluxFragment<Wish, State>() {
     }
 
     override fun render(state: State) {
-        menuPaginationView.setList(state.menu)
+        menuPaginationView.setList(state.menuToShow)
+    }
+
+    override fun onMenuItemChosen(itemId: Int): Boolean = when (itemId) {
+        R.id.filtersIcon -> {
+            openMenuFilterDialog(
+                filter = machine.states().value.filter,
+                listener = { performWish(Wish.SetFilter(it)) },
+            )
+            true
+        }
+        else -> false
     }
 }

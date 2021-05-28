@@ -63,4 +63,9 @@
     <string name="menuTitle">Меню</string>
     <string name="stopped">Стоп</string>
 
+    <!-- Search Screen -->
+    <string name="search">Поиск</string>
+    <string name="searchTextHint">Поиск по названию</string>
+    <string name="clear">Сбросить</string>
+
 </resources>

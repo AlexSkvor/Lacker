@@ -63,4 +63,9 @@
     <string name="orderedCount" translatable="false">X %d</string>
     <string name="stopped">Stopped</string>
 
+    <!-- Search Screen -->
+    <string name="search">Search</string>
+    <string name="searchTextHint">Search by name</string>
+    <string name="clear">Clear</string>
+
 </resources>
