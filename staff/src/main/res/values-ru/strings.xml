@@ -55,6 +55,10 @@
     <string name="statusCanceled">Отменен</string>
     <string name="statusUnknown">Не распознан</string>
 
+    <!-- Order details -->
+    <string name="fullOrderScreenTitle">Заказ целиком</string>
+    <string name="markAsPaid">Оплачен</string>
+
     <!-- Menu -->
     <string name="menuTitle">Меню</string>
     <string name="stopped">Стоп</string>

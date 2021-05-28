@@ -54,6 +54,10 @@
     <string name="statusCanceled">Canceled</string>
     <string name="statusUnknown">Unknown</string>
 
+    <!-- Order details -->
+    <string name="fullOrderScreenTitle">Full order</string>
+    <string name="markAsPaid">Mark paid</string>
+
     <!-- Menu -->
     <string name="menuTitle">Menu</string>
     <string name="orderedCount" translatable="false">X %d</string>
