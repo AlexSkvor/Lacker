@@ -6,6 +6,8 @@ import com.lacker.dto.common.DataDto
 import com.lacker.dto.common.DataListDto
 import com.lacker.dto.common.DateTimeDto
 import com.lacker.dto.menu.Menu
+import com.lacker.dto.order.CloseOrderBody
+import com.lacker.dto.order.Order
 import com.lacker.dto.order.OrderWithoutSuborders
 import com.lacker.dto.order.SubOrder
 import com.lacker.staff.data.dto.auth.AuthRequest
@@ -74,4 +76,17 @@ interface Api {
     suspend fun getOrders(
         @Path("restaurantId") restaurantId: String,
     ): DataListDto<OrderWithoutSuborders>
+
+    @Headers(AuthHeaderInterceptor.REQUIRES_AUTH)
+    @GET("api/{orderId}")
+    suspend fun getOrderById(
+        @Path("orderId") orderId: String,
+    ): DataDto<Order>
+
+    @Headers(AuthHeaderInterceptor.REQUIRES_AUTH)
+    @POST("api/{orderId}")
+    suspend fun closeOrder(
+        @Path("orderId") orderId: String,
+        @Body closeOrderBody: CloseOrderBody = CloseOrderBody(),
+    )
 }
