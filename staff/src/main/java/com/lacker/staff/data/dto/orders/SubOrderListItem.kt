@@ -10,4 +10,5 @@ data class SubOrderListItem(
     val createdDateTime: OffsetDateTime?,
     val comment: String,
     val orderList: List<Dish>,
+    val fullOrderId: String,
 ): Serializable

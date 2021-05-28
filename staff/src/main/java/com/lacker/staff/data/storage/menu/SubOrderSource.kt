@@ -55,7 +55,8 @@ class SubOrderSource @Inject constructor(
             comment = comment.orEmpty(),
             orderList = menu.filter {
                 it.portions.map { p -> p.id }.any { id -> id in portionIds }
-            }.map { it.toDomain(this) }
+            }.map { it.toDomain(this) },
+            fullOrderId = fullOrder.id,
         )
     }
 

@@ -49,7 +49,8 @@ class SuborderFragment : ToolbarFluxFragment<Wish, State>() {
             dishAdapter(
                 showNumber = true,
                 showEmptyPortions = false
-            )
+            ),
+            getButtonAdapter { performWish(Wish.OpenFullOrder) }
         )
     }
 
@@ -67,7 +68,10 @@ class SuborderFragment : ToolbarFluxFragment<Wish, State>() {
     }
 
     private fun renderSuborder(suborder: SubOrderListItem) {
-        val items = listOf(suborder) + suborder.orderList // TODO button full order
+        val items = listOf(
+            suborder,
+            Button(getString(R.string.fullOrderScreenTitle))
+        ) + suborder.orderList
         val paginationList = PaginationList.FullData<Any>(1, items)
         paginationFragmentContainer.setList(paginationList)
     }

@@ -1,5 +1,6 @@
 package com.lacker.dto.order
 
+import com.lacker.dto.common.IdOwner
 import com.lacker.dto.common.NameSurnameOwner
 import com.lacker.dto.common.TitleOwner
 import com.lacker.dto.menu.Portion
@@ -18,6 +19,7 @@ data class SubOrder(
     @Json(name = "checked") val checked: Boolean,
     @Json(name = "table") val table: TitleOwner,
     @Json(name = "user") val user: NameSurnameOwner,
+    @Json(name = "order") val fullOrder: IdOwner,
 ) {
     val orderList: List<OrderInfo>
         get() = portions.groupBy { it.id }
