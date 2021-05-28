@@ -22,12 +22,12 @@ android {
     buildTypes {
 
         debug {
-            buildConfigField "String", "SERVER_URL", "\"http://lacker.ru/\""
+            buildConfigField "String", "SERVER_URL", "\"https://lacker.ru/\""
             debuggable true
         }
 
         release {
-            buildConfigField "String", "SERVER_URL", "\"http://lacker.ru/\""
+            buildConfigField "String", "SERVER_URL", "\"https://lacker.ru/\""
             debuggable false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
