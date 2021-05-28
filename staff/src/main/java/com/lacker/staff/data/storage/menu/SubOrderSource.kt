@@ -23,17 +23,13 @@ class SubOrderSource @Inject constructor(
             is ApiCallResult.ErrorOccurred -> return ApiCallResult.ErrorOccurred(res.text)
         }
 
-        val menu = when (val res = menuManager.getMenu()) {
-            is ApiCallResult.Result -> res.value
+        return when (val res = mapSuborders(suborders)) {
+            is ApiCallResult.Result -> ApiCallResult.Result(
+                if (new) res.value.sortedBy { it.createdDateTime }
+                else res.value.sortedByDescending { it.createdDateTime }
+            )
             is ApiCallResult.ErrorOccurred -> return ApiCallResult.ErrorOccurred(res.text)
         }
-
-        return ApiCallResult.Result(
-            suborders.let { list ->
-                if (new) list.sortedBy { it.createdTimeStamp }
-                else list.sortedByDescending { it.createdTimeStamp }
-            }.map { it.toDomain(menu) }
-        )
     }
 
     private val restaurantId = userStorage.user.restaurantId
@@ -41,6 +37,13 @@ class SubOrderSource @Inject constructor(
     private suspend fun getNewOrOldSuborders(new: Boolean) =
         if (new) net.callResult { getNewOrders(restaurantId) }
         else net.callResult { getOldOrders(restaurantId) }
+
+    suspend fun mapSuborders(suborders: List<SubOrder>): ApiCallResult<List<SubOrderListItem>> {
+        return when (val res = menuManager.getMenu()) {
+            is ApiCallResult.Result -> ApiCallResult.Result(suborders.map { it.toDomain(res.value) })
+            is ApiCallResult.ErrorOccurred -> ApiCallResult.ErrorOccurred(res.text)
+        }
+    }
 
     private fun SubOrder.toDomain(menu: List<MenuItem>): SubOrderListItem {
         val portionIds: List<String> = orderList.map { p -> p.portionId }
