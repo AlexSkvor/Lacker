@@ -29,7 +29,8 @@ class OrdersListFragment : ToolbarFluxFragment<Wish, State>() {
 
     private val adapter by lazy {
         getOrderAdapter(
-            onViewClick = { performWish(Wish.OpenOrder(it)) }
+            onButtonClick = { performWish(Wish.OpenOrder(it)) },
+            buttonText = getString(R.string.view),
         )
     }
 

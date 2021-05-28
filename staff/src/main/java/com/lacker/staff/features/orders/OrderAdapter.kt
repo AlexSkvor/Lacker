@@ -8,12 +8,19 @@ import com.lacker.utils.extensions.*
 import kotlinx.android.synthetic.main.item_order.*
 
 fun getOrderAdapter(
-    onViewClick: (OrderWithoutSuborders) -> Unit,
+    onButtonClick: (OrderWithoutSuborders) -> Unit,
+    buttonText: String,
+    hideButtonIfTotNew: Boolean = false,
 ) = adapterDelegateLayoutContainer<OrderWithoutSuborders, Any>(R.layout.item_order) {
 
-    itemOrderViewButton.setOnClickListener { onViewClick(item) }
+    itemOrderViewButton.setOnClickListener { onButtonClick(item) }
 
     bind {
+
+        itemOrderViewButton.visible = (item.status == OrderStatus.NEW) || !hideButtonIfTotNew
+
+        itemOrderViewButton.text = buttonText
+
         val timeText = try {
             if (item.created.isToday()) item.created.format(userFormatterTimeWithoutSecs)
             else item.created.format(userFormatterSpacesWithoutSecs)
